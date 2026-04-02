@@ -1,0 +1,341 @@
+/* Algunos botones */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-hover);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: var(--color-blanco);
+}
+
+/* Forms */
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: var(--color-primario);
+}
+
+.input-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-gris);
+    border-radius: 3px;
+    background-color: var(--color-blanco);
+}
+
+.select-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-gris);
+    border-radius: 3px;
+    background-color: var(--color-blanco);
+}
+
+.textarea-control {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px;
+    border: 1px solid var(--color-gris);
+    border-radius: 3px;
+    resize: vertical;
+    background-color: var(--color-blanco);
+}
+
+/*Tajetas */
+
+.card {
+    background-color: var(--color-blanco);
+    border: 1px solid var(--color-gris);
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.card-evento {
+    background-color: var(--color-blanco);
+    border: 1px solid var(--color-gris);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Tablas */
+
+.tabla-contenedor {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabla-base {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--color-blanco);
+}
+
+.tabla-base th,
+.tabla-base td {
+    border: 1px solid var(--color-gris);
+    padding: 10px;
+    text-align: left;
+}
+
+.tabla-base th {
+    background-color: var(--color-secundario);
+    color: var(--color-primario);
+}
+
+/*Modales */
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-contenido {
+    background-color: var(--color-blanco);
+    width: 100%;
+    max-width: 500px;
+    padding: 25px;
+    border-radius: 4px;
+}
+
+.card-login {
+    width: 100%;
+    max-width: 450px;
+}
+
+.btn-full {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.texto-secundario {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.login-header {
+    background-color: var(--color-primario);
+    
+    /* esto rompe el padding de la card */
+    margin: -20px -20px 20px -20px;/*basicamente para que quede pegadito en el container y no tenga el padding de la card*/
+    
+    padding: 15px 20px;
+
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.login-logo {
+    color: white;
+    font-family: 'Inria Serif', serif;
+    font-size: 2.5em;
+}
+
+.titulo-login {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/*creados para el inicio-estudiante*/
+.icono-perfil {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.titulo-anuncio {
+    text-align: center;
+    font-family: 'Inria Serif', serif;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.texto-anuncio-principal {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-primario);
+    line-height: 1.4;
+}
+
+.subtitulo-seccion {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--color-primario);
+    font-family: 'Inria Serif', serif;
+    font-size: 1.5rem;
+}
+
+.card-evento-estudiante {
+    background-color: var(--color-secundario);
+    border: none;
+}
+
+.contenedor-boton-card {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/*para eventos estudiante*/
+.titulo-vista {
+    color: var(--color-primario);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.filtro-label-vacio {
+    visibility: hidden;
+}
+
+.card-evento-horizontal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--color-blanco);
+    border: 1px solid var(--color-gris);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card-evento-resaltado {
+    border: 3px solid #4aa3ff;
+}
+
+/*para el detalle del evento*/
+.titulo-detalle-evento {
+    color: var(--color-primario);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.detalle-evento-info p,
+.detalle-evento-descripcion p {
+    margin-bottom: 18px;
+    font-size: 1.1rem;
+}
+
+.descripcion-box {
+    border: 1px solid var(--color-gris);
+    background-color: var(--color-blanco);
+    min-height: 130px;
+    padding: 15px;
+}
+
+/*Modales de prueba, eliminar luego si no los uso
+los comente en los html*/
+.modal-demo,
+.modal-exito-demo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.modal-contenido-demo {
+    width: 100%;
+    max-width: 500px;
+    background-color: var(--color-secundario);
+    border: 1px solid var(--color-gris);
+}
+
+.modal-header-demo {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 20px;
+    text-align: center;
+}
+
+.modal-body-demo {
+    padding: 30px 20px;
+}
+
+.modal-acciones-demo {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+/*para mis-inscripciones*/
+.opcion-inscripcion {
+    text-decoration: none;
+    display: block;
+}
+
+.opcion-inscripcion-card {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    min-height: 230px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.opcion-inscripcion-card h3 {
+    color: var(--color-blanco);
+    font-size: 2rem;
+}
+
+.opcion-inscripcion-card:hover {
+    transform: scale(1.02);
+}
+
+.opcion-inscripcion-seleccionada {
+    border: 3px solid #4aa3ff;
+}
+
+/*para eventos-futuros.html*/
+.encabezado-inscripciones {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    text-align: center;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+}
+
+.encabezado-inscripciones h3 {
+    color: var(--color-blanco);
+    font-size: 2rem;
+}
+
+/*para anuncios-estudiante*/
+.card-anuncio {
+    margin-bottom: 20px;
+}
+
+.texto-anuncio-secundario {
+    color: var(--color-primario);
+    font-size: 1.1rem;
+    line-height: 1.5;
+}

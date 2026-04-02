@@ -1,0 +1,120 @@
+/* RESET BASICO */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f6fa;
+    color: #1a1a1a;
+    min-height: 100vh;
+}
+
+/*  COLORES PRINCIPALES*/
+
+:root {
+    /*tome exactamente los colores del figma*/
+    --color-primario: #28459c; /* Cambie un poco el tono porque el de figma quedaba demasiado fuerte */   
+    --color-secundario: #DAE3FF;    
+    --color-fondo: #f5f6fa;          
+    --color-blanco: #ffffff;
+    --color-gris: #e0e0e0;
+    --color-texto: #1a1a1a;
+    --color-hover:#16339a;
+}
+
+/* 
+   TIPOGRAFIA */
+
+h1, h2, h3 {
+    color: var(--color-primario);
+    font-weight: bold;
+}
+
+p {
+    line-height: 1.5;
+}
+
+/*CONTENEDOR GENERAL */
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/*  BOTONES BASE */
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.btn-primary {
+    background-color: var(--color-primario);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-secundario);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* 
+   INPUTS
+ */
+
+.input-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--color-gris);
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+/* LINKS
+*/
+
+a {
+    text-decoration: none;
+    color: var(--color-primario);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+main {
+    width: 100%;
+}

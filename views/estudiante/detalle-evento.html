@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detalle del evento - Sistema de Eventos TEC</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="detalle-evento-page">
+
+    <!-- navbar estudiante -->
+    <header class="navbar">
+        <div class="navbar-contenido">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-estudiante.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="anuncios.html">Ver Anuncios</a>
+                </nav>
+            </div>
+
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container seccion">
+        <section class="seccion">
+            <h2 class="titulo-detalle-evento">Inscripción a Evento</h2>
+        </section>
+
+        <!--
+            CONTENEDOR PRINCIPAL DEL DETALLE
+            IMPORTANTE:
+            Toda la informacion de este bloque es temporal.
+            En la version conectada al backend, esta vista debe mostrar
+            los datos del evento especifico que el usuario selecciono.
+
+            Para que esto funcione despues, esta pagina deberia recibir
+            un id del evento.
+        -->
+        <section class="bloque-2-columnas detalle-evento-contenedor">
+
+            <!-- columna izquierda -->
+            <div class="detalle-evento-info">
+                <div id="contenedor-info-evento">
+
+                    <!--
+                        INFORMACION TEMPORAL DEL EVENTO
+                        IMPORTANTE:
+                        Luego estos campos deben cargarse con informacion real.
+                        Datos esperados:
+                        - titulo
+                        - categoria
+                        - fecha
+                        - hora
+                        - lugar
+                        - modalidad
+                        - cupos_disponibles
+                        - unidad_organizadora
+                    -->
+                    <p><strong>Título:</strong> TituloDeEjemplo</p>
+                    <p><strong>Categoria:</strong> Academico/Recreativo/Cultural/Otros</p>
+                    <p><strong>Fecha:</strong> XX/XX/XXXX</p>
+                    <p><strong>Hora:</strong> 10:10 a.m</p>
+                    <p><strong>Lugar:</strong> LugarDeEjemplo</p>
+                    <p><strong>Modalidad:</strong> Presencial / Virtual</p>
+                    <p><strong>Cupos disponibles:</strong> 15</p>
+                    <p><strong>Unidad Organizadora:</strong> ------------------</p>
+                </div>
+            </div>
+
+            <!-- columna derecha -->
+            <div class="detalle-evento-descripcion">
+                <h3 class="subtitulo-seccion">Descripción del Evento:</h3>
+
+                <!--
+                    DESCRIPCION TEMPORAL
+                    IMPORTANTE:
+                    Este bloque debe ser reemplazado por la descripcion real
+                    del evento consultado.
+                -->
+                <div id="contenedor-descripcion-evento" class="descripcion-box">
+                    <p>
+                        Aqui ira la descripcion completa del evento. BLA BLA BLA
+                        BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA
+                        BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA
+                        BLA BLA BLA BLA BLA BLA BLA BLA BLA
+                    </p>
+                </div>
+
+                <!--
+                    BOTONES DE ACCION
+
+                    IMPORTANTE:
+                    El boton "Inscribirse" despues debera abrir el flujo real de inscripcion.
+                    El boton "Cancelar" podria regresar a eventos.html o a la pagina anterior.
+                -->
+                <div class="detalle-evento-acciones">
+                    <button type="button" class="btn btn-primary">Inscribirse</button>
+                    <a href="eventos.html" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!--
+        MODAL DE CONFIRMACION
+
+        Este modal por ahora es visual.
+        En la version final deberia mostrarse solo cuando el usuario
+        presione el boton "Inscribirse".
+
+        Luego el boton "Confirmar" podria enviar la solicitud al controller
+    -->
+    <!-- <section class="modal-demo">
+        <div class="modal-contenido-demo">
+            <div class="modal-header-demo">
+                <h3>Confirme su inscripcion</h3>
+            </div>
+
+            <div class="modal-body-demo">
+                <div class="modal-acciones-demo">
+                    <button type="button" class="btn btn-primary">Confirmar</button>
+                    <button type="button" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </section>-->
+
+    <!--MODAL
+        IMPORTANTE
+        Esto solo es visual por ahora. En la version final, esto 
+        solo se muestra si la inscripcion se realizo correctamente.
+    -->
+    <!-- <section class="modal-exito-demo">
+        <div class="modal-contenido-demo">
+            <div class="modal-header-demo">
+                <h3>Inscripcion exitosa</h3>
+            </div>
+
+            <div class="modal-body-demo">
+                <p>Se le ha enviado un correo con los detalles de su inscripcion.</p>
+
+                <div class="modal-acciones-demo centrado">
+                    <button type="button" class="btn btn-primary">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </section>  -->
+
+    <!-- js para desarrollo -->
+    <script src="../../public/js/main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

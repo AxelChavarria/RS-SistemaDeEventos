@@ -1,0 +1,157 @@
+/*Este lo estoy creando con claude, no es mi prioridad ahorita hacer que sea responsive,
+pero lo dejo listo para que despues sea mas facil agregarle el responsive*/
+
+@media (max-width: 768px) {
+    .container {
+        width: 94%;
+    }
+
+    .bloque-2-columnas {
+        flex-direction: column;
+    }
+
+    .navbar-contenido,
+    .navbar-izquierda,
+    .menu-nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+    }
+
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .card,
+    .card-evento {
+        padding: 15px;
+    }
+}
+
+
+/* responsive para el registro */
+@media (max-width: 768px) {
+    .registro-contenedor {
+        flex-direction: column;
+    }
+
+    .registro-formulario {
+        border-left: none;
+        border-top: 8px solid var(--color-primario);
+    }
+
+    .registro-info,
+    .registro-formulario {
+        padding: 25px;
+    }
+
+    .registro-acciones {
+        justify-content: stretch;
+    }
+
+    .registro-acciones .btn {
+        width: 100%;
+    }
+}
+
+/*base del responsive para inicio-estudiante*/
+@media (max-width: 768px) {
+    .bloque-2-columnas {
+        flex-direction: column;
+    }
+
+    .menu-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/*responsive para evento estudiante*/
+@media (max-width: 768px) {
+    .card-evento-horizontal {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .accion-evento {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .filtros-formulario {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtro-grupo {
+        width: 100%;
+    }
+
+    .filtro-boton .btn {
+        width: 100%;
+    }
+}
+
+/*responsive para detalle evento*/
+@media (max-width: 768px) {
+    .detalle-evento-acciones {
+        flex-direction: column;
+    }
+
+    .detalle-evento-acciones .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .modal-acciones-demo {
+        flex-direction: column;
+    }
+
+    .modal-acciones-demo .btn {
+        width: 100%;
+    }
+}
+/*para mis-inscripciones*/
+@media (max-width: 768px) {
+    .opcion-inscripcion-card {
+        min-height: 180px;
+    }
+
+    .opcion-inscripcion-card h3 {
+        font-size: 1.6rem;
+    }
+}
+
+/*responsive para eventos futuros*/
+@media (max-width: 768px) {
+    .card-evento-horizontal {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .accion-evento {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .accion-evento .btn {
+        width: 100%;
+    }
+
+    .encabezado-inscripciones h3 {
+        font-size: 1.5rem;
+    }
+}

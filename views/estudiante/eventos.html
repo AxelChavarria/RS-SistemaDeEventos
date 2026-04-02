@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Exploracion de eventos - Sistema de Eventos TEC</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="eventos-page">
+
+    <!--Navbar
+    -->
+    <header class="navbar">
+        <div class="navbar-contenido">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-estudiante.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="anuncios.html">Ver Anuncios</a>
+                </nav>
+            </div>
+
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container seccion">
+
+        <!--
+            TITULO DE LA VISTA
+
+            Este bloque es solo visual y no depende directamente del backend.
+        -->
+        <section class="seccion">
+            <h2 class="titulo-vista">Exploración de Eventos</h2>
+        </section>
+
+        <!--
+            BLOQUE DE FILTROS
+
+            IMPORTANTE:
+            Estos filtros por ahora son solo visuales.
+            Aun NO realizan ninguna accion real.
+
+            Cuando se conecte con backend o con JS real,
+            este formulario deberia permitir:
+            - filtrar por categoria
+            - filtrar por fecha o periodo
+            - filtrar por modalidad
+            - ejecutar la busqueda de eventos
+
+            Posible comportamiento futuro:
+            1enviar parametros al backend
+            o capturar filtros con JS y hacer fetch a un endpoint REST
+
+            Ejemplo conceptual de filtros que podrian enviarse:
+            categoria=Academico
+            fecha=Eventos del mes
+            modalidad=Presencial
+        -->
+        <section class="card bloque-filtros">
+            <form id="form-filtros-eventos" class="filtros-formulario">
+
+                <div class="filtro-grupo">
+                    <label for="filtro-categoria" class="form-label">Filtrar por:</label>
+                    <select id="filtro-categoria" name="categoria" class="select-control">
+                        <option>Académico</option>
+                        <option>Recreativo</option>
+                        <option>Cultural</option>
+                        <option>Otros</option>
+                    </select>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label for="filtro-fecha" class="form-label filtro-label-vacio">Fecha</label>
+                    <select id="filtro-fecha" name="fecha" class="select-control">
+                        <option>Eventos del mes</option>
+                        <option>Esta semana</option>
+                        <option>Proximamente</option>
+                    </select>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label for="filtro-modalidad" class="form-label filtro-label-vacio">Modalidad</label>
+                    <select id="filtro-modalidad" name="modalidad" class="select-control">
+                        <option>Modalidad</option>
+                        <option>Presencial</option>
+                        <option>Virtual</option>
+                    </select>
+                </div>
+
+                <div class="filtro-grupo filtro-boton">
+                    <label class="form-label filtro-label-vacio">Buscar</label>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+
+            </form>
+        </section>
+
+        <!--
+            CONTENEDOR PRINCIPAL DE EVENTOS
+
+            IMPORTANTE:
+            Esta seccion debe llenarse despues con la lista real de eventos.
+            Lo que se muestra abajo es solo contenido temporal de ejemplo.
+
+            En la version final, aqui podrian ocurrir dos casos:
+            1. hay eventos y se renderizan una o multiples cards
+            2. no hay coincidencias y se muestra un mensaje tipo
+               "No se encontraron eventos para los filtros seleccionados"
+
+            Datos esperados por cada evento:
+            - id_evento
+            - titulo
+            - categoria
+            - fecha
+            - modalidad
+        -->
+        <section class="seccion" id="contenedor-lista-eventos">
+
+            <article class="card-evento card-evento-horizontal">
+                <div class="info-evento">
+                    <p><strong>Título:</strong> Taller de Danza</p>
+                    <p><strong>Categoría:</strong> Recreativo</p>
+                    <p><strong>Fecha:</strong> 22-03-2026</p>
+                    <p><strong>Modalidad:</strong> Presencial</p>
+                </div>
+
+                <div class="accion-evento">
+                    <!--
+                        ENLACE TEMPORAL
+                        Luego este enlace deberia dirigir al detalle real
+                        del evento segun su id. No estoy segura de cómo hacer esa vara pero ajá
+                    -->
+                    <a href="detalle-evento.html" class="btn btn-primary">Ver mas</a>
+                </div>
+            </article>
+
+            <!--
+                CARD TEMPORAL DESTACADA
+
+                Esta tarjeta tiene un borde destacado para parecerse al figma.
+                Si luego no quieren este efecto, puede quitarse sin problema.
+            -->
+            <article class="card-evento card-evento-horizontal">
+                <div class="info-evento">
+                    <p><strong>Título:</strong> Hablemos de la IA</p>
+                    <p><strong>Categoría:</strong> Académico</p>
+                    <p><strong>Fecha:</strong> 20-03-2026</p>
+                    <p><strong>Modalidad:</strong> Virtual</p>
+                </div>
+
+                <div class="accion-evento">
+                    <a href="detalle-evento.html" class="btn btn-primary">Ver mas</a>
+                </div>
+            </article>
+
+            <!-- tercera card temporal -->
+            <article class="card-evento card-evento-horizontal">
+                <div class="info-evento">
+                    <p><strong>Título:</strong> Torneo de Ajedrez</p>
+                    <p><strong>Categoría:</strong> Recreativo</p>
+                    <p><strong>Fecha:</strong> 28-03-2026</p>
+                    <p><strong>Modalidad:</strong> Presencial</p>
+                </div>
+
+                <div class="accion-evento">
+                    <a href="detalle-evento.html" class="btn btn-primary">Ver mas</a>
+                </div>
+            </article>
+
+        </section>
+
+    </main>
+
+    <!-- js para desarrollo -->
+    <script src="../../public/js/main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>
