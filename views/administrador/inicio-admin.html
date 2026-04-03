@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inicio administrador - Sistema de Eventos TEC</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="inicio-admin-page">
+    <header class="navbar">
+        <div class="navbar-contenido">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-admin.html">Inicio</a>
+                    <a href="eventos-admin.html">Eventos</a>
+                    <a href="organizadores.html">Organizadores</a>
+                    <a href="reportes.html">Reportes</a>
+                    <a href="anuncios-admin.html">Anuncios</a>
+                    <a href="moderacion.html">Moderación</a>
+                </nav>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container seccion">
+
+        <section class="seccion">
+            <h2 class="titulo-vista">Moderación</h2>
+        </section>
+
+        <!--
+            BLOQUE DE RESUMEN GENERAL
+            IMPORTANTE:
+            Luego backend debe traer:cantidad de eventos pendiente y cantidad de eventos aprobados
+        -->
+        <section class="bloque-2-columnas seccion">
+
+            <article class="card card-resumen-admin">
+                <h3>Eventos Pendientes: X</h3>
+            </article>
+
+            <article class="card card-resumen-admin">
+                <h3>Eventos Aprobados: Y</h3>
+            </article>
+
+        </section>
+
+        <!--
+            SOLICITUDES DE APROBACION DE EVENTOS
+            IMPORTANTE:
+            Este bloque debe llenarse despues con la lista real de eventos
+            que estan pendientes de aprobacion por parte del administrador.
+            Cada item deberia incluir al menos:titulo del evento,id_evento,
+            acceso al detalle para revisar.
+            Honestamente si luego vemos que esto es muy jodido de implementar dejamos la parte vacia
+            y solo mostramos los eventos en el bloque especifico para eso
+        -->
+        <section class="card seccion-admin">
+            <h3 class="subtitulo-seccion">Solicitudes de aprobacion de eventos</h3>
+
+            <div id="contenedor-eventos-pendientes-admin">
+
+                <article class="item-admin">
+                    <span>Drácula y el horror gotico</span>
+                    <a href="detalle-evento-admin.html" class="btn btn-primary">Revisar</a>
+                </article>
+
+                <article class="item-admin">
+                    <span>Noche de videojuegos</span>
+                    <a href="detalle-evento-admin.html" class="btn btn-primary">Revisar</a>
+                </article>
+
+            </div>
+        </section>
+
+        <!--
+            SOLICITUDES DE ORGANIZADORES
+
+            IMPORTANTE:
+            Aqui deben mostrarse despues solicitudes relacionadas con acciones
+            que requieren aprobacion o revision del administrador.
+            Aqui igual con el bloque anterior, si es muy complicado de implementar luego, 
+            dejamos la parte vacia y solo mostramos los eventos en el bloque especifico para eso
+        -->
+        <section class="card seccion-admin">
+            <h3 class="subtitulo-seccion">Solicitudes de organizadores</h3>
+
+            <div id="contenedor-solicitudes-organizadores">
+
+                <article class="item-admin">
+                    <span>Juan Perez - Editar evento</span>
+                    <a href="detalle-evento-admin.html" class="btn btn-primary">Revisar</a>
+                </article>
+
+                <article class="item-admin">
+                    <span>Jorge Morales - Cancelar evento</span>
+                    <a href="detalle-evento-admin.html" class="btn btn-primary">Revisar</a>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- js para desarrollo -->
+    <script src="../../public/js/main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

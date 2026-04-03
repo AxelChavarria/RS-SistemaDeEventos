@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Organizadores - Administrador</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="organizadores-page">
+    <header class="navbar">
+        <div class="navbar-contenido">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-admin.html">Inicio</a>
+                    <a href="eventos-admin.html">Eventos</a>
+                    <a href="organizadores.html">Organizadores</a>
+                    <!--IMPORTANTEE: fanny, estos son los 3 que no hice-->
+                    <a href="reportes.html">Reportes</a>
+                    <a href="anuncios-admin.html">Anuncios</a>
+                    <a href="moderacion.html">Moderación</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container seccion">
+
+        <section class="seccion">
+            <h2 class="titulo-vista">Organizadores</h2>
+        </section>
+        <section class="card bloque-filtros-admin">
+            <form id="form-busqueda-organizadores" class="filtros-formulario" >
+                <div class="filtro-grupo">
+                    <label for="busqueda-organizador" class="form-label">Buscar organizador</label>
+                    <input
+                        type="text"
+                        id="busqueda-organizador"
+                        name="busqueda_organizador"
+                        class="input-control"
+                        placeholder="Nombre o correo"
+                    >
+                </div>
+
+                <div class="filtro-grupo filtro-boton">
+                    <label class="form-label filtro-label-vacio">Buscar</label>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+            </form>
+        </section>
+
+        <!--
+            TABLA DE ORGANIZADORES
+            IMPORTANTE:
+            Esta tabla es temporal y debe llenarse con inforeal
+            obtenida desde backend.
+            Datos esperados por organizador:
+            - id_organizador
+            - nombre
+            - correo
+            - total_eventos
+            - activo
+            De nuevo, esto se puede implementar luego con un for 
+            que recorra la lista de organizadores
+        -->
+        <section class="card">
+            <div class="tabla-contenedor">
+                <table class="tabla-base">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo electrónico</th>
+                            <th>Total de eventos realizados</th>
+                            <th>Activo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Juan Perez Perez</td>
+                            <td>example@estudiantec.cr</td>
+                            <td>5</td>
+                            <td><input type="checkbox" checked></td>
+                        </tr>
+
+                        <tr>
+                            <td>Juana Perez Perez</td>
+                            <td>example1@estudiantec.cr</td>
+                            <td>2</td>
+                            <td><input type="checkbox"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Mario Gonzalez</td>
+                            <td>example2@itcr.ac.cr</td>
+                            <td>8</td>
+                            <td><input type="checkbox" checked></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="detalle-evento-acciones">
+                <button type="button" class="btn btn-primary">Guardar cambios</button>
+                <button type="button" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- js para desarrollo -->
+    <script src="../../public/js/main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

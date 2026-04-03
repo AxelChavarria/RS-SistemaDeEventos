@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detalle del evento - Administrador</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="detalle-evento-admin-page">
+    <header class="navbar">
+        <div class="navbar-contenido">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-admin.html">Inicio</a>
+                    <a href="eventos-admin.html">Eventos</a>
+                    <a href="organizadores.html">Organizadores</a>
+                    <a href="reportes.html">Reportes</a>
+                    <a href="anuncios-admin.html">Anuncios</a>
+                    <a href="moderacion.html">Moderación</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container seccion">
+
+        <section class="seccion">
+            <h2 class="titulo-detalle-evento">Información del Evento</h2>
+        </section>
+
+        <!--
+            CONTENEDOR PRINCIPAL DEL DETALLE DEL EVENTO
+
+            IMPORTANTE:
+            Toda la informacion de este bloque es temporal.
+            En la version conectada al backend, aqui debe mostrarse
+            la informacion real del evento seleccionado por el administrador.
+
+            Para que esto funcione despues, esta vista debe recibir
+            el id del evento seleccionado.
+
+            Ejemplo futuro:
+            detalle-evento-admin.html?id=15
+
+            Luego el sistema deberia:
+            1. obtener el id_evento
+            2. consultar backend/controlador
+            3. traer los datos reales del evento
+            4. reemplazar este contenido temporal
+        -->
+        <section class="bloque-2-columnas detalle-evento-contenedor">
+
+            <!-- columna izquierda -->
+            <div class="detalle-evento-info">
+                <div id="contenedor-info-evento-admin">
+
+                    <!--
+                        INFORMACION TEMPORAL DEL EVENTO
+
+                        IMPORTANTE:
+                        Estos datos deben venir despues desde backend.
+                    -->
+                    <p><strong>Titulo del Evento:</strong> TituloDeEjemplo</p>
+                    <p><strong>Descripcion:</strong> Ejemplo de descripcion</p>
+                    <p><strong>Categoria:</strong> Categoria</p>
+                    <p><strong>Fecha:</strong> XX/XX/XX</p>
+                    <p><strong>Hora:</strong> XX:XX a.m / p.m</p>
+                    <p><strong>Unidad Organizadora:</strong> EjemploDeUnidadOrganizadora</p>
+                    <p><strong>Modalidad:</strong> Modalidad</p>
+                    <p><strong>Cupo Maximo:</strong> XY</p>
+                    <p><strong>Lugar:</strong> Lugar fisico / enlace virtual</p>
+                    <p><strong>Estado:</strong> Pendiente</p>
+                </div>
+            </div>
+
+            <!-- columna derecha -->
+            <div class="detalle-evento-descripcion">
+                <h3 class="subtitulo-seccion">Descpción del Evento</h3>
+                <div class="descripcion-box">
+                    <p>
+                        BLA BLA BLA. Aqui iria la descripcion completa del evento. 
+                        Esta descripcion es temporal y debe ser reemplazada por 
+                        la descripcion real del evento que se consulte.
+                    </p>
+                </div>
+
+                <!--
+                    BOTONES DE ACCION DEL ADMIN
+
+                    IMPORTANTE:
+                    El boton "Aceptar" luego debe aprobar el evento real.
+                    El boton "Rechazar" deberia mostrar la seccion o modal
+                    para escribir el motivo del rechazo.
+                -->
+                <div class="detalle-evento-acciones">
+                    <button type="button" class="btn btn-primary">Aceptar</button>
+                    <button type="button" class="btn btn-secondary">Rechazar</button>
+                </div>
+            </div>
+
+        </section>
+
+        <!--
+            BLOQUE PARA MOTIVO DE RECHAZO
+
+            IMPORTANTE:
+        Esta vara se muestra solo si el administrador hace click en "Rechazar".
+        Este bloque en la version final debe comportarse como un modal
+        que aparece al presionar el boton "Rechazar" y desaparece si se presiona "Cancelar"
+         o si se confirma el rechazo.
+        -->
+        <section class="card seccion-admin">
+            <h3 class="subtitulo-seccion">Motivo del rechazo</h3>
+
+            <div class="form-group">
+                <textarea
+                    id="motivo-rechazo"
+                    name="motivo_rechazo"
+                    class="textarea-control"
+                    placeholder="Escriba el motivo del rechazo al evento"
+                ></textarea>
+            </div>
+
+            <div class="detalle-evento-acciones">
+                <button type="button" class="btn btn-primary">Confirmar rechazo</button>
+                <button type="button" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- js para desarrollo -->
+    <script src="../../public/js/main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

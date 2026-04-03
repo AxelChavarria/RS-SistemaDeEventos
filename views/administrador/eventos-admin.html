@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eventos - Administrador</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="eventos-admin-page">
+    <header class="navbar">
+        <div class="navbar-contenido">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-admin.html">Inicio</a>
+                    <a href="eventos-admin.html">Eventos</a>
+                    <a href="organizadores.html">Organizadores</a>
+                    <a href="reportes.html">Reportes</a>
+                    <a href="anuncios-admin.html">Anuncios</a>
+                    <a href="moderacion.html">Moderación</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container seccion">
+
+        <section class="seccion">
+            <h2 class="titulo-vista">Eventos</h2>
+        </section>
+
+        <!--
+            FILTRO POR ESTADO
+
+            IMPORTANTE:
+            Este bloque por ahora es solo visual.
+            Aun no filtra nada de verdad.
+        -->
+        <section class="card bloque-filtros-admin">
+
+            <div class="filtros-formulario filtros-estados-admin">
+                <span class="label-estado-admin">Estados:</span>
+
+                <button type="button" class="btn btn-primary">Pendientes</button>
+                <button type="button" class="btn btn-primary">Aprobados</button>
+                <button type="button" class="btn btn-primary">Rechazados</button>
+            </div>
+
+        </section>
+
+        <!--
+            LISTA DE EVENTOS PARA ADMIN
+
+            IMPORTANTE:
+            Esta lista es temporal y debe llenarse con datos reales desde backend.
+            Probablemente con un for -->
+        <section id="contenedor-eventos-admin">
+
+            <article class="card-evento card-evento-horizontal">
+                <div class="info-evento">
+                    <p><strong>Título:</strong> Drácula y el horror gótico</p>
+                </div>
+
+                <div class="accion-evento">
+                    <a href="detalle-evento-admin.html" class="btn btn-primary">Detalles</a>
+                </div>
+            </article>
+
+            <article class="card-evento card-evento-horizontal">
+                <div class="info-evento">
+                    <p><strong>Título:</strong> Noche de Videojuegos</p>
+                </div>
+
+                <div class="accion-evento">
+                    <a href="detalle-evento-admin.html" class="btn btn-primary">Detalles</a>
+                </div>
+            </article>
+
+            <article class="card-evento card-evento-horizontal">
+                <div class="info-evento">
+                    <p><strong>Título:</strong> TextoDeEjemplo</p>
+                </div>
+
+                <div class="accion-evento">
+                    <a href="detalle-evento-admin.html" class="btn btn-primary">Detalles</a>
+                </div>
+            </article>
+
+            <article class="card-evento card-evento-horizontal">
+                <div class="info-evento">
+                    <p><strong>Título:</strong> TextoDeEjemplo</p>
+                </div>
+
+                <div class="accion-evento">
+                    <a href="detalle-evento-admin.html" class="btn btn-primary">Detalles</a>
+                </div>
+            </article>
+
+        </section>
+
+    </main>
+
+    <!-- js para desarrollo -->
+    <script src="../../public/js/main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

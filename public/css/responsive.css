@@ -155,3 +155,34 @@ pero lo dejo listo para que despues sea mas facil agregarle el responsive*/
         font-size: 1.5rem;
     }
 }
+
+/*Para administrafor*/
+
+/*Inicio-administrador*/
+@media (max-width: 768px) {
+    .item-admin {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .item-admin .btn {
+        width: 100%;
+    }
+}
+
+/*eventos-admin*/
+@media (max-width: 768px) {
+    .filtros-estados-admin {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .label-estado-admin {
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+    }
+
+    .filtros-estados-admin .btn {
+        width: 100%;
+    }
+}
