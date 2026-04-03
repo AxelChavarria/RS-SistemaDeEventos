@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Evento - TEC</title>
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+</head>
+<body class="crear-evento-page">
+
+     <header class="navbar">
+        <div class="navbar-contenido ">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-organizador.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="mis-eventos.html">Mis Eventos</a>
+                    <a href="crear-evento.html">Crear Evento</a>
+                    <a href="anuncios.html">Ver Anuncios</a>
+
+                </nav>
+            </div>
+
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+
+        </div>
+    </header>
+
+<main class="container seccion">
+
+        <section class="seccion">
+            <h2 class="titulo-detalle-evento"> Crear Evento</h2>
+        </section>
+
+        <section class="bloque-2-columnas detalle-evento-contenedor">
+
+            <!-- columna izquierda -->
+            <div class="crear-evento">
+                <div id="contenedor-info-evento-org">
+
+                    <!--
+                        INFORMACION TEMPORAL DEL EVENTO
+
+                        IMPORTANTE:
+                        Estos datos deben venir despues desde backend.
+                    -->
+                    <p><strong>Titulo del Evento:</strong> TituloDeEjemplo</p>
+                    <p><strong>Descripcion:</strong> Ejemplo de descripcion</p>
+                    <p><strong>Categoria:</strong> Categoria</p>
+                    <p><strong>Fecha:</strong> XX/XX/XX</p>
+                    <p><strong>Hora:</strong> XX:XX a.m / p.m</p>
+                    <p><strong>Unidad Organizadora:</strong> EjemploDeUnidadOrganizadora</p>
+                    <p><strong>Modalidad:</strong> Modalidad</p>
+                    <p><strong>Cupo Maximo:</strong> XY</p>
+                    <p><strong>Lugar:</strong> Lugar fisico / enlace virtual</p>
+                    <p><strong>Estado:</strong> Pendiente</p>
+                </div>
+            </div>
+
+            <!-- columna derecha -->
+            <div class="detalle-evento-descripcion">
+                <h3 class="subtitulo-seccion">Descripción del Evento</h3>
+                <div class="descripcion-box">
+                    <p>
+                        BLA BLA BLA. Aqui iria la descripcion completa del evento. 
+                        Esta descripcion es temporal y debe ser reemplazada por 
+                        la descripcion real del evento que se consulte.
+                    </p>
+                </div>
+
+             <!--
+                    BOTONES DE ACCION DEL ORGANIZADOR
+
+                    IMPORTANTE:
+                    El boton "Aceptar"
+                    El boton "Cancelar"
+                -->
+                <div class="detalle-evento-acciones">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+    
+                    <button type="button" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </div> 
+        </section> 
+    </main> 
+</body> 
+</html> 
