@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Participantes - tecEventos</title>
+    
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+</head>
+<body class="lista-participantes-page">
+
+    <header class="navbar">
+        <div class="navbar-contenido">
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+                <nav class="menu-nav">
+                    <a href="inicio-organizador.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="mis-eventos.html">Mis Eventos</a>
+                    <a href="crear-evento.html">Crear Evento</a>
+                    <a href="anuncios.html">Ver Anuncios</a>
+                </nav>
+            </div>
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+        </div>
+    </header>
+
+    <main class="container seccion">
+        
+        <header class="seccion">
+            <h2 class="titulo-vista">Lista de Participantes:</h2>
+            
+            <div class="fila" style="align-items: center; margin-top: 15px;">
+                <h3 class="form-label" style="margin-bottom: 0; margin-right: 15px;">Buscar Participante:</h3>
+                <div style="flex: 1; max-width: 400px;">
+                    <input type="text" class="input-control" placeholder="🔍 Search" style="border-radius: 20px; padding-left: 20px;">
+                </div>
+            </div>
+        </header>
+
+        <section class="tabla-contenedor">
+            <table class="tabla-base">
+                <thead>
+                    <tr>
+                        <th>Nombre<span>^</span></th>
+                        <th>Carnet</th>
+                        <th>Correo electrónico</th>
+                        <th>Fecha De Inscripción</th>
+                        <th>Asistencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Juan Perez Perez</td>
+                        <td>2024011000</td>
+                        <td>example@estudiantec.cr</td>
+                        <td>XA/XX/XXXX</td>
+                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                    </tr>
+                    <tr>
+                        <td>Juana Perez Perez</td>
+                        <td>2025011000</td>
+                        <td>example1@estudiantec.cr</td>
+                        <td>XB/XX/XXXX</td>
+                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                    </tr>
+                    <tr>
+                        <td>Mario Perez Soza</td>
+                        <td>2025111000</td>
+                        <td>example2@estudiantec.cr</td>
+                        <td>XC/XX/XXXX</td>
+                        <td style="text-align: center;"><input type="checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>Johana Jiménez Mata</td>
+                        <td>2025094199</td>
+                        <td>example3@estudiantec.cr</td>
+                        <td>XC/XX/XXXX</td>
+                        <td style="text-align: center;"><input type="checkbox" checked></td>
+                    </tr>
+                    <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+                    <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+                    <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="detalle-evento-acciones" style="margin-top: 30px;">
+            <button type="button" class="btn btn-primary">Guardar Asistencia</button>
+            <button type="button" class="btn btn-secondary">Cancelar</button>
+        </div>
+
+    </main>
+
+</body>
+</html>

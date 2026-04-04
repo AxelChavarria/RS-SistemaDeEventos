@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor del Evento - tecEventos</title>
+    
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+</head>
+<body class="admin-detalle-evento-page">
+
+    <header class="navbar">
+        <div class="navbar-contenido">
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+                <nav class="menu-nav">
+                    <a href="inicio-admin.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="organizadores.html">Organizadores</a>
+                    <a href="reportes.html">Reportes</a>
+                    <a href="anuncios.html">Anuncios</a>
+                    <a href="moderacion.html">Moderación</a>
+                </nav>
+            </div>
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+        </div>
+    </header>
+
+    <main class="container seccion">
+        
+        <header class="seccion-encabezado" style="margin-bottom: 30px;">
+            <h2 class="titulo-vista" style="color: #003366; font-weight: bold; font-size: 1.8rem;">Información del Evento:</h2>
+        </header>
+
+        <section class="fila-layout" style="display: flex; justify-content: space-between; gap: 40px;">
+            
+            <div class="formulario-detalles" style="flex: 2;">
+                
+                <div class="campo-detalle" style="margin-bottom: 15px;">
+                    <p style="color: #003366; font-weight: bold; font-size: 1.1rem;">Título del Evento: <span style="font-weight: normal; color: #333; margin-left: 10px;">TítuloDeEjemplo</span></p>
+                </div>
+
+                <div class="campo-detalle" style="margin-bottom: 20px;">
+                    <p style="color: #003366; font-weight: bold; font-size: 1.1rem; margin-bottom: 10px;">Descripción:</p>
+                    <textarea class="input-control" rows="5" style="width: 100%; border: 1px solid #000; resize: none; padding: 10px;" readonly>Texto de ejemplo de la descripción del evento...</textarea>
+                </div>
+
+                <div class="campo-detalle" style="margin-bottom: 15px; display: flex; align-items: center;">
+                    <label style="color: #003366; font-weight: bold; font-size: 1.1rem; width: 120px;">Categoría:</label>
+                    <select class="input-control" style="width: 150px; background-color: #e0e0e0; border: none;">
+                        <option>Categoría</option>
+                    </select>
+                </div>
+
+                <div class="campo-detalle" style="margin-bottom: 15px;">
+                    <p style="color: #003366; font-weight: bold; font-size: 1.1rem;">Unidad Organizadora: <span style="font-weight: normal; color: #333; margin-left: 10px;">EjemploDeUnidadOrganizadora</span></p>
+                </div>
+
+                <div class="campo-detalle" style="margin-bottom: 15px; display: flex; align-items: center;">
+                    <label style="color: #003366; font-weight: bold; font-size: 1.1rem; width: 120px;">Fecha:</label>
+                    <input type="text" class="input-control" placeholder="XX/XX/XXXX" style="width: 150px; background-color: #e0e0e0; border: none; margin-right: 10px;">
+                </div>
+
+                <div class="campo-detalle" style="margin-bottom: 15px;">
+                    <p style="color: #003366; font-weight: bold; font-size: 1.1rem;">Hora: <span style="font-weight: normal; color: #333; margin-left: 10px;">XX:XX a.m./ p.m</span></p>
+                </div>
+
+                <div class="campo-detalle" style="margin-bottom: 15px; display: flex; align-items: center;">
+                    <label style="color: #003366; font-weight: bold; font-size: 1.1rem; width: 120px;">Modalidad:</label>
+                    <select class="input-control" style="width: 150px; background-color: #e0e0e0; border: none;">
+                        <option>Modalidad</option>
+                    </select>
+                </div>
+
+                <div class="campo-detalle" style="margin-bottom: 15px;">
+                    <p style="color: #003366; font-weight: bold; font-size: 1.1rem;">Cupo Máximo: <span style="font-weight: normal; color: #333; margin-left: 10px;">XY</span></p>
+                </div>
+
+                <div class="campo-detalle" style="margin-bottom: 15px;">
+                    <p style="color: #003366; font-weight: bold; font-size: 1.1rem;">Lugar: <span style="font-weight: normal; color: #333; margin-left: 10px;">Lugar Físico/enlace virtual</span></p>
+                </div>
+
+            </div>
+
+            <div class="acciones-verticales" style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 20px; align-items: flex-end;">
+                <button type="submit" class="btn btn-primary" style="width: 250px; padding: 15px; font-size: 1.4rem; font-weight: bold;">Guardar Cambios</button>
+                <button type="button" class="btn btn-primary" style="width: 250px; padding: 15px; font-size: 1.4rem; font-weight: bold;">Eliminar Evento</button>
+                <button type="button" class="btn btn-primary" style="width: 180px; padding: 10px; font-size: 1.4rem; font-weight: bold;">Cancelar</button>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

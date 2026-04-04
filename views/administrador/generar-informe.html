@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar informe - tecEventos</title>
+    
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+</head>
+<body class="reporte-organizadores-page">
+
+    <header class="navbar">
+        <div class="navbar-contenido">
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+                <nav class="menu-nav">
+                    <a href="inicio-admin.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="organizadores.html">Organizadores</a>
+                    <a href="reportes.html">Reportes</a>
+                    <a href="anuncios.html">Anuncios</a>
+                    <a href="moderacion.html">Moderación</a>
+                </nav>
+            </div>
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+        </div>
+    </header>
+
+    <main class="container seccion">
+        
+        <header class="seccion-encabezado" style="text-align: center; margin-bottom: 50px;">
+            <h2 class="titulo-vista" style="color: #003366;">Organizadores</h2>
+        </header>
+
+        <section class="formulario-reporte" style="max-width: 600px; margin: 0 auto;">
+            
+            <div class="fila" style="display: flex; align-items: center; margin-bottom: 30px;">
+                <label class="form-label" style="width: 150px; color: #003366; font-weight: bold; margin-bottom: 0;">Fecha Inicio:</label>
+                <div style="display: flex; align-items: center; flex: 1;">
+                    <input type="text" class="input-control" placeholder="XX/XX/XXXX" style="background-color: #e0e0e0; border: none; margin-right: 10px;">
+                </div>
+            </div>
+
+            <div class="fila" style="display: flex; align-items: center; margin-bottom: 60px;">
+                <label class="form-label" style="width: 150px; color: #003366; font-weight: bold; margin-bottom: 0;">Fecha Final:</label>
+                <div style="display: flex; align-items: center; flex: 1;">
+                    <input type="text" class="input-control" placeholder="XX/XX/XXXX" style="background-color: #e0e0e0; border: none; margin-right: 10px;">
+                </div>
+            </div>
+
+            <div class="detalle-evento-acciones" style="justify-content: flex-start; gap: 40px;">
+                <button type="submit" class="btn btn-primary" style="padding: 10px 30px; font-weight: bold;">Generar Reporte</button>
+                <button type="button" class="btn btn-primary" style="padding: 10px 40px; font-weight: bold;">Cancelar</button>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
