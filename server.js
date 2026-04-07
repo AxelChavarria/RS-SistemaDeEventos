@@ -3,8 +3,7 @@ import express from 'express';
 import cors from 'cors';
 
 const app = express();
-app.use(express.json());
-app.use(cors());
+
 
 //datos de la base de datos
 const config = {
@@ -17,7 +16,8 @@ const config = {
         trustServerCertificate: true 
     }
 };
-
+app.use(express.json());
+app.use(cors());
 // sp_IniciarSesion
 app.post('/api/login', async (req, res) => {
     const { correo, contrasena } = req.body;
@@ -45,7 +45,8 @@ app.post('/api/login', async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
-});
+})
+
 
 
 async function verifyDatabaseConnection() {
@@ -60,3 +61,9 @@ async function verifyDatabaseConnection() {
 
 app.listen(3000, () => console.log("Servidor en http://localhost:3000"));
 verifyDatabaseConnection()
+
+//async function pruebaRegistro(nombre, correo, contrasena, carnet, apellido) 
+
+pruebaRegistro("Axel Fabián", "ax@gmail.com", "123456","2024","Chavarría" )
+
+
