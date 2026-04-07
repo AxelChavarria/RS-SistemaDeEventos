@@ -1,4 +1,5 @@
 -- Las contraseñas se reciben como string de js
+-- Lo de la encriptación se hace en la base de datos, cuando hacemos la consulta en la base de datos ya salen encriptados
 
 
 --Parámetros (correo y contraseña ambos strings)
@@ -48,64 +49,6 @@ END;
 
 -- Parámetros (nombre, apellidos, correo, contraseña y número de carnet)
 -- Valores de retorno (1; ya existe el correo de parámetro, 2; ya existe el carnet de parámetro, 0; inserción exitosa)
-CREATE PROCEDURE sp_RegistrarUsuario
-
-    @inNombre VARCHAR(100),
-    @inApellido VARCHAR(100),
-    @inCorreo VARCHAR(50),
-    @inContrasena VARCHAR(100), 
-    @inCarnet VARCHAR(45),
-    @outCodigo INT OUT
-AS
-BEGIN
-
-SET NOCOUNT ON;
-
-    -- 1. Verificación de existencia previa
-    IF EXISTS (SELECT 1 FROM Usuario WHERE CorreoElectronico = @inCorreo)
-    BEGIN
-        SET @outCodigo = 1
-    END
-
-    IF EXISTS (SELECT 1 FROM Usuario WHERE Carnet = @inCarnet)
-    BEGIN
-        SET @outCodigo = 2
-        RETURN;
-    END
-
-
-    BEGIN TRY
-        INSERT INTO Usuario (
-            NombreUsuario, 
-            ApellidoUsuario, 
-            CorreoElectronico, 
-            Contrasena, 
-            Rol, 
-            Carnet, 
-            FechaRegistro
-        )
-        VALUES (
-            @inNombre, 
-            @inApellido, 
-            @inCorreo, 
-            HASHBYTES('SHA2_512', @inContrasena), -- Encriptación
-            'ASISTENTE',                       -- Rol por defecto (se cambia a organizador en otro sp)
-            @inCarnet, 
-            GETDATE()                          -- Fecha actual
-        );
-        SET @outCodigo = 0
-
-        
-    END TRY
-
-    BEGIN CATCH
-        -- Error no previsto
-        SET @outCodigo = -1
-    END CATCH
-
-END;
-
-
 ALTER PROCEDURE sp_RegistrarUsuario
     @inNombre VARCHAR(100),
     @inApellido VARCHAR(100),
