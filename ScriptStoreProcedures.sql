@@ -4,47 +4,45 @@
 
 --Parámetros (correo y contraseña ambos strings)
 --Valores de retorno (1; existe el correo, 0; no existe el correo)
-CREATE PROCEDURE sp_IniciarSesion
+ALTER PROCEDURE sp_IniciarSesion
     @inCorreo VARCHAR(50),
-    @inContrasena VARCHAR(100), 
-    @outCodigoRespuesta INT OUT   
+    @inContrasena VARCHAR(100)
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Validar si existe el correo con la contraseña asociaada
-    IF EXISTS (
-        SELECT 1 FROM dbo.Usuario 
-        WHERE CorreoElectronico = @inCorreo 
-        AND Contrasena = HASHBYTES('SHA2_512', @inContrasena)
-    )
-    BEGIN
-        SET @outCodigoRespuesta = 1; --Entró en el if, o sea. que existe
-        
-        -- Retornar los datos del usuario si existe
-        SELECT 
-            idUsuario, 
-            NombreUsuario, 
-            ApellidoUsuario, 
-            CorreoElectronico, 
-            Rol, 
-            Carnet 
-        FROM dbo.Usuario
-        WHERE CorreoElectronico = @inCorreo;
-    END
-    ELSE
-    BEGIN
-        SET @outCodigoRespuesta = 0; --No existe
-    END
+    BEGIN TRY
+        IF EXISTS (
+            SELECT 1 FROM dbo.Usuario 
+            WHERE CorreoElectronico = @inCorreo 
+            AND Contrasena = HASHBYTES('SHA2_512', @inContrasena)
+        )
+        BEGIN
+            -- Código 0 = a éxito
+            SELECT 
+                0 AS Codigo,
+                'Login exitoso' AS Mensaje,
+                idUsuario, 
+                NombreUsuario, 
+                ApellidoUsuario, 
+                CorreoElectronico, 
+                Rol, 
+                Carnet 
+            FROM dbo.Usuario
+            WHERE CorreoElectronico = @inCorreo;
+        END
+
+
+        ELSE
+        BEGIN
+            -- Código 1: credenciales incorrectas
+            SELECT 1 AS Codigo, 'Correo o contraseña incorrectos' AS Mensaje;
+        END
+    END TRY
+    BEGIN CATCH
+        SELECT ERROR_NUMBER() AS Codigo, ERROR_MESSAGE() AS Mensaje;
+    END CATCH
 END;
-
-
-
-
-
-
-
-
 
 
 -- Parámetros (nombre, apellidos, correo, contraseña y número de carnet)
@@ -76,7 +74,7 @@ BEGIN
     -- 3. Inserción
     BEGIN TRY
         INSERT INTO Usuario (NombreUsuario, ApellidoUsuario, CorreoElectronico, Contrasena, Rol, Carnet, FechaRegistro)
-        VALUES (@inNombre, @inApellido, @inCorreo, HASHBYTES('SHA2_512', @inContrasena), 'ASISTENTE', @inCarnet, GETDATE());
+        VALUES (@inNombre, @inApellido, @inCorreo, HASHBYTES('SHA2_512', @inContrasena), 'ASISTENTE', @inCarnet, CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time' AS DATETIME));
 
         SELECT 0 AS Codigo, 'Usuario registrado con éxito' AS Mensaje;
     END TRY

@@ -16,6 +16,8 @@ const config = {
 };
 
 //Apis
+
+//sp RegistrarUsuario
 app.post('/api/registrar-usuario', async (req, res) => {
     
     try {
@@ -32,6 +34,32 @@ app.post('/api/registrar-usuario', async (req, res) => {
         res.json(result.recordset[0]); 
     } catch (err) {
         console.error("Error en SQL:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+//sp InicioDeSesión
+app.post('/api/login', async (req, res) => {
+    const { correo, contrasena } = req.body;
+
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inCorreo', sql.VarChar, correo)
+            .input('inContrasena', sql.VarChar, contrasena)
+            .execute('sp_IniciarSesion');
+
+        // Tomamos la primera fila del resultado
+        const respuesta = result.recordset[0];
+
+        if (respuesta.Codigo === 0) {
+            // Si el código es 0, enviamos toda la información del usuario
+            res.json(respuesta);
+        } else {
+            // Si el código es 1 (u otro), enviamos el mensaje de error del SP
+            res.status(401).json(respuesta);
+        }
+    } catch (err) {
         res.status(500).json({ Codigo: -1, Mensaje: err.message });
     }
 });
