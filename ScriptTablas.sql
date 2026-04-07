@@ -9,7 +9,7 @@ CREATE TABLE Usuario (
   NombreUsuario VARCHAR(100) NULL,
   ApellidoUsuario VARCHAR(100) NULL,
   CorreoElectronico VARCHAR(50) NOT NULL,
-  Contrasena VARBINARY(64) NOT NULL, -- Aumentado para soportar hashes
+  Contrasena VARBINARY(64) NOT NULL, 
   Rol VARCHAR(20) NOT NULL,
   Carnet VARCHAR(45) NOT NULL,
   FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),

@@ -18,6 +18,36 @@ const config = {
     }
 };
 
+// sp_IniciarSesion
+app.post('/api/login', async (req, res) => {
+    const { correo, contrasena } = req.body;
+
+    try {
+        let pool = await sql.connect(dbConfig);
+        let result = await pool.request()
+            // inputs
+            .input('inCorreo', sql.VarChar, correo)
+            .input('inContrasena', sql.VarChar, contrasena)
+            // outputs
+            .output('outCodigoRespuesta', sql.Int)
+            .execute('sp_IniciarSesion');
+
+        const codigo = result.output.pCodigoRespuesta;
+
+        if (codigo === 1) {
+            res.status(200).json({ 
+                success: true, 
+                user: result.recordset[0] 
+            });
+        } else {
+            res.status(401).json({ success: false, message: "Credenciales incorrectas" });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
 async function verifyDatabaseConnection() {
     try {
         await sql.connect(config);
