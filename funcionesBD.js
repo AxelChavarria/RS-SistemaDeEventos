@@ -1,3 +1,6 @@
+
+//Recibe : Diccionario con datos {correo: "", contrasena: "",...}
+//Retorna : Diccionario con {Codigo de error: INT, Mensaje del error: String}
 async function registraUsuario(datos) {
     console.log("Enviando fetch");
     try {
@@ -7,10 +10,11 @@ async function registraUsuario(datos) {
             body: JSON.stringify(datos)
         });
 
-        const texto = await respuestaRaw.text();
-        console.log( texto);
+        const resultado = await respuestaRaw.json(); 
+        return resultado
+        
     } catch (err) {
-        console.error("Error en el fetch:", err.message);
+        return { Codigo: -1, Mensaje: err.message }
     }
 }
 
