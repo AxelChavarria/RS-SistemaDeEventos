@@ -1,5 +1,6 @@
 import Usuario from "./Usuario.js";
 
+
 class Asistente extends Usuario{
 
     carnet;
