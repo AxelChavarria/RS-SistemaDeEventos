@@ -39,6 +39,8 @@ CREATE TABLE Evento (
   CONSTRAINT CHK_Modalidad CHECK (Modalidad IN ('VIRTUAL', 'PRESENCIAL', 'HIBRIDA'))
 );
 
+
+
 -- -----------------------------------------------------
 -- Table SolicitudesPorEvento
 -- -----------------------------------------------------

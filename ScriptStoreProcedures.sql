@@ -57,26 +57,87 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- 1. Verificación de Correo
+    --Verificación de Correo
     IF EXISTS (SELECT 1 FROM Usuario WHERE CorreoElectronico = @inCorreo)
     BEGIN
         SELECT 1 AS Codigo, 'El correo ya existe' AS Mensaje;
         RETURN;
     END
 
-    -- 2. Verificación de Carnet
+    --Verificación de Carnet
     IF EXISTS (SELECT 1 FROM Usuario WHERE Carnet = @inCarnet)
     BEGIN
         SELECT 2 AS Codigo, 'El carnet ya existe' AS Mensaje;
         RETURN;
     END
 
-    -- 3. Inserción
+    -- Insertar
     BEGIN TRY
         INSERT INTO Usuario (NombreUsuario, ApellidoUsuario, CorreoElectronico, Contrasena, Rol, Carnet, FechaRegistro)
         VALUES (@inNombre, @inApellido, @inCorreo, HASHBYTES('SHA2_512', @inContrasena), 'ASISTENTE', @inCarnet, CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time' AS DATETIME));
 
         SELECT 0 AS Codigo, 'Usuario registrado con éxito' AS Mensaje;
+    END TRY
+    BEGIN CATCH
+        SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;
+    END CATCH
+END;
+
+
+
+
+
+
+
+-- Parámetros (datos del evento)
+-- Valores de retorno (1; ya existe el correo de parámetro, 2; ya existe el carnet de parámetro, 0; inserción exitosa)
+CREATE PROCEDURE sp_CrearEvento
+    @inNombreEvento VARCHAR(60),
+    @inidOrganizador INT,
+    @inCategoria VARCHAR(45),
+    @inFechaEvento DATETIME, 
+    @inModalidad VARCHAR(20), -- Agregado para que coincida con tu tabla
+    @inEnlacePlenaria VARCHAR(45)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        IF EXISTS (
+            SELECT 1 FROM dbo.Evento 
+            WHERE idOrganizador = @inidOrganizador 
+            AND Estado != 'CANCELADO'
+            AND @inFechaEvento = FechaEvento
+        )
+        BEGIN
+            SELECT 1 AS Codigo, 'Error: Ya tienes un evento que choca con este horario (rango 1h).' AS Mensaje;
+            RETURN;
+        END
+
+        -- Insertar el evento
+        INSERT INTO dbo.Evento (
+            idOrganizador, 
+            NombreEvento, 
+            Categoria, 
+            FechaEvento, 
+            PostTime, 
+            Estado, 
+            Modalidad, 
+            EnlacePlenaria
+        )
+        VALUES (
+            @inidOrganizador, 
+            @inNombreEvento, 
+            @inCategoria, 
+            @inFechaEvento, 
+            CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time' AS DATETIME),
+            'PENDIENTE', 
+            @inModalidad, 
+            @inEnlacePlenaria
+        );
+
+        SELECT 0 AS Codigo, 'Evento registrado con éxito' AS Mensaje;
+
     END TRY
     BEGIN CATCH
         SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;

@@ -49,14 +49,55 @@ async function loginUsuario(credenciales) {
     }
 }
 
+/*
 const prueba = {
-    correo: "axel3@estudiantec.cr",
+    correo: "axel@estudiantec.cr",
     contrasena: "tec2026"
 };
 
 loginUsuario(prueba).then(resultado => {
     console.log(resultado);
 });
+*/
+
+
+
+
+//Recibe: Diccionario con datos {nombrevento: string, idOrganizador: int}
+//Retorna: diccionario con {codigo: int, mensaje de codigo: string, y los demás datos}
+export async function crearEvento(datosEvento) {
+    try {
+        const res = await fetch("http://127.0.0.1:3005/api/crear-evento", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(datosEvento)
+        });
+        return await res.json();
+    } catch (err) {
+        console.log("ERROR EN EL SERVER:", err.message)
+        return { Codigo: -1, Mensaje: "Error al conectar con el servidor" };
+    }
+}
+
+const evento1 = {
+    idOrganizador: 7, // usuario Axel
+    nombre: "Charla de Base de Datos",
+    categoria: "Académico",
+    fecha: "2026-05-15 14:00:00",
+    modalidad: "VIRTUAL",
+    enlace: "NO"
+};
+
+
+//ejemplo
+(async () => {
+   
+    const res1 = await crearEvento(evento1);
+    console.log("Respuesta 1:", res1.Mensaje);
+
+    const res2 = await crearEvento(evento1);
+    console.log("Respuesta 2:", res2.Mensaje);
+})();
 
 
 

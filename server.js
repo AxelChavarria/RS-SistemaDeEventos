@@ -64,6 +64,27 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+//sp CrearEvento
+app.post('/api/crear-evento', async (req, res) => {
+    const { idOrganizador, nombre, categoria, fecha, modalidad, enlace } = req.body;
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inidOrganizador', sql.Int, idOrganizador)
+            .input('inNombreEvento', sql.VarChar, nombre)
+            .input('inCategoria', sql.VarChar, categoria)
+            .input('inFechaEvento', sql.DateTime, fecha)
+            .input('inModalidad', sql.VarChar, modalidad)
+            .input('inEnlacePlenaria', sql.VarChar, enlace)
+            .execute('sp_CrearEvento');
+
+        res.json(result.recordset[0]);
+    } catch (err) {
+        console.error("Mensaje:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
 
 
 // Arranque
