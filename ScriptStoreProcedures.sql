@@ -96,8 +96,9 @@ CREATE PROCEDURE sp_CrearEvento
     @inidOrganizador INT,
     @inCategoria VARCHAR(45),
     @inFechaEvento DATETIME, 
-    @inModalidad VARCHAR(20), -- Agregado para que coincida con tu tabla
+    @inModalidad VARCHAR(20), 
     @inEnlacePlenaria VARCHAR(45)
+    @inCupo INT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -123,7 +124,8 @@ BEGIN
             PostTime, 
             Estado, 
             Modalidad, 
-            EnlacePlenaria
+            EnlacePlenaria,
+            Cupo
         )
         VALUES (
             @inidOrganizador, 
@@ -133,7 +135,8 @@ BEGIN
             CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time' AS DATETIME),
             'PENDIENTE', 
             @inModalidad, 
-            @inEnlacePlenaria
+            @inEnlacePlenaria,
+            @inCupo
         );
 
         SELECT 0 AS Codigo, 'Evento registrado con éxito' AS Mensaje;

@@ -15,6 +15,16 @@ const config = {
     options: { encrypt: true, trustServerCertificate: true }
 };
 
+// Ruta principal
+app.get('/', (req, res) => {
+    res.send('Servidor funcionando correctamente');
+});
+
+// Ruta de prueba API
+app.get('/api', (req, res) => {
+    res.send('API funcionando correctamente');
+});
+
 //Apis
 
 //sp RegistrarUsuario
@@ -66,7 +76,7 @@ app.post('/api/login', async (req, res) => {
 
 //sp CrearEvento
 app.post('/api/crear-evento', async (req, res) => {
-    const { idOrganizador, nombre, categoria, fecha, modalidad, enlace } = req.body;
+    const { idOrganizador, nombre, categoria, fecha, modalidad, enlace, cupo } = req.body;
     try {
         let pool = await sql.connect(config);
         let result = await pool.request()
@@ -76,6 +86,7 @@ app.post('/api/crear-evento', async (req, res) => {
             .input('inFechaEvento', sql.DateTime, fecha)
             .input('inModalidad', sql.VarChar, modalidad)
             .input('inEnlacePlenaria', sql.VarChar, enlace)
+            .input('inCupo',sql.Int, cupo)
             .execute('sp_CrearEvento');
 
         res.json(result.recordset[0]);
