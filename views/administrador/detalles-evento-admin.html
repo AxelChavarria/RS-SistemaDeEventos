@@ -65,7 +65,7 @@
             el id del evento seleccionado.
 
             Ejemplo futuro:
-            detalle-evento-admin.html?id=15
+            detalles-evento-admin.html?id=15
 
             Luego el sistema deberia:
             1. obtener el id_evento
@@ -118,8 +118,8 @@
                     para escribir el motivo del rechazo.
                 -->
                 <div class="detalle-evento-acciones">
-                    <button type="button" class="btn btn-primary">Aceptar</button>
-                    <button type="button" class="btn btn-secondary">Rechazar</button>
+                    <button type="button" id="btn-aceptar" class="btn btn-primary">Aceptar</button>
+                    <button type="button" id="btn-rechazar" class="btn btn-secondary">Rechazar</button>
                 </div>
             </div>
 
@@ -137,19 +137,23 @@
         <section class="card seccion-admin">
             <h3 class="subtitulo-seccion">Motivo del rechazo</h3>
 
-            <div class="form-group">
-                <textarea
-                    id="motivo-rechazo"
-                    name="motivo_rechazo"
-                    class="textarea-control"
-                    placeholder="Escriba el motivo del rechazo al evento"
-                ></textarea>
-            </div>
+            <form id="form-rechazo">
+                <input type="hidden" id="evento_id" name="evento_id" value="ID_DEL_EVENTO"> <!--probablemente lo ocupe-->
 
-            <div class="detalle-evento-acciones">
-                <button type="button" class="btn btn-primary">Confirmar rechazo</button>
-                <button type="button" class="btn btn-secondary">Cancelar</button>
-            </div>
+                <div class="form-group">
+                    <textarea
+                        id="motivo-rechazo"
+                        name="motivo_rechazo"
+                        class="textarea-control"
+                        placeholder="Escriba el motivo del rechazo al evento"
+                    ></textarea>
+                </div>
+
+                <div class="detalle-evento-acciones">
+                    <button type="submit" class="btn btn-primary">Confirmar rechazo</button>
+                    <button type="button" id="btn-cancelar-rechazo" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
         </section>
 
     </main>

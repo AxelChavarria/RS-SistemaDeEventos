@@ -119,15 +119,18 @@
 
                 <!--
                     BOTONES DE ACCION
-
-                    IMPORTANTE:
-                    El boton "Inscribirse" despues debera abrir el flujo real de inscripcion.
-                    El boton "Cancelar" podria regresar a eventos.html o a la pagina anterior.
                 -->
-                <div class="detalle-evento-acciones">
-                    <button type="button" class="btn btn-primary">Inscribirse</button>
-                    <a href="eventos.html" class="btn btn-secondary">Cancelar</a>
-                </div>
+                <form id="form-inscripcion">
+                    <div class="detalle-evento-acciones">
+                        <!-- este input luego llevara el id del evento -->
+                        <!--IMPORTANTE: no estoy segura de si es necesario, pero podria ser util para el backend saber a que evento se esta inscribiendo el usuario-->
+                        <input type="hidden" id="evento_id" name="evento_id" value="ID_DEL_EVENTO">
+                        <button type="submit" class="btn btn-primary">Inscribirse</button>
+                        <a href="eventos.html" class="btn btn-secondary">Cancelar</a>
+                        
+                    </div>
+                </form>
+                
             </div>
 
         </section>

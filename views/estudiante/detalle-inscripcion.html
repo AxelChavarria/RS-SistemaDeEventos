@@ -118,10 +118,15 @@
                     </p>
                 </div>
 
-                <div class="detalle-evento-acciones">
-                    <button type="button" class="btn btn-primary">Desinscribirse</button>
-                    <a href="eventos-futuros.html" class="btn btn-secondary">Volver </a>
-                </div>
+                <!--Botones de accion y form-->
+                
+                <form id="form-desinscripcion">
+                    <div class="detalle-evento-acciones">
+                        <input type="hidden" id="evento_id" name="evento_id" value="ID_DEL_EVENTO">
+                        <button type="submit" class="btn btn-primary">Desinscribirse</button>
+                        <a href="eventos-futuros.html" class="btn btn-secondary">Volver </a>
+                    </div>
+                </form>
             </div>
 
         </section>

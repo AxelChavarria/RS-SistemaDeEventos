@@ -65,11 +65,13 @@
                 </h2>
 
             <!-- formulario de login -->
-            <form>
+            <form id="form-login" method="post">
 
                 <div class="form-group">
                     <input 
                         type="email" 
+                        id ="correo"
+                        name="correo"
                         placeholder="correo@estudiantec.itcr/.ac.cr"
                         class="input-control"
                     >
@@ -78,13 +80,15 @@
                 <div class="form-group">
                     <input 
                         type="password" 
+                        id="contrasena"
+                        name="contrasena"
                         placeholder="********"
                         class="input-control"
                     >
                 </div>
 
                 <!-- boton principal -->
-                <button class="btn btn-primary btn-full">
+                <button type="submit" class="btn btn-primary btn-full">
                     Iniciar sesión
                 </button>
 
