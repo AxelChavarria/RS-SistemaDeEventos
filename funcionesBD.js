@@ -1,7 +1,7 @@
 
 //Recibe : Diccionario con datos {correo: "", contrasena: "",...}
 //Retorna : Diccionario con {Codigo de error: INT, Mensaje del error: String}
-async function registraUsuario(datos) {
+export async function registraUsuario(datos) {
     console.log("Enviando fetch");
     try {
         const respuestaRaw = await fetch("http://127.0.0.1:3005/api/registrar-usuario", {
@@ -28,6 +28,8 @@ const usuarioNuevo = {
 };
 registraUsuario(usuarioNuevo)
 */
+
+
 
 //Recibe: Diccionario con datos {correo: string, contrasena: string}
 //Retorna: diccionario con {codigo: int, mensaje de codigo: string, y los demás datos}

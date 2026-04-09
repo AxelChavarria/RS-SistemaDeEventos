@@ -146,3 +146,10 @@ BEGIN
         SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;
     END CATCH
 END;
+
+
+-- Parámetros (nada)
+-- Valores de retorno (1; hay eventos, 0; no hay eventos)
+CREATE PROCEDURE sp_VerEventos
+AS
+BEGIN
