@@ -22,9 +22,9 @@ export async function registraUsuario(datos) {
 const usuarioNuevo = {
     nombre: "Axel",
     apellido: "Chavarria",
-    correo: "axel@estudiantec.cr",
+    correo: "axel22@estudiantec.cr",
     contrasena: "tec2026",
-    carnet: "2026112233"
+    carnet: "20261122323"
 };
 registraUsuario(usuarioNuevo)
 */
@@ -81,7 +81,7 @@ export async function crearEvento(datosEvento) {
     }
 }
 
-
+/*
 const evento1 = {
     idOrganizador: 7, // usuario Axel
     nombre: "Charla de Base de Datos",
@@ -93,6 +93,7 @@ const evento1 = {
 };
 
 
+
 //ejemplo
 (async () => {
    
@@ -102,6 +103,7 @@ const evento1 = {
     const res2 = await crearEvento(evento1);
     console.log("Respuesta 2:", res2.Mensaje);
 })();
+*/
 
 
 export async function verEventosProximosAprobados(){
@@ -117,10 +119,12 @@ export async function verEventosProximosAprobados(){
     }
 }
 
+/*
 (async () => {
    const resultado = await verEventosProximosAprobados()
    console.log(resultado)
 })();
+*/
 
 
 

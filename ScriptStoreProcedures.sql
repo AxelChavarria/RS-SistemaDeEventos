@@ -175,6 +175,7 @@ BEGIN
     END CATCH
 END;
 
+
 CREATE PROCEDURE sp_InscribirseAEvento
     @inIdUsuario INT,
     @inIdEvento INT
@@ -246,3 +247,62 @@ BEGIN
         SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;
     END CATCH
 END;
+
+
+CREATE PROCEDURE sp_FiLtrarEventos
+    @inModalidad varchar,
+    @inCategoria varchar,
+    @inRango varchar
+AS
+BEGIN
+        SELECT
+            idEvento,
+            NombreEvento,
+            Categoria,
+            FechaEvento,
+            Modalidad,
+            EnlacePlenaria,
+            Cupo,
+            Estado,
+            idOrganizador
+        FROM Evento WHERE FechaEvento > GETDATE() AND  @inModalidad =  Modalidad AND @inCategoria = Categoria
+        AND Estado != 'CANCELADO'
+        ORDER BY FechaEvento ASC;
+END
+
+
+CREATE PROCEDURE sp_VerMisEventos
+    @inIdOrganizaador
+AS
+BEGIN
+    SELECT 
+        idEvento,
+        NombreEvento,
+        Categoria,
+        FechaEvento,
+        Modalidad,
+        EnlacePlenaria,
+        Cupo,
+        Estado
+        FROM Evento WHERE @inIdOrganizador = idOrganizador
+END
+
+CREATE PROCEDURE sp_ModificarEventoPendiente
+    @inIdEvento INT,
+    @inNombreEvento VARCHAR(60),
+    @inidOrganizador INT,
+    @inCategoria VARCHAR(45),
+    @inFechaEvento DATETIME, 
+    @inModalidad VARCHAR(20), 
+    @inEnlacePlenaria VARCHAR(45)
+    @inCupo INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    BEGIN TRY
+    END TRY
+
+    BEGIN CATCH
+    END CATCH
+END
