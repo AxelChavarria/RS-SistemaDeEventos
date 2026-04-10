@@ -81,14 +81,15 @@ export async function crearEvento(datosEvento) {
     }
 }
 
-/*
+
 const evento1 = {
     idOrganizador: 7, // usuario Axel
     nombre: "Charla de Base de Datos",
     categoria: "Académico",
-    fecha: "2026-05-15 14:00:00",
+    fecha: "2026-06-15 14:00:00",
     modalidad: "VIRTUAL",
-    enlace: "NO"
+    enlace: "NO",
+    cupo: 10
 };
 
 
@@ -101,7 +102,7 @@ const evento1 = {
     const res2 = await crearEvento(evento1);
     console.log("Respuesta 2:", res2.Mensaje);
 })();
-*/
+
 
 export async function verEventosProximosAprobados(){
     try{
@@ -115,6 +116,12 @@ export async function verEventosProximosAprobados(){
         console.error("Error:", err.Mensaje)
     }
 }
+
+(async () => {
+   const resultado = await verEventosProximosAprobados()
+   console.log(resultado)
+})();
+
 
 
 
