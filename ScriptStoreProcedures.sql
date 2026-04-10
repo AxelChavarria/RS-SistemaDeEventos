@@ -176,6 +176,8 @@ BEGIN
 END;
 
 
+-- Parametros: id de evento y usuario
+-- Retorna:
 CREATE PROCEDURE sp_InscribirseAEvento
     @inIdUsuario INT,
     @inIdEvento INT
@@ -299,7 +301,7 @@ CREATE PROCEDURE sp_ModificarEventoPendiente
 AS
 BEGIN
     SET NOCOUNT ON;
-    
+
     BEGIN TRY
     END TRY
 

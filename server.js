@@ -84,30 +84,51 @@ app.post('/api/login', async (req, res) => {
 //sp CrearEvento
 app.post('/api/crear-evento', async (req, res) => {
     const { idOrganizador, nombre, categoria, fecha, modalidad, enlace, cupo } = req.body;
+    
+    console.log("--- ENVIANDO A SQL ---");
+    console.log("Nombre:", nombre);
+
     try {
         let pool = await sql.connect(config);
         let result = await pool.request()
+            // ATENCIÓN: Los nombres aquí deben ser IDÉNTICOS a los del SP en SQL
+            .input('inNombreEvento', sql.VarChar(60), nombre)
             .input('inidOrganizador', sql.Int, idOrganizador)
-            .input('inNombreEvento', sql.VarChar, nombre)
-            .input('inCategoria', sql.VarChar, categoria)
-            .input('inFechaEvento', sql.DateTime, fecha)
-            .input('inModalidad', sql.VarChar, modalidad)
-            .input('inEnlacePlenaria', sql.VarChar, enlace)
-            .input('inCupo',sql.Int, cupo)
+            .input('inCategoria', sql.VarChar(45), categoria)
+            .input('inFechaEvento', sql.DateTime, new Date(fecha))
+            .input('inModalidad', sql.VarChar(20), modalidad)
+            .input('inEnlacePlenaria', sql.VarChar(45), enlace)
+            .input('inCupo', sql.Int, cupo) 
             .execute('sp_CrearEvento');
 
         res.json(result.recordset[0]);
     } catch (err) {
-        console.error("Mensaje:", err.message);
+        console.error("ERROR DE SQL:", err.message);
         res.status(500).json({ Codigo: -1, Mensaje: err.message });
     }
 });
 
 
+// sp_ConsultarEventosProximos
+app.get('/api/eventos-proximos', async (req, res) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+ 
+            .execute('sp_ConsultarEventosProximos');
+
+
+        res.json(result.recordset); 
+    } catch (err) {
+        console.error("Error al consultar eventos:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
 
 // Arranque
 const PORT = 3005;
-app.listen(PORT, '127.0.0.1', () => {
+app.listen(PORT, () => {
     console.log(`\nSERVIDOR ONLINE EN: http://127.0.0.1:${PORT}`);
 
 

@@ -89,7 +89,7 @@ const evento1 = {
     fecha: "2026-06-15 14:00:00",
     modalidad: "VIRTUAL",
     enlace: "NO",
-    cupo: 10
+    cupo: 10000
 };
 
 
@@ -106,25 +106,40 @@ const evento1 = {
 */
 
 
-export async function verEventosProximosAprobados(){
-    try{
-    const res = await fetch("http://localhost:3005/api/eventos")
-    if (!res.ok){
-        throw new Error ("Error en el server")
-    }
-    return await res.json
-    }
-    catch(err){
-        console.error("Error:", err.Mensaje)
+//Recibe: Nado
+//Retorna: Lista de diccionarios con los datos de los eventos aprobados y próximos (que sean después de que se consulta)
+export async function obtenerEventosProximos() {
+    try {
+        const res = await fetch("http://localhost:3005/api/eventos-proximos");
+        
+        if (!res.ok) {
+            throw new Error(`Error en el servidor: ${res.status}`);
+        }
+
+        const datos = await res.json();
+
+        // Validamos si la respuesta es un array y si tiene contenido
+        if (Array.isArray(datos) && datos.length > 0) {
+            console.log("Eventos encontrados:", datos.length);
+            return datos;
+        } else {
+            console.log("No hay eventos próximos disponibles.");
+            return [];
+        }
+
+    } catch (err) {
+        console.error("ERROR CRÍTICO:", err.message);
+        return [];
     }
 }
 
 /*
 (async () => {
-   const resultado = await verEventosProximosAprobados()
+   const resultado = await obtenerEventosProximos()
    console.log(resultado)
 })();
 */
+
 
 
 
