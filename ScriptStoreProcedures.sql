@@ -149,10 +149,100 @@ END;
 
 
 -- Parámetros (nada)
--- Valores de retorno (1; hay eventos, 0; no hay eventos)
-CREATE PROCEDURE sp_VerEventos
+-- Valores de retorno (1:No hay cupos, 2: choque de horario)
+CREATE PROCEDURE sp_ConsultarEventosProximos
 AS
 BEGIN
-       SET NOCOUNT ON;
-       BEGIN TRY
-       iF EXISTS (SELECT 1 FROM EVENTO WHERE )
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        SELECT 
+            idEvento,
+            NombreEvento,
+            Categoria,
+            FechaEvento,
+            Modalidad,
+            EnlacePlenaria,
+            Cupo,
+            Estado,
+            idOrganizador
+        FROM Evento WHERE FechaEvento > GETDATE() 
+        AND Estado != 'CANCELADO'
+        ORDER BY FechaEvento ASC;
+    END TRY
+    BEGIN CATCH
+        SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;
+    END CATCH
+END;
+
+CREATE PROCEDURE sp_InscribirseAEvento
+    @inIdUsuario INT,
+    @inIdEvento INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @FechaNuevoEvento DATETIME;
+    
+    BEGIN TRY
+
+        SELECT @FechaNuevoEvento = FechaEvento 
+        FROM dbo.Evento WHERE idEvento = @inIdEvento; -- fECHA DEL evento al que se desea inscribir
+
+        -- Validar si hay cupo
+        IF NOT EXISTS (SELECT 1 FROM dbo.Evento WHERE idEvento = @inIdEvento AND Cupo > 0)
+        BEGIN
+            SELECT 1 AS Codigo, 'Error: No hay cupos disponibles.' AS Mensaje;
+            RETURN;
+        END
+
+        -- Validar que no choque con otro evento al que el usuario esté inscrito
+        IF EXISTS (
+            SELECT 1 
+            FROM dbo.AsistentesPorEvento A
+            JOIN dbo.Evento E ON A.idEvento = E.idEvento
+            WHERE A.idUsuario = @inIdUsuario
+            AND A.idEvento <> @inIdEvento -- Que sea un evento distinto
+            AND (A.Cancelacion = 0 OR A.Cancelacion IS NULL) -- Que no esté cancelado
+            AND E.FechaEvento = @FechaNuevoEvento
+        )
+        BEGIN
+            SELECT 2 AS Codigo, 'Error: Ya tienes otro evento activo a esta misma hora.' AS Mensaje;
+            RETURN;
+        END
+
+        -- Inscripcion
+        BEGIN TRANSACTION
+            
+            -- Ya existía inscripción o cancelada
+            IF EXISTS (SELECT 1 FROM dbo.AsistentesPorEvento WHERE idUsuario = @inIdUsuario AND idEvento = @inIdEvento AND Cancelacion = 1)
+            BEGIN
+                -- RE-INSCRIPCIÓN: Actualizamos el registro existente
+                UPDATE dbo.AsistentesPorEvento
+                SET Cancelacion = 0,
+                    FechaInscripcion = GETDATE(),
+                    FechaCancelacion = NULL
+                WHERE idUsuario = @inIdUsuario AND idEvento = @inIdEvento AND Cancelacion = 1;
+            END
+            ELSE
+            BEGIN
+                -- Si es la primera vez o no hay activos
+                INSERT INTO dbo.AsistentesPorEvento (idUsuario, idEvento, Asistio, FechaInscripcion, Cancelacion)
+                VALUES (@inIdUsuario, @inIdEvento, 0, GETDATE(), 0);
+            END
+
+            -- SIEMPRE restamos 1 al cupo del evento
+            UPDATE dbo.Evento 
+            SET Cupo = Cupo - 1 
+            WHERE idEvento = @inIdEvento;
+
+        COMMIT TRANSACTION
+
+        SELECT 0 AS Codigo, 'Inscripción procesada con éxito.' AS Mensaje;
+
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+        SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;
+    END CATCH
+END;

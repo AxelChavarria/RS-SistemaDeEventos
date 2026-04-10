@@ -33,7 +33,7 @@ registraUsuario(usuarioNuevo)
 
 //Recibe: Diccionario con datos {correo: string, contrasena: string}
 //Retorna: diccionario con {codigo: int, mensaje de codigo: string, y los demás datos}
-async function loginUsuario(credenciales) {
+export async function loginUsuario(credenciales) {
     try {
         const respuestaRaw = await fetch("http://127.0.0.1:3005/api/login", {
             method: "POST",
@@ -81,6 +81,7 @@ export async function crearEvento(datosEvento) {
     }
 }
 
+/*
 const evento1 = {
     idOrganizador: 7, // usuario Axel
     nombre: "Charla de Base de Datos",
@@ -100,6 +101,21 @@ const evento1 = {
     const res2 = await crearEvento(evento1);
     console.log("Respuesta 2:", res2.Mensaje);
 })();
+*/
+
+export async function verEventosProximosAprobados(){
+    try{
+    const res = await fetch("http://localhost:3005/api/eventos")
+    if (!res.ok){
+        throw new Error ("Error en el server")
+    }
+    return await res.json
+    }
+    catch(err){
+        console.error("Error:", err.Mensaje)
+    }
+}
+
 
 
 

@@ -96,6 +96,20 @@ app.post('/api/crear-evento', async (req, res) => {
     }
 });
 
+//sp verEventosProximos
+app.get('/api/eventos', async (req, res) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .execute('sp_ConsultarEventosProximos');
+
+        res.json(result.recordset);
+    } catch (err) {
+        console.error("Error al obtener eventos:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
 
 
 // Arranque
