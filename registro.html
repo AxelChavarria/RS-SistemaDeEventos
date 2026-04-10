@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registro - Sistema de Eventos TEC</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" href="../public/css/layout.css">
+    <link rel="stylesheet" href="../public/css/componentes.css">
+    <!--  <link rel="stylesheet" href="../public/css/paginas.css">-->
+    <link rel="stylesheet" href="../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--IMPORTANTE
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="registro-page">
+
+    <!-- barra superior simple con logo -->
+    <header class="topbar">
+        <div class="topbar-contenido">
+            <div class="topbar-izquierda">
+                <!--<img src="../public/assets/logos/logotec_blanco__login.png" alt="TEC" class="logo-tec">-->
+            </div>
+        </div>
+    </header>
+
+    <main class="registro-main">
+        <section class="registro-contenedor">
+
+            <!-- columna izquierda -->
+            <div class="registro-info">
+                <h2>Sobre este proyecto</h2>
+
+
+                <p style="margin-top: 10px;">
+                     El Sistema de Eventos del TEC es una plataforma diseñada para facilitar
+                     la gestión y participación en eventos organizados por estudiantes, profesores u otras entidades del TEC. 
+                     Este sistema permite a los estudiantes, profesores y personal administrativo crear, 
+                     administrar y asistir a eventos de manera eficiente, 
+                     promoviendo la colaboración y el intercambio de conocimientos dentro de la comunidad académica.
+                </p>
+                <p style="margin-top: 15px;">
+                     Desarrollado por los/as estudiantes:
+                </p>
+                <p style="margin-top: 15px;">
+                    - Axel Fabián Chavarría Gutiérrez 2024252331
+                    <br>
+                    - Cassandra Rodríguez Calvo 2024066829 
+                    <br>
+                    - Estefanía de los Ángeles Portuguéz Víquez 2024800621
+                    <br>
+                    - Johana Jiménez Mata 2025094199 
+
+                <!--<img src="../public/assets/img/img-tec.jpg" alt="TEC" style="width: 100%; max-width: 360px; margin-top: 20px; border-radius: 4px;">-->
+                
+            </div>
+
+            <!-- columna derecha -->
+            <div class="registro-formulario">
+                <form id="form-registro" method="post">
+
+                    <div class="form-group">
+                        <label for="carne" class="form-label">Carne</label>
+                        <input
+                            type="text"
+                            id="carne"
+                            name="carne"
+                            class="input-control"
+                            placeholder="2025XXXXXX"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            class="input-control"
+                            placeholder="Nombre"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellidos" class="form-label">Apellidos</label>
+                        <input
+                            type="text"
+                            id="apellidos"
+                            name="apellidos"
+                            class="input-control"
+                            placeholder="Apellidos"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="correo" class="form-label">Correo institucional</label>
+                        <input
+                            type="email"
+                            id="correo"
+                            name="correo"
+                            class="input-control"
+                            placeholder="correo@estudiantec/itcr.cr"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <input
+                            type="password"
+                            id="contrasena"
+                            name="contrasena"
+                            class="input-control"
+                            placeholder="********"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmar-contrasena" class="form-label">Confirmar contraseña</label>
+                        <input
+                            type="password"
+                            id="confirmar-contrasena"
+                            name="confirmar_contrasena"
+                            class="input-control"
+                            placeholder="********"
+                        >
+                    </div>
+
+                    <div class="registro-acciones">
+                        <button type="submit" class="btn btn-primary">
+                            Registrarse
+                        </button>
+                    </div>
+
+                    <p class="texto-secundario">
+                        Ya tiene cuenta?
+                        <a href="login.html">Iniciar sesion</a>
+                    </p>
+
+                </form>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- IMPORTANTE: js para desarrollo -->
+    <script type="module" src="../main.js"></script>
+
+    <!--IMPORTANTE: js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>
