@@ -1,16 +1,37 @@
-import Usuario from "./Usuario.js";
+import {Usuario} from "./Usuario.js";
+import {registraUsuario} from "./funcionesBD.js";
 
-
-class Asistente extends Usuario{
+export class Asistente extends Usuario{
 
     carnet;
 
-    constructor(nombre, apellido, contraseña, correo, idUsuario, carnet){
-        super(nombre, apellido, contraseña, correo, idUsuario);
-        this.carnet = carnet;
-    }
+    
 
-    registrarUsuario(nombre, apellido, carnet, contraseña, correo){}
+    async registrarUsuario(){
+        
+
+            let contrasena = document.getElementById("contrasena").value.trim();
+            let confirmacion = document.getElementById("confirmar-contrasena").value.trim();
+
+            if (contrasena == confirmacion) {
+
+                let informacion ={
+                    nombre: document.getElementById("nombre").value.trim(),
+                    apellido: document.getElementById("apellidos").value.trim(),
+                    carnet: document.getElementById("carne").value.trim(),
+                    contrasena: document.getElementById("contrasena").value.trim(),
+                    correo: document.getElementById("correo").value.trim()
+                }
+
+                console.log(informacion);
+                registraUsuario(informacion);
+            } else {
+
+                alert("Las contraseñas no coinciden");
+            }
+
+        
+    }
 
     verMisInscripciones(){}
 
@@ -18,4 +39,6 @@ class Asistente extends Usuario{
 
     cancelarInscripcion(idInscripcion){}
 
+
+    
 }

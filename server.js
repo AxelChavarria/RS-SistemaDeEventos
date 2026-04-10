@@ -1,8 +1,15 @@
 import sql from 'mssql';
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(__dirname));
 
 app.use(cors());
 app.use(express.json());
@@ -17,7 +24,7 @@ const config = {
 
 // Ruta principal
 app.get('/', (req, res) => {
-    res.send('Servidor funcionando correctamente');
+    res.sendFile(path.join(__dirname, '/views/login.html'));
 });
 
 // Ruta de prueba API
@@ -92,20 +99,6 @@ app.post('/api/crear-evento', async (req, res) => {
         res.json(result.recordset[0]);
     } catch (err) {
         console.error("Mensaje:", err.message);
-        res.status(500).json({ Codigo: -1, Mensaje: err.message });
-    }
-});
-
-//sp verEventosProximos
-app.get('/api/eventos', async (req, res) => {
-    try {
-        let pool = await sql.connect(config);
-        let result = await pool.request()
-            .execute('sp_ConsultarEventosProximos');
-
-        res.json(result.recordset);
-    } catch (err) {
-        console.error("Error al obtener eventos:", err.message);
         res.status(500).json({ Codigo: -1, Mensaje: err.message });
     }
 });
