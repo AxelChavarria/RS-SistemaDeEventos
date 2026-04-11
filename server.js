@@ -181,6 +181,25 @@ app.post('/api/filtrar-eventos', async (req, res) => {
 });
 
 
+// sp incribirse
+app.post('/api/inscribir-evento', async (req, res) => {
+    const { idEvento, idUsuario } = req.body;
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdEvento', sql.Int, idEvento)
+            .input('inIdUsuario', sql.Int, idUsuario)
+            .execute('sp_InscribirEvento');
+
+        // Retornamos el primer registro con el Codigo y Mensaje del SP
+        res.json(result.recordset[0]);
+    } catch (err) {
+        console.error("Error al inscribir:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: "Error interno del servidor" });
+    }
+});
+
+
 
 
 // Arranque

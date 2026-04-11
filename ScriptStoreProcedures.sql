@@ -182,71 +182,62 @@ END;
 
 
 -- Parametros: id de evento y usuario
--- Retorna:
-CREATE PROCEDURE sp_InscribirseAEvento
-    @inIdUsuario INT,
-    @inIdEvento INT
+-- Retorna: 0 si ya está inscrito, 1 si se reactivó la inscripción, 2 si  no hay cupo
+CREATE PROCEDURE sp_InscribirEvento
+    @inIdEvento INT,
+    @inIdUsuario INT
 AS
 BEGIN
     SET NOCOUNT ON;
     
-    DECLARE @FechaNuevoEvento DATETIME;
-    
     BEGIN TRY
+        BEGIN TRANSACTION;
 
-        SELECT @FechaNuevoEvento = FechaEvento 
-        FROM dbo.Evento WHERE idEvento = @inIdEvento; -- fECHA DEL evento al que se desea inscribir
+        -- 1. Verificar si el evento existe y tiene cupo disponible
+        DECLARE @cupoActual INT;
+        SELECT @cupoActual = Cupo FROM Evento WHERE idEvento = @inIdEvento;
 
-        -- Validar si hay cupo
-        IF NOT EXISTS (SELECT 1 FROM dbo.Evento WHERE idEvento = @inIdEvento AND Cupo > 0)
+        IF @cupoActual <= 0
         BEGIN
-            SELECT 1 AS Codigo, 'Error: No hay cupos disponibles.' AS Mensaje;
+            ROLLBACK TRANSACTION;
+            SELECT 2 AS Codigo, 'No hay cupo disponible para este evento' AS Mensaje;
             RETURN;
         END
 
-        -- Validar que no choque con otro evento al que el usuario esté inscrito
-        IF EXISTS (
-            SELECT 1 
-            FROM dbo.AsistentesPorEvento A
-            JOIN dbo.Evento E ON A.idEvento = E.idEvento
-            WHERE A.idUsuario = @inIdUsuario
-            AND A.idEvento <> @inIdEvento -- Que sea un evento distinto
-            AND (A.Cancelacion = 0 OR A.Cancelacion IS NULL) -- Que no esté cancelado
-            AND E.FechaEvento = @FechaNuevoEvento
-        )
+        --Verificar inscripcion
+        IF EXISTS (SELECT 1 FROM AsistentesPorEvento WHERE idEvento = @inIdEvento AND idUsuario = @inIdUsuario)
         BEGIN
-            SELECT 2 AS Codigo, 'Error: Ya tienes otro evento activo a esta misma hora.' AS Mensaje;
-            RETURN;
-        END
-
-        -- Inscripcion
-        BEGIN TRANSACTION
-            
-            -- Ya existía inscripción o cancelada
-            IF EXISTS (SELECT 1 FROM dbo.AsistentesPorEvento WHERE idUsuario = @inIdUsuario AND idEvento = @inIdEvento AND Cancelacion = 1)
+            -- Si existe pero estaba cancelada, se reactiva
+            IF EXISTS (SELECT 1 FROM AsistentesPorEvento WHERE idEvento = @inIdEvento AND idUsuario = @inIdUsuario AND Cancelacion = 1)
             BEGIN
-                -- RE-INSCRIPCIÓN: Actualizamos el registro existente
-                UPDATE dbo.AsistentesPorEvento
-                SET Cancelacion = 0,
-                    FechaInscripcion = GETDATE(),
-                    FechaCancelacion = NULL
-                WHERE idUsuario = @inIdUsuario AND idEvento = @inIdEvento AND Cancelacion = 1;
+                UPDATE AsistentesPorEvento 
+                SET Cancelacion = 0, FechaInscripcion = GETDATE(), FechaCancelacion = NULL
+                WHERE idEvento = @inIdEvento AND idUsuario = @inIdUsuario;
+                
+                -- Restar 1 al cupo
+                UPDATE Evento SET Cupo = Cupo - 1 WHERE idEvento = @inIdEvento;
+
+                COMMIT TRANSACTION;
+                SELECT 1 AS Codigo, 'Inscripción reactivada con éxito' AS Mensaje;
+                RETURN;
             END
             ELSE
             BEGIN
-                -- Si es la primera vez o no hay activos
-                INSERT INTO dbo.AsistentesPorEvento (idUsuario, idEvento, Asistio, FechaInscripcion, Cancelacion)
-                VALUES (@inIdUsuario, @inIdEvento, 0, GETDATE(), 0);
+                ROLLBACK TRANSACTION;
+                SELECT 0 AS Codigo, 'Ya te encuentras inscrito en este evento' AS Mensaje;
+                RETURN;
             END
+        END
 
-            -- SIEMPRE restamos 1 al cupo del evento
-            UPDATE dbo.Evento 
-            SET Cupo = Cupo - 1 
-            WHERE idEvento = @inIdEvento;
+        -- Registrar
+        INSERT INTO AsistentesPorEvento (idUsuario, idEvento, Asistio, FechaInscripcion, Cancelacion)
+        VALUES (@inIdUsuario, @inIdEvento, 0, GETDATE(), 0);
 
-        COMMIT TRANSACTION
+        -- Restar 1 al cupo en la tabla Evento
+        UPDATE Evento SET Cupo = Cupo - 1 WHERE idEvento = @inIdEvento;
 
-        SELECT 0 AS Codigo, 'Inscripción procesada con éxito.' AS Mensaje;
+        COMMIT TRANSACTION;
+        SELECT 1 AS Codigo, 'Inscripción realizada con éxito' AS Mensaje;
 
     END TRY
     BEGIN CATCH

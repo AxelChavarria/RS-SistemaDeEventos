@@ -196,6 +196,25 @@ console.log(eventos);
 */
 
 
+// Recibe: diccionario así: {idEvento :..., idUsuario:...}
+// Retorna un diccionario con lo que pasó
+export async function inscribirse(inscripcion) {
+    try {
+        const res = await fetch("http://localhost:3005/api/inscribir-evento", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(inscripcion)
+        });
+
+        if (!res.ok) throw new Error("Error en la red");
+
+        return await res.json();
+    } catch (err) {
+        console.error("Error en inscribirse:", err);
+        return { Codigo: -1, Mensaje: "Error de conexión" };
+    }
+}
+
 
 
 
