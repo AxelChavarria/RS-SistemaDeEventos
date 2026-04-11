@@ -149,7 +149,7 @@ END;
 
 
 -- Parámetros (nada)
--- Valores de retorno (1:No hay cupos, 2: choque de horario)
+-- Valores de retorno 
 CREATE PROCEDURE sp_ConsultarEventosProximos
 AS
 BEGIN
@@ -252,9 +252,9 @@ END;
 
 
 CREATE PROCEDURE sp_FiLtrarEventos
-    @inModalidad varchar,
-    @inCategoria varchar,
-    @inRango varchar
+    @inModalidad varchar(20),
+    @inCategoria varchar(20),
+    @inRango varchar(30)
 AS
 BEGIN
         SELECT
