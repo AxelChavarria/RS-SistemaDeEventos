@@ -1,13 +1,9 @@
-import Asistente from "./Asistente.js";
+import { Asistente } from "./Asistente.js";
+import { crearEvento } from "./funcionesBD.js";
 
-class Organizador extends Asistente{
+export class Organizador extends Asistente{
 
     listaEventos;
-
-    constructor(nombre, apellido, contraseña, correo, idUsuario, carnet){
-        super(nombre, apellido, contraseña, correo, idUsuario, carnet);
-        this.listaEventos = [];
-    }
 
     enviarCorreo(){}
 
@@ -19,5 +15,28 @@ class Organizador extends Asistente{
 
     crearSolicitud(motivo, idEvento){}
 
-    crearEvento(){}
+    async crearEvento(){
+
+        console.log(localStorage.getItem("usuario"));
+        const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+
+        if (usuarioGuardado) {
+            const idUsuario = usuarioGuardado.idUsuario;
+        }
+        let informacion ={
+
+            idOrganizador: idUsuario, // usuario Axel
+            nombre: document.getElementById("nombre").value.trim(),
+            categoria: document.getElementById("categoria").value.trim(),
+            fecha: document.getElementById("fecha").value.trim(),
+            modalidad: document.getElementById("modalidad").value.trim(),
+            enlace: document.getElementById("enlace").value.trim(),
+            cupo: document.getElementById("cupo").value.trim()
+        }
+
+        let respuesta = await crearEvento(informacion);
+
+        alert(respuesta.Mensaje);
+
+    }
 }
