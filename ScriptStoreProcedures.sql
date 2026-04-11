@@ -172,7 +172,7 @@ BEGIN
             Estado,
             idOrganizador
         FROM Evento WHERE FechaEvento > GETDATE() 
-        AND Estado != 'CANCELADO'
+        AND Estado = 'APROBADO'
         ORDER BY FechaEvento ASC;
     END TRY
     BEGIN CATCH

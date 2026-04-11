@@ -152,10 +152,11 @@ export async function verMisEventos(idOrganizador) {
 
 /*
 (async () => {
-   const resultado = await verMisEventos(7)
+   const resultado = await obtenerEventosProximos()
    console.log(resultado)
 })();
 */
+
 
 
 
