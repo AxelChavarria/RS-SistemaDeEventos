@@ -19,6 +19,11 @@ export class Usuario{
         let respuesta = await loginUsuario(informacion);
 
         if (respuesta.Codigo === 0){
+            localStorage.setItem("usuario", JSON.stringify({
+                idUsuario: respuesta.idUsuario
+            }));
+
+
             if (respuesta.Rol === "ASISTENTE") {
                 window.location.href = "../views/estudiante/inicio-estudiante.html";
             } else if (respuesta.Rol === "ORGANIZADOR") {
@@ -38,4 +43,6 @@ export class Usuario{
 
     async restablecerContraseña(correo, contraseña){}
 
+
+    /* cerrar sesion localStorage.removeItem("usuario");*/ 
 }
