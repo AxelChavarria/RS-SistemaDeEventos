@@ -40,6 +40,7 @@ CREATE TABLE Evento (
 );
 ALTER TABLE Evento 
 ADD Cupo INT NOT NULL DEFAULT 10;
+ALTER TABLE Evento ADD Descripcion VARCHAR(1000);
 
 
 

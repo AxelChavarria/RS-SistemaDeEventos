@@ -83,7 +83,7 @@ app.post('/api/login', async (req, res) => {
 
 //sp CrearEvento
 app.post('/api/crear-evento', async (req, res) => {
-    const { idOrganizador, nombre, categoria, fecha, modalidad, enlace, cupo } = req.body;
+    const { idOrganizador, nombre, descripcion, categoria, fecha, modalidad, enlace, cupo } = req.body;
     
 
     try {
@@ -91,6 +91,7 @@ app.post('/api/crear-evento', async (req, res) => {
         let result = await pool.request()
             
             .input('inNombreEvento', sql.VarChar(60), nombre)
+            .input('inDescripcion',sql.VarChar(1000),descripcion)
             .input('inidOrganizador', sql.Int, idOrganizador)
             .input('inCategoria', sql.VarChar(45), categoria)
             .input('inFechaEvento', sql.DateTime, new Date(fecha))

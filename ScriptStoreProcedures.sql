@@ -93,12 +93,14 @@ END;
 -- Valores de retorno (1; ya existe el correo de parámetro, 2; ya existe el carnet de parámetro, 0; inserción exitosa)
 CREATE PROCEDURE sp_CrearEvento
     @inNombreEvento VARCHAR(60),
+    @inDescripcion VARCHAR(1000),
     @inidOrganizador INT,
     @inCategoria VARCHAR(45),
     @inFechaEvento DATETIME, 
     @inModalidad VARCHAR(20), 
     @inEnlacePlenaria VARCHAR(45)
     @inCupo INT
+    --añadí descripcion
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -118,7 +120,8 @@ BEGIN
         -- Insertar el evento
         INSERT INTO dbo.Evento (
             idOrganizador, 
-            NombreEvento, 
+            NombreEvento,
+            Descripcion,
             Categoria, 
             FechaEvento, 
             PostTime, 
@@ -130,6 +133,7 @@ BEGIN
         VALUES (
             @inidOrganizador, 
             @inNombreEvento, 
+            @inDescripcion,
             @inCategoria, 
             @inFechaEvento, 
             CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time' AS DATETIME),
@@ -159,6 +163,7 @@ BEGIN
         SELECT 
             idEvento,
             NombreEvento,
+            Descripcion,
             Categoria,
             FechaEvento,
             Modalidad,
