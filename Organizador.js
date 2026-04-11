@@ -31,7 +31,8 @@ export class Organizador extends Asistente{
             fecha: document.getElementById("fecha").value.trim(),
             modalidad: document.getElementById("modalidad").value.trim(),
             enlace: document.getElementById("enlace").value.trim(),
-            cupo: document.getElementById("cupo").value.trim()
+            cupo: document.getElementById("cupo").value.trim(),
+            descripcion: document.getElementById("descripcion").value.trim()
         }
 
         let respuesta = await crearEvento(informacion);
