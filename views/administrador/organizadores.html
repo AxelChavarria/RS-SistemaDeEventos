@@ -40,7 +40,7 @@
                     <a href="eventos-admin.html">Eventos</a>
                     <a href="organizadores.html">Organizadores</a>
                     <!--IMPORTANTEE: fanny, estos son los 3 que no hice-->
-                    <a href="reportes.html">Reportes</a>
+                    <a href="generar-informe.html">Reportes</a>
                     <a href="anuncios-admin.html">Anuncios</a>
                     <a href="moderacion.html">Moderación</a>
                 </nav>
@@ -53,6 +53,7 @@
         <section class="seccion">
             <h2 class="titulo-vista">Organizadores</h2>
         </section>
+        <!-- FORM: form-busqueda-organizadores -->
         <section class="card bloque-filtros-admin">
             <form id="form-busqueda-organizadores" class="filtros-formulario" >
                 <div class="filtro-grupo">
@@ -98,7 +99,8 @@
                             <th>Activo</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <!-- CONTENEDOR: tabla-organizadores -->
+                    <tbody id="tabla-organizadores">
                         <tr>
                             <td>Juan Perez Perez</td>
                             <td>example@estudiantec.cr</td>
@@ -123,7 +125,7 @@
                 </table>
             </div>
             <div class="detalle-evento-acciones">
-                <button type="button" class="btn btn-primary">Guardar cambios</button>
+                <button type="button" id="btn-guardar-cambios-org" class="btn btn-primary">Guardar cambios</button>
                 <button type="button" class="btn btn-secondary">Cancelar</button>
             </div>
         </section>

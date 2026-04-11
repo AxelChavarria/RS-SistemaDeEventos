@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../public/css/base.css">
     <link rel="stylesheet" href="../../public/css/layout.css">
     <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
     <link rel="stylesheet" href="../../public/css/responsive.css">
 </head>
 <body class="admin-anuncios-page">
@@ -20,7 +21,7 @@
                     <a href="inicio-admin.html">Inicio</a>
                     <a href="eventos-admin.html">Eventos</a>
                     <a href="organizadores.html">Organizadores</a>
-                    <a href="reportes.html">Reportes</a>
+                    <a href="generar-informe.html">Reportes</a>
                     <a href="anuncios-admin.html">Anuncios</a>
                     <a href="moderacion.html">Moderación</a>
                 </nav>
@@ -38,23 +39,33 @@
         </header>
 
         <section class="formulario-anuncio">
-            <div class="info-label" style="margin-bottom: 15px;">
-                <h3 style="color: #003366; font-size: 1.5rem; font-weight: bold;">Escribir anuncio:</h3>
-            </div>
+            <!-- FORM: form-crear-anuncio -->
+            <form id="form-crear-anuncio">
+                <div class="info-label" style="margin-bottom: 15px;">
+                    <h3 style="color: #003366; font-size: 1.5rem; font-weight: bold;">Escribir anuncio:</h3>
+                </div>
 
-            <div class="contenedor-mensaje" style="margin-bottom: 40px;">
-                <textarea class="input-control" rows="18" 
-                    style="width: 100%; border: 1px solid #000; padding: 20px; resize: none; font-family: inherit;" 
-                    placeholder="Escriba aquí el contenido del anuncio global..."></textarea>
-            </div>
+                <div class="contenedor-mensaje" style="margin-bottom: 40px;">
+                    <textarea
+                        id="contenido-anuncio"
+                        name="contenido_anuncio"
+                        class="input-control"
+                        rows="18"
+                        style="width: 100%; border: 1px solid #000; padding: 20px; resize: none; font-family: inherit;"
+                        placeholder="Escriba aquí el contenido del anuncio global..."></textarea>
+                </div>
 
-            <div class="detalle-evento-acciones" style="justify-content: flex-start; gap: 60px;">
-                <button type="submit" class="btn btn-primary" style="padding: 10px 45px; font-weight: bold;">Enviar Anuncio</button>
-                <button type="button" class="btn btn-primary" style="padding: 10px 55px; font-weight: bold;">Cancelar</button>
-            </div>
+                <div class="detalle-evento-acciones" style="justify-content: flex-start; gap: 60px;">
+                    <button type="submit" class="btn btn-primary" style="padding: 10px 45px; font-weight: bold;">Enviar Anuncio</button>
+                    <button type="button" class="btn btn-secondary" style="padding: 10px 55px; font-weight: bold;">Cancelar</button>
+                </div>
+            </form>
         </section>
 
     </main>
+
+    <script src="../../public/js/main.js"></script>
+    <!-- <script src="/js/main.js"></script> -->
 
 </body>
 </html>

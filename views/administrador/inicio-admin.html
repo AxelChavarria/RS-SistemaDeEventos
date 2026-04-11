@@ -39,7 +39,7 @@
                     <a href="inicio-admin.html">Inicio</a>
                     <a href="eventos-admin.html">Eventos</a>
                     <a href="organizadores.html">Organizadores</a>
-                    <a href="reportes.html">Reportes</a>
+                    <a href="generar-informe.html">Reportes</a>
                     <a href="anuncios-admin.html">Anuncios</a>
                     <a href="moderacion.html">Moderación</a>
                 </nav>
@@ -51,7 +51,7 @@
     <main class="container seccion">
 
         <section class="seccion">
-            <h2 class="titulo-vista">Moderación</h2>
+            <h2 class="titulo-vista">Bienvenido, administrador</h2>
         </section>
 
         <!--
@@ -61,12 +61,13 @@
         -->
         <section class="bloque-2-columnas seccion">
 
+            <!-- puse span aca porque no tiene sentido poner un contenedor, solo va a romper el diseno -->
             <article class="card card-resumen-admin">
-                <h3>Eventos Pendientes: X</h3>
+                <h3>Eventos Pendientes: <span id="contador-pendientes">X</span></h3>
             </article>
 
             <article class="card card-resumen-admin">
-                <h3>Eventos Aprobados: Y</h3>
+                <h3>Eventos Aprobados: <span id="contador-aprobados">Y</span></h3>
             </article>
 
         </section>
@@ -84,6 +85,7 @@
         <section class="card seccion-admin">
             <h3 class="subtitulo-seccion">Solicitudes de aprobacion de eventos</h3>
 
+            <!-- CONTENEDOR: contenedor-eventos-pendientes-admin -->
             <div id="contenedor-eventos-pendientes-admin">
 
                 <article class="item-admin">
@@ -111,6 +113,7 @@
         <section class="card seccion-admin">
             <h3 class="subtitulo-seccion">Solicitudes de organizadores</h3>
 
+            <!-- CONTENEDOR: contenedor-solicitudes-organizadores -->
             <div id="contenedor-solicitudes-organizadores">
 
                 <article class="item-admin">

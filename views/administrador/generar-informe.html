@@ -20,7 +20,7 @@
                     <a href="inicio-admin.html">Inicio</a>
                     <a href="eventos-admin.html">Eventos</a>
                     <a href="organizadores.html">Organizadores</a>
-                    <a href="reportes.html">Reportes</a>
+                    <a href="generar-informe.html">Reportes</a>
                     <a href="anuncios-admin.html">Anuncios</a>
                     <a href="moderacion.html">Moderación</a>
                 </nav>
@@ -38,25 +38,29 @@
         </header>
 
         <section class="formulario-reporte" style="max-width: 600px; margin: 0 auto;">
-            
-            <div class="fila" style="display: flex; align-items: center; margin-bottom: 30px;">
-                <label class="form-label" style="width: 150px; color: #003366; font-weight: bold; margin-bottom: 0;">Fecha Inicio:</label>
-                <div style="display: flex; align-items: center; flex: 1;">
-                    <input type="text" class="input-control" placeholder="XX/XX/XXXX" style="background-color: #e0e0e0; border: none; margin-right: 10px;">
-                </div>
-            </div>
+            <!-- FORM: form-generar-informe -->
+            <form id="form-generar-informe">
 
-            <div class="fila" style="display: flex; align-items: center; margin-bottom: 60px;">
-                <label class="form-label" style="width: 150px; color: #003366; font-weight: bold; margin-bottom: 0;">Fecha Final:</label>
-                <div style="display: flex; align-items: center; flex: 1;">
-                    <input type="text" class="input-control" placeholder="XX/XX/XXXX" style="background-color: #e0e0e0; border: none; margin-right: 10px;">
+                <div class="fila" style="display: flex; align-items: center; margin-bottom: 30px;">
+                    <label for="fecha-inicio" class="form-label" style="width: 150px; color: #003366; font-weight: bold; margin-bottom: 0;">Fecha Inicio:</label>
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <input type="date" id="fecha-inicio" name="fecha_inicio" class="input-control" style="background-color: #e0e0e0; border: none; margin-right: 10px;">
+                    </div>
                 </div>
-            </div>
 
-            <div class="detalle-evento-acciones" style="justify-content: flex-start; gap: 40px;">
-                <button type="submit" class="btn btn-primary" style="padding: 10px 30px; font-weight: bold;">Generar Reporte</button>
-                <button type="button" class="btn btn-primary" style="padding: 10px 40px; font-weight: bold;">Cancelar</button>
-            </div>
+                <div class="fila" style="display: flex; align-items: center; margin-bottom: 60px;">
+                    <label for="fecha-fin" class="form-label" style="width: 150px; color: #003366; font-weight: bold; margin-bottom: 0;">Fecha Final:</label>
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <input type="date" id="fecha-fin" name="fecha_fin" class="input-control" style="background-color: #e0e0e0; border: none; margin-right: 10px;">
+                    </div>
+                </div>
+
+                <div class="detalle-evento-acciones" style="justify-content: flex-start; gap: 40px;">
+                    <button type="submit" class="btn btn-primary" style="padding: 10px 30px; font-weight: bold;">Generar Reporte</button>
+                    <a href="inicio-admin.html" class="btn btn-secondary" style="padding: 10px 40px; font-weight: bold;">Cancelar</a>
+                </div>
+
+            </form>
         </section>
 
     </main>
