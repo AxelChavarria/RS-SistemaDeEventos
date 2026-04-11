@@ -274,7 +274,7 @@ END
 
 
 CREATE PROCEDURE sp_VerMisEventos
-    @inIdOrganizaador
+    @inIdOrganizador
 AS
 BEGIN
     SELECT 

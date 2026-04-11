@@ -85,13 +85,11 @@ app.post('/api/login', async (req, res) => {
 app.post('/api/crear-evento', async (req, res) => {
     const { idOrganizador, nombre, categoria, fecha, modalidad, enlace, cupo } = req.body;
     
-    console.log("--- ENVIANDO A SQL ---");
-    console.log("Nombre:", nombre);
 
     try {
         let pool = await sql.connect(config);
         let result = await pool.request()
-            // ATENCIÓN: Los nombres aquí deben ser IDÉNTICOS a los del SP en SQL
+            
             .input('inNombreEvento', sql.VarChar(60), nombre)
             .input('inidOrganizador', sql.Int, idOrganizador)
             .input('inCategoria', sql.VarChar(45), categoria)
@@ -125,6 +123,44 @@ app.get('/api/eventos-proximos', async (req, res) => {
     }
 });
 
+app.get('/api/eventos-proximos', async (req, res) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+        
+ 
+            .execute('sp_ConsultarEventosProximos');
+
+
+        res.json(result.recordset); 
+    } catch (err) {
+        console.error("Error al consultar eventos:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+// sp ver mis eventos creados
+// El ":id" es el parámetro que recibirá el ID del organizador
+app.get('/api/eventos-creados/:id', async (req, res) => {
+    try {
+        
+        const { id } = req.params; //Parámetro de URL
+
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdOrganizador', sql.Int, id) 
+            .execute('sp_VerMisEventos');
+
+        res.json(result.recordset);
+    } catch (err) {
+        console.error("sError en sp_VerMisEventos:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+
 
 // Arranque
 const PORT = 3005;
@@ -137,3 +173,5 @@ app.listen(PORT, () => {
 
     }, 1000);
 });
+
+//taskkill /F /IM node.exe

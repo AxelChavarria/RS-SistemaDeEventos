@@ -133,12 +133,33 @@ export async function obtenerEventosProximos() {
     }
 }
 
+
+
+
+// Recibe el id del organizdor
+// Retorna una lista de diccionarios con sus eventos
+export async function verMisEventos(idOrganizador) {
+    try {
+        
+        const res = await fetch(`http://localhost:3005/api/eventos-creados/${idOrganizador}`); // se concatena id pues es get
+        const datos = await res.json();
+        return datos;
+    } catch (err) {
+        console.error("Error:", err.message);
+        return [];
+    }
+}
+
 /*
 (async () => {
-   const resultado = await obtenerEventosProximos()
+   const resultado = await verMisEventos(7)
    console.log(resultado)
 })();
 */
+
+
+
+
 
 
 
