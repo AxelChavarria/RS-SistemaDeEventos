@@ -42,7 +42,7 @@
 
                 <nav class="menu-nav">
                     <a href="inicio-organizador.html">Inicio</a>
-                    <a href="eventos.html">Eventos</a>
+                    <a href="eventos-organizador.html">Eventos</a>
                     <a href="mis-inscripciones.html">Mis Inscritos</a>
                     <a href="mis-eventos.html">Mis Eventos</a>
                     <a href="crear-evento.html">Crear Evento</a>
@@ -74,6 +74,7 @@
         <section class="bloque-anuncio-principal card">
             <h2 class="titulo-anuncio">Anuncios</h2>
 
+            <!-- CONTENEDOR: contenedor-anuncio-principal -->
             <div id="contenedor-anuncio-principal">
                 <!--
             IMPORTANTE: Esta vara solo es visual, despues debe ser reemplazada por la info que venga del admi
@@ -108,6 +109,7 @@
             <section class="card seccion-eventos">
                 <h3 class="subtitulo-seccion">Mis eventos más recientes</h3>
 
+                <!-- CONTENEDOR: contenedor-eventos-proximos -->
                 <div id="contenedor-eventos-proximos">
 
                     <!-- card temporal de referencia visual -->
@@ -115,43 +117,25 @@
                         <p><strong>Título:</strong> Hablemos del Covid-19</p>
                         <p><strong>Categoría:</strong> Academico</p>
                         <p><strong>Estado:</strong> Aprobado</p>
-                        
 
-                        <!--
-                            IMPORTANTE: ESTE ENLACE ES TEMPORAL
-
-                            Despues deberia llevar al detalle real del evento,
-                            con algo como un id_evento o asi.
-                            Ejemplo futuro:
-                            detalle-evento.html?id=15
-                        -->
                         <div class="contenedor-boton-card">
-                            <a href="detalle-evento.html" class="btn btn-primary">Ver mas</a>
+                            <!--Este boton y el html al que te redirige depende de si el evento 
+                            esta aprobado o no, eso se manejaria en el backend-->
+                            <a href="evento-aprobado.html" class="btn btn-primary">Ver mas</a>
                         </div>
                     </article>
 
                 </div>
             </section>
 
-            <!--
-                EVENTO PROXIMO DONDE ESTA INSCRITO
-
-                IMPORTANTE:
-                Este bloque debe mostrar solo el evento mas proximo al que
-                el estudiante autenticado esta inscrito.
-                Cuando se conecte con backend, podria pasar una de estas dos cosas:
-                1. existe una inscripcion futura y se muestra esta tarjeta
-                2. no existe ninguna inscripcion futura y se muestra un mensaje
-                como "No estas inscrito en ningun evento futuro" (tipo, creo que esto se puede hacer
-                como una validacion en JS, si el backend devuelve un objeto vacio o algo asi,
-                 se muestra el mensaje en vez de la card)
-            -->
             <section class="card seccion-eventos">
+                <h3 class="subtitulo-seccion">Mis eventos más recientes</h3>
                
 
+                <!-- CONTENEDOR: contenedor-evento-inscrito -->
                 <div id="contenedor-evento-inscrito">
 
-                    <!-- IMPORTANTE card tempora -->
+                    <!-- card temporal de referencia visual -->
                     <article class="card-evento card-evento-estudiante">
                         <p><strong>Título:</strong> Drácula y el horror Gótico</p>
                         <p><strong>Categoría:</strong> Recreativo</p>
@@ -159,7 +143,7 @@
                         <p><strong>Estado:</strong> Pendiente</p>
 
                         <div class="contenedor-boton-card">
-                            <a href="detalle-evento.html" class="btn btn-primary">Ver mas</a>
+                            <a href="evento-pendiente.html" class="btn btn-primary">Ver mas</a>
                         </div>
                     </article>
 

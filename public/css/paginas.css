@@ -15,3 +15,7 @@
 /* MIS INSCRIPCIONES */
 
 /* MI CUENTA */
+.mi-cuenta-page .detalle-cuenta-info,
+.editar-cuenta-page .detalle-cuenta-info {
+    padding-left: 0;
+}

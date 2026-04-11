@@ -26,6 +26,13 @@ main {
     gap: 15px;
 }
 
+.cuenta-main {
+    width: 100%;
+    max-width: none;
+    margin:0;
+    padding: 20px;
+}
+
 
 /* Estructuras para reutilizar*/
 .bloque-2-columnas {
@@ -174,6 +181,23 @@ main {
 
 .seccion-eventos {
     min-height: 100%;
+}
+
+.detalle-cuenta-contenedor {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.detalle-cuenta-info {
+    flex: 1 1 350px;
+}
+
+.detalle-cuenta-imagen {
+    flex: 1 1 350px;
+    display: flex;
+    justify-content: center;
 }
 
 

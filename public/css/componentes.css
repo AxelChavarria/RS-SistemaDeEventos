@@ -163,6 +163,39 @@
     margin-bottom: 15px;
 }
 
+/*Ver y editar cuenta*/
+.titulo-campo-cuenta {
+    color: var(--color-primario);
+    font-size: 1.8rem;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.imagen-cuenta {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    display: block;
+}
+ /*para que se peguen a la izquierda*/
+.cuenta-container {
+    padding-left: 0;
+}
+
+#contenedor-editar-cuenta,
+#contenedor-info-cuenta {
+    margin-left: 0;
+}
+
+.titulo-campo-cuenta {
+    text-align: left;
+}
+
+.btn-light {
+    background-color: var(--color-secundario);
+    color: var(--color-primario);
+    font-weight: bold;
+}
 /*creados para el inicio-estudiante*/
 .icono-perfil {
     width: 34px;

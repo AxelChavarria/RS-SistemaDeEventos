@@ -37,7 +37,7 @@
 
                 <nav class="menu-nav">
                     <a href="inicio-organizador.html">Inicio</a>
-                    <a href="eventos.html">Eventos</a>
+                    <a href="eventos-organizador.html">Eventos</a>
                     <a href="mis-inscripciones.html">Mis Inscritos</a>
                     <a href="mis-eventos.html">Mis Eventos</a>
                     <a href="crear-evento.html">Crear Evento</a>
@@ -64,6 +64,7 @@
             IMPORTANTE:
             Esta lista es temporal y debe llenarse con datos reales desde backend.
             Probablemente con un for -->
+        <!-- CONTENEDOR: contenedor-eventos-org -->
         <section id="contenedor-eventos-org">
 
             <article class="card-evento card-evento-horizontal">
@@ -74,7 +75,11 @@
                 </div>
 
                 <div class="accion-evento">
-                    <a href="detalle-evento-org.html" class="btn btn-primary">Detalles</a>
+                    <!--Nota: se manda a evento aprobado para que no se caiga
+                    si presionamos el boton, pero la logica de si te manda a pendiente
+                    o a aprobado depende de si el evento esta aprobado o no , y eso
+                    creo que se verificaria en backend-->
+                    <a href="evento-aprobado.html" class="btn btn-primary">Detalles</a>
                 </div>
             </article>
 
@@ -86,7 +91,7 @@
                 </div>
 
                 <div class="accion-evento">
-                    <a href="detalle-evento-org.html" class="btn btn-primary">Detalles</a>
+                    <a href="evento-aprobado.html" class="btn btn-primary">Detalles</a>
                 </div>
             </article>
 

@@ -18,11 +18,11 @@
                 <h1 class="logo-sistema">tecEventos</h1>
                 <nav class="menu-nav">
                     <a href="inicio-organizador.html">Inicio</a>
-                    <a href="eventos.html">Eventos</a>
+                    <a href="eventos-organizador.html">Eventos</a>
                     <a href="mis-inscripciones.html">Mis Inscritos</a>
                     <a href="mis-eventos.html">Mis Eventos</a>
                     <a href="crear-evento.html">Crear Evento</a>
-                    <a href="anuncios.html">Ver Anuncios</a>
+                    <a href="anuncios-organizador.html">Ver Anuncios</a>
                 </nav>
             </div>
             <div class="navbar-derecha">
@@ -39,7 +39,7 @@
             <div class="fila" style="align-items: center; margin-top: 15px;">
                 <h3 class="form-label" style="margin-bottom: 0; margin-right: 15px;">Buscar Participante:</h3>
                 <div style="flex: 1; max-width: 400px;">
-                    <input type="text" class="input-control" placeholder="🔍 Search" style="border-radius: 20px; padding-left: 20px;">
+                    <input type="text" id="busqueda-participante" name="busqueda_participante" class="input-control" placeholder="🔍 Search" style="border-radius: 20px; padding-left: 20px;">
                 </div>
             </div>
         </header>
@@ -55,7 +55,8 @@
                         <th>Asistencia</th>
                     </tr>
                 </thead>
-                <tbody>
+                <!-- CONTENEDOR: tabla-participantes -->
+                <tbody id="tabla-participantes">
                     <tr>
                         <td>Juan Perez Perez</td>
                         <td>2024011000</td>
@@ -91,12 +92,20 @@
             </table>
         </section>
 
-        <div class="detalle-evento-acciones" style="margin-top: 30px;">
-            <button type="button" class="btn btn-primary">Guardar Asistencia</button>
-            <button type="button" class="btn btn-secondary">Cancelar</button>
-        </div>
+        <!-- FORM: form-asistencia -->
+        <form id="form-asistencia">
+            <input type="hidden" name="evento_id" value="ID_DEL_EVENTO">
+            <div class="detalle-evento-acciones" style="margin-top: 30px;">
+                <button type="submit" class="btn btn-primary">Guardar Asistencia</button>
+                <button type="button" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </form>
 
     </main>
+
+
+    <script src="../../public/js/main.js"></script>
+    <!-- <script src="/js/main.js"></script> -->
 
 </body>
 </html>

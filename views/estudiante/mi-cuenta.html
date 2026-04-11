@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mi cuenta - Sistema de Eventos TEC</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="mi-cuenta-page">
+
+    <header class="navbar">
+        <div class="navbar-contenido">
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-estudiante.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="anuncios.html">Ver Anuncios</a>
+                </nav>
+            </div>
+
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+        </div>
+    </header>
+
+    <main class="seccion cuenta-main">
+
+        <section class="seccion">
+            <h2 class="titulo-detalle-evento">Mi Cuenta</h2>
+        </section>
+
+        <!--
+            INFORMACION DEL PERFIL
+
+            IMPORTANTE:
+            Toda esta informacion es temporal.
+        -->
+        <section class="bloque-2-columnas detalle-cuenta-contenedor">
+
+            <!-- columna izquierda -->
+            <div class="detalle-cuenta-info">
+                <!-- CONTENEDOR: contenedor-info-cuenta -->
+                <div id="contenedor-info-cuenta">
+
+                    <h3 class="titulo-campo-cuenta">Nombre de usuario</h3>
+                    <p>example.1@estudiantec/itcr.cr</p>
+
+                    <h3 class="titulo-campo-cuenta">Nombre</h3>
+                    <p>Maria</p>
+
+                    <h3 class="titulo-campo-cuenta">Apellidos</h3>
+                    <p>Rodriguez Perez</p>
+
+                    <h3 class="titulo-campo-cuenta">Correo electronico</h3>
+                    <p>example.1@estudiantec/itcr.cr</p>
+
+                    <h3 class="titulo-campo-cuenta">Pagina Web</h3>
+                    <p></p>
+
+                    <h3 class="titulo-campo-cuenta">Biografia</h3>
+                    <p></p>
+
+                    <h3 class="titulo-campo-cuenta">Idioma</h3>
+                    <p>Español(ES)</p>
+                </div>
+
+                <div class="detalle-evento-acciones">
+                    <a href="editar-cuenta.html" class="btn btn-light">Editar</a>
+                </div>
+            </div>
+
+            <!-- columna derecha -->
+            <div class="detalle-cuenta-imagen">
+                <!--
+                    IMPORTANTE:
+                    Esta imagen es temporal.
+                    Luego podria venir desde backend o mantenerse estatica,
+                    segun como definan el perfil del usuario.
+                -->
+                <img src="../../public/assets/img/img-tec.jpg" alt="Imagen de perfil o institucional" class="imagen-cuenta">
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="../../public/js/main.js"></script>
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

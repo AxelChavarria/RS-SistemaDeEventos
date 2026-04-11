@@ -21,7 +21,7 @@
 
                 <nav class="menu-nav">
                     <a href="inicio-organizador.html">Inicio</a>
-                    <a href="eventos.html">Eventos</a>
+                    <a href="eventos-organizador.html">Eventos</a>
                     <a href="mis-inscripciones.html">Mis Inscritos</a>
                     <a href="mis-eventos.html">Mis Eventos</a>
                     <a href="crear-evento.html">Crear Evento</a>
@@ -40,13 +40,14 @@
 <main class="container seccion">
 
         <section class="seccion">
-            <h2 class="titulo-detalle-evento"> Informacion del Evento</h2>
+            <h2 class="titulo-detalle-evento"> Información del Evento</h2>
         </section>
 
         <section class="bloque-2-columnas detalle-evento-contenedor">
 
             <!-- columna izquierda -->
             <div class="crear-evento">
+                <!-- CONTENEDOR: contenedor-info-evento-org -->
                 <div id="contenedor-info-evento-org">
 
                     <!--
@@ -71,7 +72,8 @@
             <!-- columna derecha -->
             <div class="detalle-evento-descripcion">
                 <h3 class="subtitulo-seccion">Descripción del Evento</h3>
-                <div class="descripcion-box">
+                <!-- CONTENEDOR: contenedor-descripcion-evento -->
+                <div id="contenedor-descripcion-evento" class="descripcion-box">
                     <p>
                         BLA BLA BLA. Aqui iria la descripcion completa del evento. 
                         Esta descripcion es temporal y debe ser reemplazada por 
@@ -90,13 +92,17 @@
 
                 -->
                 <div class="detalle-evento-acciones">
-                    <button type="submit" class="btn btn-primary">Editar Evento</button>
-                    <button type="submit" class="btn btn-primary">Ver Participantes</button>
-                    <button type="submit" class="btn btn-primary">Enviar mensaje a Asistentes</button>
-                    <button type="submit" class="btn btn-primary">Cancelar Evento</button>
+                    <a href="editar-evento.html" class="btn btn-primary">Editar Evento</a>
+                    <a href="ver-participantes.html" class="btn btn-primary">Ver Participantes</a>
+                    <a href="enviar-mensaje-asistentes.html" class="btn btn-primary">Enviar mensaje a Asistentes</a>
+                    <a href="cancelar-evento.html" class="btn btn-primary">Cancelar Evento</a>
                 </div>
             </div> 
         </section> 
     </main> 
-</body> 
-</html> 
+
+    <script src="../../public/js/main.js"></script>
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

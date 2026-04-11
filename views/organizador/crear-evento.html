@@ -9,90 +9,138 @@
     <link rel="stylesheet" href="../../public/css/componentes.css">
     <link rel="stylesheet" href="../../public/css/paginas.css">
     <link rel="stylesheet" href="../../public/css/responsive.css">
-
 </head>
 <body class="crear-evento-page">
 
-     <header class="navbar">
-        <div class="navbar-contenido ">
-
+    <header class="navbar">
+        <div class="navbar-contenido">
             <div class="navbar-izquierda">
                 <h1 class="logo-sistema">tecEventos</h1>
-
                 <nav class="menu-nav">
                     <a href="inicio-organizador.html">Inicio</a>
-                    <a href="eventos.html">Eventos</a>
+                    <a href="eventos-organizador.html">Eventos</a>
                     <a href="mis-inscripciones.html">Mis Inscritos</a>
                     <a href="mis-eventos.html">Mis Eventos</a>
                     <a href="crear-evento.html">Crear Evento</a>
                     <a href="anuncios-organizador.html">Ver Anuncios</a>
-
                 </nav>
             </div>
-
             <div class="navbar-derecha">
                 <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
             </div>
-
         </div>
     </header>
 
-<main class="container seccion">
+    <main class="container seccion">
 
         <section class="seccion">
-            <h2 class="titulo-detalle-evento"> Crear Evento</h2>
+            <h2 class="titulo-detalle-evento">Crear Evento</h2>
         </section>
 
-        <section class="bloque-2-columnas detalle-evento-contenedor">
+        <!-- Form: form-crear-evento -->
+        <form id="form-crear-evento">
 
-            <!-- columna izquierda -->
-            <div class="crear-evento">
-                <div id="contenedor-info-evento-org">
+            <!-- id del organizador-->
+            <input type="hidden" id="id_organizador" name="idOrganizador">
 
-                    <!--
-                        INFORMACION TEMPORAL DEL EVENTO
+            <section class="bloque-2-columnas detalle-evento-contenedor">
 
-                        IMPORTANTE:
-                        Estos datos deben venir despues desde backend.
-                    -->
-                    <p><strong>Titulo del Evento:</strong> TituloDeEjemplo</p>
-                    <p><strong>Descripcion:</strong> Ejemplo de descripcion</p>
-                    <p><strong>Categoria:</strong> Categoria</p>
-                    <p><strong>Fecha:</strong> XX/XX/XX</p>
-                    <p><strong>Hora:</strong> XX:XX a.m / p.m</p>
-                    <p><strong>Unidad Organizadora:</strong> EjemploDeUnidadOrganizadora</p>
-                    <p><strong>Modalidad:</strong> Modalidad</p>
-                    <p><strong>Cupo Maximo:</strong> XY</p>
-                    <p><strong>Lugar:</strong> Lugar fisico / enlace virtual</p>
-                    <p><strong>Estado:</strong> Pendiente</p>
+                <!-- columna izquierda: campos del evento -->
+                <div class="detalle-evento-info">
+
+                    <div class="form-group">
+                        <label for="nombre" class="form-label">Título del Evento</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            class="input-control"
+                            placeholder="Título del evento"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoria" class="form-label">Categoría</label>
+                        <select id="categoria" name="categoria" class="select-control">
+                            <option value="">Seleccione una categoría</option>
+                            <option value="Academico">Académico</option>
+                            <option value="Recreativo">Recreativo</option>
+                            <option value="Cultural">Cultural</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input
+                            type="date"
+                            id="fecha"
+                            name="fecha"
+                            class="input-control"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="modalidad" class="form-label">Modalidad</label>
+                        <select id="modalidad" name="modalidad" class="select-control">
+                            <option value="">Seleccione modalidad</option>
+                            <option value="Presencial">Presencial</option>
+                            <option value="Virtual">Virtual</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="enlace" class="form-label">Enlace (si es virtual)</label>
+                        <input
+                            type="text"
+                            id="enlace"
+                            name="enlace"
+                            class="input-control"
+                            placeholder="https://..."
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cupo" class="form-label">Cupo Máximo</label>
+                        <input
+                            type="number"
+                            id="cupo"
+                            name="cupo"
+                            class="input-control"
+                            placeholder="Ej: 50"
+                            min="1"
+                        >
+                    </div>
+
                 </div>
-            </div>
 
-            <!-- columna derecha -->
-            <div class="detalle-evento-descripcion">
-                <h3 class="subtitulo-seccion">Descripción del Evento</h3>
-                <div class="descripcion-box">
-                    <p>
-                        BLA BLA BLA. Aqui iria la descripcion completa del evento. 
-                        Esta descripcion es temporal y debe ser reemplazada por 
-                        la descripcion real del evento que se consulte.
-                    </p>
+                <!--Descricpion del evento -->
+                <div class="detalle-evento-descripcion">
+                    <h3 class="subtitulo-seccion">Descripción del Evento</h3>
+
+                    <div class="form-group">
+                        <textarea
+                            id="descripcion"
+                            name="descripcion"
+                            class="textarea-control"
+                            placeholder="Describa el evento..."
+                        ></textarea>
+                    </div>
+
+                    <div class="detalle-evento-acciones">
+                        <button type="submit" class="btn btn-primary">Crear Evento</button>
+                        <a href="mis-eventos.html" class="btn btn-secondary">Cancelar</a>
+                    </div>
                 </div>
 
-             <!--
-                    BOTONES DE ACCION DEL ORGANIZADOR
+            </section>
 
-                    IMPORTANTE:
-                    El boton "Aceptar"
-                    El boton "Cancelar"
-                -->
-                <div class="detalle-evento-acciones">
-                    <button type="submit" class="btn btn-primary">Aceptar</button>
-    
-                    <button type="button" class="btn btn-secondary">Cancelar</button>
-                </div>
-            </div> 
-        </section> 
-    </main> 
-</body> 
-</html> 
+        </form>
+
+    </main>
+
+    <script src="../../public/js/main.js"></script>
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

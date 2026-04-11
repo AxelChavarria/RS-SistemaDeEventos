@@ -18,11 +18,11 @@
                 <h1 class="logo-sistema">tecEventos</h1>
                 <nav class="menu-nav">
                     <a href="inicio-organizador.html">Inicio</a>
-                    <a href="eventos.html">Eventos</a>
+                    <a href="eventos-organizador.html">Eventos</a>
                     <a href="mis-inscripciones.html">Mis Inscritos</a>
                     <a href="mis-eventos.html">Mis Eventos</a>
                     <a href="crear-evento.html">Crear Evento</a>
-                    <a href="anuncios.html">Ver Anuncios</a>
+                    <a href="anuncios-organizador.html">Ver Anuncios</a>
                 </nav>
             </div>
             <div class="navbar-derecha">
@@ -38,24 +38,41 @@
         </header>
 
         <section class="formulario-correo" style="margin-top: 20px;">
-            <div class="info-envio" style="margin-bottom: 25px;">
-                <p style="margin-bottom: 10px;"><strong>De:</strong> example@estudiantec.cr</p>
-                <p style="margin-bottom: 10px;"><strong>Para:</strong> Todos</p>
-                <p style="margin-bottom: 15px;"><strong>Asunto:</strong> Asunto de ejemplo</p>
-                <p><strong>Mensaje:</strong></p>
-            </div>
 
-            <div class="contenedor-mensaje" style="margin-bottom: 30px;">
-                <textarea class="input-control" rows="15" style="width: 100%; border: 1px solid #000; padding: 15px; resize: none;" placeholder="Escriba aquí el contenido del correo..."></textarea>
-            </div>
+            <!-- FORM: form-enviar-mensaje -->
+            <form id="form-enviar-mensaje">
+                <input type="hidden" name="evento_id" value="ID_DEL_EVENTO">
 
-            <div class="detalle-evento-acciones">
-                <button type="submit" class="btn btn-primary">Enviar</button>
-                <button type="button" class="btn btn-secondary">Cancelar</button>
-            </div>
+                <div class="info-envio" style="margin-bottom: 25px;">
+                    <!--Esto puede ser innecesario, preguntarle a Fanny-->
+                    <p style="margin-bottom: 10px;"><strong>De:</strong> example@estudiantec.cr</p>
+                    <p style="margin-bottom: 10px;"><strong>Para:</strong> Todos</p>
+                    <p style="margin-bottom: 15px;"><strong>Asunto:</strong> Asunto de ejemplo</p>
+                    <p><strong>Mensaje:</strong></p>
+                </div>
+
+                <div class="contenedor-mensaje" style="margin-bottom: 30px;">
+                    <textarea
+                        id="mensaje"
+                        name="mensaje"
+                        class="input-control"
+                        rows="15"
+                        style="width: 100%; border: 1px solid #000; padding: 15px; resize: none;"
+                        placeholder="Escriba aquí el contenido del correo..."></textarea>
+                </div>
+
+                <div class="detalle-evento-acciones">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="button" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
         </section>
 
     </main>
+
+
+    <script src="../../public/js/main.js"></script>
+    <!-- <script src="/js/main.js"></script> -->
 
 </body>
 </html>

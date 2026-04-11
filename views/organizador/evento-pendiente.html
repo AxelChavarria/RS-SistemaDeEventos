@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../../public/css/responsive.css">
 
 </head>
-<body class="evento-aprobado-page">
+<body class="evento-pendiente-page">
 
      <header class="navbar">
         <div class="navbar-contenido ">
@@ -21,7 +21,7 @@
 
                 <nav class="menu-nav">
                     <a href="inicio-organizador.html">Inicio</a>
-                    <a href="eventos.html">Eventos</a>
+                    <a href="eventos-organizador.html">Eventos</a>
                     <a href="mis-inscripciones.html">Mis Inscritos</a>
                     <a href="mis-eventos.html">Mis Eventos</a>
                     <a href="crear-evento.html">Crear Evento</a>
@@ -47,6 +47,7 @@
 
             <!-- columna izquierda -->
             <div class="crear-evento">
+                <!-- CONTENEDOR: contenedor-info-evento-org -->
                 <div id="contenedor-info-evento-org">
 
                     <!--
@@ -71,7 +72,8 @@
             <!-- columna derecha -->
             <div class="detalle-evento-descripcion">
                 <h3 class="subtitulo-seccion">Descripción del Evento</h3>
-                <div class="descripcion-box">
+                <!-- CONTENEDOR: contenedor-descripcion-evento -->
+                <div id="contenedor-descripcion-evento" class="descripcion-box">
                     <p>
                         BLA BLA BLA. Aqui iria la descripcion completa del evento. 
                         Esta descripcion es temporal y debe ser reemplazada por 
@@ -88,11 +90,15 @@
 
                 -->
                 <div class="detalle-evento-acciones">
-                    <button type="submit" class="btn btn-primary">Editar Evento</button>
+                    <button type="button" id="btn-editar-evento" class="btn btn-primary">Editar Evento</button>
                     
                 </div>
             </div> 
         </section> 
     </main> 
-</body> 
-</html> 
+
+    <script src="../../public/js/main.js"></script>
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

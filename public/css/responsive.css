@@ -186,3 +186,13 @@ pero lo dejo listo para que despues sea mas facil agregarle el responsive*/
         width: 100%;
     }
 }
+
+@media (max-width: 768px) {
+    .detalle-cuenta-contenedor {
+        flex-direction: column;
+    }
+
+    .imagen-cuenta {
+        max-width: 100%;
+    }
+}
