@@ -20,7 +20,7 @@
                     <a href="inicio-admin.html">Inicio</a>
                     <a href="eventos-admin.html">Eventos</a>
                     <a href="organizadores.html">Organizadores</a>
-                    <a href="reportes.html">Reportes</a>
+                    <a href="generar-informe.html">Reportes</a>
                     <a href="anuncios-admin.html">Anuncios</a>
                     <a href="moderacion.html">Moderación</a>
                 </nav>
@@ -61,7 +61,8 @@
                         <th>Total de asistentes</th>
                     </tr>
                 </thead>
-                <tbody>
+                <!-- CONTENEDOR: tabla-informe -->
+                <tbody id="tabla-informe">
                     <tr><td>Académico</td><td>XXXX</td><td>YY</td></tr>
                     <tr><td>Académico</td><td>XXXA</td><td>YX</td></tr>
                     <tr><td>Académico</td><td>XXXB</td><td>YZ</td></tr>
@@ -77,12 +78,12 @@
         </section>
 
         <section class="fila" style="display: flex; justify-content: space-between; margin-bottom: 40px; color: #003366; font-weight: bold;">
-            <p>Promedio de asistentes por evento: X%</p>
-            <p>Promedio de asistentes por evento: Y%</p>
+            <p>Promedio de asistentes por evento: <span id="promedio-asistentes">X%</span></p>
+            <p>Porcentaje de ocupación de cupos: <span id="porcentaje-ocupacion">Y%</span></p>
         </section>
 
         <div class="detalle-evento-acciones" style="justify-content: flex-start; gap: 50px;">
-            <button type="submit" class="btn btn-primary" style="padding: 10px 40px;">Generar Reporte</button>
+            <button type="submit" class="btn btn-primary" style="padding: 10px 40px;">Descargar Reporte</button>
             <button type="button" class="btn btn-primary" style="padding: 10px 50px;">Cancelar</button>
         </div>
 
