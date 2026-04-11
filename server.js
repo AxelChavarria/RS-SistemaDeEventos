@@ -160,6 +160,26 @@ app.get('/api/eventos-creados/:id', async (req, res) => {
     }
 });
 
+//sp para filtrar eventos
+app.post('/api/filtrar-eventos', async (req, res) => {
+    const { modalidad, categoria, rango } = req.body;
+
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inModalidad', sql.VarChar(20), modalidad)
+            .input('inCategoria', sql.VarChar(20), categoria)
+            .input('inRango', sql.VarChar(30), rango)
+            .execute('sp_FiltrarEventos');
+
+        // result.recordset ya incluirá Descripcion y NombreOrganizador
+        res.json(result.recordset);
+    } catch (err) {
+        console.error("Error en el filtro:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 
 

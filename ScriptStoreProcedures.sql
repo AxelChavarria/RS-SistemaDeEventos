@@ -256,25 +256,43 @@ BEGIN
 END;
 
 
-CREATE PROCEDURE sp_FiLtrarEventos
-    @inModalidad varchar(20),
-    @inCategoria varchar(20),
-    @inRango varchar(30)
+CREATE PROCEDURE sp_FiltrarEventos
+    @inModalidad VARCHAR(20),
+    @inCategoria VARCHAR(20),
+    @inRango VARCHAR(30)
 AS
 BEGIN
-        SELECT
-            idEvento,
-            NombreEvento,
-            Categoria,
-            FechaEvento,
-            Modalidad,
-            EnlacePlenaria,
-            Cupo,
-            Estado,
-            idOrganizador
-        FROM Evento WHERE FechaEvento > GETDATE() AND  @inModalidad =  Modalidad AND @inCategoria = Categoria
-        AND Estado != 'CANCELADO'
-        ORDER BY FechaEvento ASC;
+    SET NOCOUNT ON;
+
+    SELECT
+        E.idEvento,
+        E.NombreEvento,
+        E.Descripcion,       -- Nueva columna agregada
+        E.Categoria,
+        E.FechaEvento,
+        E.Modalidad,
+        E.EnlacePlenaria,
+        E.Cupo,
+        E.Estado,
+        E.idOrganizador,
+        U.NombreUsuario AS Nombre -- Nombre desde la tabla Usuario
+    FROM Evento E
+    INNER JOIN Usuario U ON E.idOrganizador = U.idUsuario
+    WHERE 
+        E.FechaEvento > GETDATE() 
+        AND E.Estado != 'CANCELADO'
+        AND (@inModalidad = 'TODOS' OR E.Modalidad = @inModalidad)
+        AND (@inCategoria = 'TODOS' OR E.Categoria = @inCategoria)
+        AND (
+            (@inRango = 'Próximos') 
+            OR (@inRango = 'Semanal' AND 
+                E.FechaEvento >= DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), CAST(GETDATE() AS DATE)) AND 
+                E.FechaEvento <= DATEADD(DAY, 7 - DATEPART(WEEKDAY, GETDATE()), CAST(GETDATE() AS DATE)))
+            OR (@inRango = 'Mensuales' AND 
+                MONTH(E.FechaEvento) = MONTH(GETDATE()) AND 
+                YEAR(E.FechaEvento) = YEAR(GETDATE()))
+        )
+    ORDER BY E.FechaEvento ASC;
 END
 
 

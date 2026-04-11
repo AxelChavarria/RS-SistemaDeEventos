@@ -159,6 +159,45 @@ export async function verMisEventos(idOrganizador) {
 
 
 
+// Recibe diccionario con:
+// modalidad ('Virtual', 'Presencial´ o ´Híbrido')
+// rango ('Próximos', 'Mensuales' o 'Semanal')
+// categoria (cualquiera del frontend)
+// Retorna lista de diccionarios con los filtros
+export async function filtrarEventos(filtros) {
+    try {
+        const res = await fetch("http://localhost:3005/api/filtrar-eventos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(filtros) 
+        });
+
+        if (!res.ok) throw new Error("Error en la respuesta del servidor");
+
+        return await res.json();
+    } catch (err) {
+        console.error("Error al filtrar:", err.message);
+        return [];
+    }
+}
+
+/*
+const misFiltros = {
+    modalidad: 'Presencial',
+    categoria: 'Académico',
+    rango: 'Próximos'
+};
+
+const eventos = await filtrarEventos(misFiltros);
+console.log(eventos);
+*/
+
+
+
+
+
 
 
 
