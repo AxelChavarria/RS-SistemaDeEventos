@@ -44,10 +44,19 @@
                 <input type="hidden" name="evento_id" value="ID_DEL_EVENTO">
 
                 <div class="info-envio" style="margin-bottom: 25px;">
-                    <!--Esto puede ser innecesario, preguntarle a Fanny-->
-                    <p style="margin-bottom: 10px;"><strong>De:</strong> example@estudiantec.cr</p>
-                    <p style="margin-bottom: 10px;"><strong>Para:</strong> Todos</p>
-                    <p style="margin-bottom: 15px;"><strong>Asunto:</strong> Asunto de ejemplo</p>
+
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="asunto"><strong>Asunto:</strong></label>
+                        <input type="text" id="asunto" name="asunto" class="input-control" placeholder="Escriba el asunto del correo">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <p><strong>Para:</strong></p>
+                        <!-- CONTENEDOR: lista-destinatarios -->
+                        <!-- JS carga aquí los checkboxes con los inscritos del evento -->
+                        <div id="lista-destinatarios"></div>
+                    </div>
+
                     <p><strong>Mensaje:</strong></p>
                 </div>
 
@@ -71,7 +80,7 @@
     </main>
 
 
-    <script src="../../public/js/main.js"></script>
+    <script type="module" src="../../main.js"></script>
     <!-- <script src="/js/main.js"></script> -->
 
 </body>

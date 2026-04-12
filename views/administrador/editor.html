@@ -107,11 +107,24 @@
             </div>
 
         </section>
+
+            <!-- seccion de motivo de cancelacion, empieza oculta -->
+            <section id="seccion-cancelacion" class="card seccion-admin" style="display: none;">
+                <h3 class="subtitulo-seccion">Motivo de cancelación</h3>
+                <div class="form-group">
+                    <textarea id="motivo-cancelacion" name="motivo_cancelacion" class="textarea-control" placeholder="Escriba el motivo de la cancelación"></textarea>
+                </div>
+                <div class="detalle-evento-acciones">
+                    <button type="button" id="btn-confirmar-cancelacion" class="btn btn-primary">Confirmar cancelación</button>
+                    <button type="button" id="btn-cancelar-cancelacion" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </section>
+
         </form>
 
     </main>
 
-    <script src="../../public/js/main.js"></script>
+    <script type="module" src="../../main.js"></script>
     <!-- <script src="/js/main.js"></script> -->
 
 </body>

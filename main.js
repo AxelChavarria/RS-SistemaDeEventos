@@ -1,7 +1,7 @@
 import { Asistente} from './Asistente.js';
 import { Usuario } from './Usuario.js';
 import { Organizador } from './Organizador.js';
-import {  obtenerEventosProximos } from './funcionesBD.js';
+import {  obtenerEventosProximos, notificarRechazo, notificarCancelacion, obtenerInscritos, enviarMensajeAsistentes } from './funcionesBD.js';
     
 const asistente = new Asistente();
 const usuario = new Usuario();
@@ -112,6 +112,121 @@ if (sectionEventos) {
 });
 }
 
+// ENVIAR MENSAJE A ASISTENTES (organizador)
+// TODO: quien construya la lista de eventos del organizador debe guardar el id así antes de navegar acá:
+// localStorage.setItem("idEventoSeleccionado", evento.idEvento)
+const listaDestinatarios = document.getElementById("lista-destinatarios");
+if (listaDestinatarios) {
+
+    // cargar inscritos y mostrar checkboxes
+    const idEvento = localStorage.getItem("idEventoSeleccionado");
+    const inscritos = await obtenerInscritos(idEvento);
+
+    inscritos.forEach(inscrito => {
+        const label = document.createElement("label");
+        label.style.display = "block";
+        label.innerHTML = `
+            <input type="checkbox" value="${inscrito.CorreoElectronico}" checked>
+            ${inscrito.NombreUsuario} (${inscrito.CorreoElectronico})
+        `;
+        listaDestinatarios.appendChild(label);
+    });
+
+    // enviar mensaje al hacer submit
+    document.getElementById("form-enviar-mensaje").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // recoger solo los correos cuyo checkbox está marcado
+        const checkboxes = listaDestinatarios.querySelectorAll("input[type='checkbox']:checked");
+        const correos = Array.from(checkboxes).map(cb => cb.value);
+
+        const asunto = document.getElementById("asunto").value;
+        const mensaje = document.getElementById("mensaje").value;
+
+        const resultado = await enviarMensajeAsistentes(correos, asunto, mensaje);
+
+        if (resultado.Codigo === 0) {
+            alert("Mensaje enviado correctamente.");
+        } else {
+            alert("Error al enviar: " + resultado.Mensaje);
+        }
+    });
+}
+
+
+// EDITOR EVENTO ADMIN (cancelacion)
+// TODO: quien construya la lista de eventos admin debe guardar el id así antes de navegar acá:
+// localStorage.setItem("idEventoSeleccionado", evento.idEvento)
+const btnEliminar = document.getElementById("btn-eliminar-evento");
+if (btnEliminar) {
+
+    const seccionCancelacion = document.getElementById("seccion-cancelacion");
+
+    // mostrar seccion al hacer clic en "Eliminar Evento"
+    btnEliminar.addEventListener("click", () => {
+        seccionCancelacion.style.display = "block";
+    });
+
+    // ocultar seccion al hacer clic en "Cancelar"
+    document.getElementById("btn-cancelar-cancelacion").addEventListener("click", () => {
+        seccionCancelacion.style.display = "none";
+    });
+
+    // confirmar cancelacion
+    document.getElementById("btn-confirmar-cancelacion").addEventListener("click", async () => {
+        const idEvento = localStorage.getItem("idEventoSeleccionado");
+        const motivo = document.getElementById("motivo-cancelacion").value;
+
+        const resultado = await notificarCancelacion(idEvento, motivo);
+
+        if (resultado.Codigo === 0) {
+            alert("Cancelación notificada a los inscritos correctamente.");
+            window.location.href = "moderacion.html"; 
+        } else {
+            alert("Error al notificar: " + resultado.Mensaje);
+        }
+    });
+}
+
+
+// DETALLES EVENTO ADMIN (rechazo) 
+// TODO: quien construya la lista de eventos admin debe guardar el id así antes de navegar acá:
+// localStorage.setItem("idEventoSeleccionado", evento.idEvento)
+const formRechazo = document.getElementById("form-rechazo");
+if (formRechazo) {
+
+    // la seccion de rechazo empieza oculta
+    formRechazo.closest("section").style.display = "none";
+
+    // mostrar seccion al hacer clic en "Rechazar"
+    document.getElementById("btn-rechazar").addEventListener("click", () => {
+        formRechazo.closest("section").style.display = "block";
+    });
+
+    // ocultar seccion al hacer clic en "Cancelar"
+    document.getElementById("btn-cancelar-rechazo").addEventListener("click", () => {
+        formRechazo.closest("section").style.display = "none";
+    });
+
+    // confirmar rechazo
+    formRechazo.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const idEvento = localStorage.getItem("idEventoSeleccionado");
+        const motivo = document.getElementById("motivo-rechazo").value;
+
+        const resultado = await notificarRechazo(idEvento, motivo);
+
+        if (resultado.Codigo === 0) {
+            alert("Rechazo notificado al organizador correctamente.");
+            window.location.href = "eventos-admin.html";
+        } else {
+            alert("Error al notificar: " + resultado.Mensaje);
+        }
+    });
+}
+
+
 //detalle del evento
 const sectionDetalle = document.getElementById("detalle-evento");
 if (sectionDetalle) {
@@ -166,3 +281,5 @@ if (sectionDetalle) {
 
     sectionDetalle.appendChild(article);
 }
+
+

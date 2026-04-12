@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import nodemailer from 'nodemailer'; //Para enviar correos
 
 const app = express();
 
@@ -15,12 +16,21 @@ app.use(cors());
 app.use(express.json());
 
 const config = {
-    user: 'bdd_sql_2026', 
-    password: 'Tec20IC26', 
-    server: 'py-01-bdd-1s2026.database.windows.net', 
+    user: 'bdd_sql_2026',
+    password: 'Tec20IC26',
+    server: 'py-01-bdd-1s2026.database.windows.net',
     database: 'PY02BDDIS2026',
     options: { encrypt: true, trustServerCertificate: true }
 };
+
+// Configuracion del correo
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'sistemadeeventos17@gmail.com',
+        pass: 'lvpcmtualzvvrnxy'
+    }
+});
 
 // Ruta principal
 app.get('/', (req, res) => {
@@ -201,6 +211,116 @@ app.post('/api/inscribir-evento', async (req, res) => {
 
 
 
+
+// Obtener inscritos de un evento
+// Recibe: evento_id en la URL (esto creo que es algo que luego hayq ue modificar en los html para mandar el id del evento seleccionado)
+// Retorna: lista de { NombreUsuario, CorreoElectronico }
+// Uso: el frontend carga esta lista para que el organizador elija a quienes escribirle
+app.get('/api/inscritos/:evento_id', async (req, res) => {
+    const { evento_id } = req.params;
+
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdEvento', sql.Int, evento_id)
+            .execute('sp_ObtenerCorreosInscritos'); // SP pendiente de crear
+
+        res.json(result.recordset);
+    } catch (err) {
+        console.error("Error al obtener inscritos:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+// Enviar mensaje a asistentes (organizador)
+// Recibe: { correos: ["correo", "correo2"], asunto: string, mensaje: string }
+// El frontend decide a quienes mandar (todos o seleccion)
+//Este no toca la base de datos, solo usa nodemailer para mandar los correos a los destinatarios seleccionados
+app.post('/api/enviar-mensaje-asistentes', async (req, res) => {
+    const { correos, asunto, mensaje } = req.body;
+
+    try {
+        // Mandar correo a cada destinatario seleccionado
+        for (const correo of correos) {
+            await transporter.sendMail({
+                from: '"Sistema de Eventos TEC" <sistemadeeventos17@gmail.com>',
+                to: correo,
+                subject: asunto,
+                text: mensaje
+            });
+        }
+
+        res.json({ Codigo: 0, Mensaje: 'Correos enviados correctamente' });
+    } catch (err) {
+        console.error("Error al enviar correo:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+// Notificar rechazo de evento al organizador (admin)
+// Recibe: { evento_id: int, motivo: string }
+// Consulta el SP para obtener el correo del organizador y le manda el motivo del rechazo
+// Retorna: { Codigo: 0, Mensaje: "Correo enviado" } o error
+app.post('/api/notificar-rechazo', async (req, res) => {
+    const { evento_id, motivo } = req.body;
+
+    try {
+        //Obtenr el correo del organizador
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdEvento', sql.Int, evento_id)
+            .execute('sp_ObtenerCorreoOrganizador'); // SP PENDIENTE
+
+        const correoOrganizador = result.recordset[0].CorreoElectronico; 
+
+        //el correo con el motivo del rechazo
+        await transporter.sendMail({
+            from: '"Sistema de Eventos TEC" <sistemadeeventos17@gmail.com>',
+            to: correoOrganizador,
+            subject: 'Su evento ha sido rechazado',
+            text: `Su evento ha sido rechazado por el siguiente motivo:\n\n${motivo}`
+        });
+
+        res.json({ Codigo: 0, Mensaje: 'Correo de rechazo enviado correctamente' });
+    } catch (err) {
+        console.error("Error al notificar rechazo:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+// Notificar cancelacion de evento (admin)
+// Recibe: id del evento y motivo
+// Consulta el SP para obtener todos los correos de inscritos y les avisa la cancelacion
+app.post('/api/notificar-cancelacion', async (req, res) => {
+    const { evento_id, motivo } = req.body;
+
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdEvento', sql.Int, evento_id)
+            .execute('sp_ObtenerCorreosInscritos'); // mismo SP que el de inscritos
+
+        //todos en vez de la posibilidad de eleccion que se le da al organizador
+        const correos = result.recordset.map(fila => fila.CorreoElectronico);
+
+        //
+        for (const correo of correos) {
+            await transporter.sendMail({
+                from: '"Sistema de Eventos TEC" <sistemadeeventos17@gmail.com>',
+                to: correo,
+                subject: 'Un evento en el que estás inscrito ha sido cancelado',
+                text: `Lamentamos informarle que el evento ha sido cancelado por el siguiente motivo:\n\n${motivo}`
+            });
+        }
+
+        res.json({ Codigo: 0, Mensaje: 'Correos de cancelacion enviados correctamente' });
+    } catch (err) {
+        console.error("Error al notificar cancelacion:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
 
 // Arranque
 const PORT = 3005;

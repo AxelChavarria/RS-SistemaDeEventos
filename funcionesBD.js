@@ -216,6 +216,73 @@ export async function inscribirse(inscripcion) {
 }
 
 
+// Recibe: lista de correos seleccionados por el organizador, asunto y mensaje
+// No consulta SQL, solo le manda los correos a nodemailer para que los envíe
+export async function enviarMensajeAsistentes(correos, asunto, mensaje) {
+    try {
+        const res = await fetch("http://localhost:3005/api/enviar-mensaje-asistentes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ correos, asunto, mensaje })
+        });
+        return await res.json();
+    } catch (err) {
+        console.error("Error al enviar mensaje:", err.message);
+        return { Codigo: -1, Mensaje: "Error de conexión" };
+    }
+}
+
+
+// Recibe: id del evento
+// Retorna: lista de { NombreUsuario, CorreoElectronico } de los inscritos al evento
+export async function obtenerInscritos(idEvento) {
+    try {
+        const res = await fetch(`http://localhost:3005/api/inscritos/${idEvento}`);
+        return await res.json();
+    } catch (err) {
+        console.error("Error al obtener inscritos:", err.message);
+        return [];
+    }
+}
+
+
+// Recibe: id del evento y motivo de la cancelacion
+// El servidor consulta el SP para obtener todos los inscritos y les avisa a todos sin excepcion
+export async function notificarCancelacion(idEvento, motivo) {
+    try {
+        const res = await fetch("http://localhost:3005/api/notificar-cancelacion", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ evento_id: idEvento, motivo })
+        });
+        return await res.json();
+    } catch (err) {
+        console.error("Error al notificar cancelacion:", err.message);
+        return { Codigo: -1, Mensaje: "Error de conexión" };
+    }
+}
+
+
+// Recibe: id del evento y motivo del rechazo
+// El admin no elige destinatario-va directo al organizador del evento
+export async function notificarRechazo(idEvento, motivo) {
+    try {
+        const res = await fetch("http://localhost:3005/api/notificar-rechazo", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ evento_id: idEvento, motivo })
+        });
+        return await res.json();
+    } catch (err) {
+        console.error("Error al notificar rechazo:", err.message);
+        return { Codigo: -1, Mensaje: "Error de conexión" };
+    }
+}
+
+
+
+
+
 
 
 
