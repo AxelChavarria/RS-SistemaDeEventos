@@ -6,7 +6,7 @@
     <!-- permite que la pagina sea responsive -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mis inscripciones - Sistema de Eventos TEC</title>
+    <title>Eventos futuros - Sistema de Eventos TEC</title>
 
     <!-- fuente opcional para detalles visuales -->
     <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
     -->
 </head>
 
-<body class="mis-inscripciones-page">
+<body class="eventos-futuros-page">
 
     <header class="navbar">
         <div class="navbar-contenido">
@@ -38,16 +38,14 @@
 
                 <nav class="menu-nav">
                     <a href="inicio-organizador.html">Inicio</a>
-                    <a href="eventos-organizador.html">Eventos</a>
+                    <a href="eventos.html">Eventos</a>
                     <a href="mis-inscripciones.html">Mis Inscritos</a>
-                    <a href="mis-eventos.html">Mis Eventos</a>
-                    <a href="crear-evento.html">Crear Evento</a>
                     <a href="anuncios-organizador.html">Ver Anuncios</a>
                 </nav>
             </div>
 
             <div class="navbar-derecha">
-                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+                <a href="mi-cuenta.html"><img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil"></a>
             </div>
 
         </div>
@@ -56,42 +54,51 @@
     <main class="container seccion">
 
         <section class="seccion">
-            <h2 class="titulo-vista">Mis Inscritos</h2>
+            <h2 class="titulo-vista">Eventos Futuros</h2>
         </section>
 
         <!--
-            BLOQUE PRINCIPAL DE OPCIONES
+            BLOQUE DE ENCABEZADO DE LA SECCION
+
+            Este bloque sirve como referencia visual para indicar que aqui
+            se muestran los eventos futuros en los que el estudiante esta inscrito.
+
+            Luego podria mantenerse asi o cambiar segun el diseño final.
+        -->
+        <section class="encabezado-inscripciones">
+            <h3>Eventos en los que esta inscrito/a</h3>
+        </section>
+
+        <!--
+            CONTENEDOR DE EVENTOS FUTUROS
 
             IMPORTANTE:
-            Esta vista por ahora solo funciona como punto de entrada visual
-            para separar los eventos inscritos en:
-            - eventos pasados
-            - eventos futuros
-
-            En backend, esta separacion tendra que depender de la fecha actual
-            y de las inscripciones del usuario autenticado. 
-
-            Es decir, el sistema debera determinar:
-            - cuales eventos inscritos ya pasaron
-            - cuales siguen siendo futuros
-
-            Por ahora estos enlaces son temporales y llevan a vistas separadas.
+            Aqui deben mostrarse los eventos futuros en los que el usuario
+            autenticado ya esta inscrito.
         -->
-        <section class="bloque-2-columnas bloque-opciones-inscripciones">
+        <section id="contenedor-eventos-futuros">
 
-            <!-- opcion eventos pasados -->
-            <a href="eventos-pasados-org.html" class="opcion-inscripcion">
-                <div class="card opcion-inscripcion-card">
-                    <h3>Eventos Pasados</h3>
+            <article class="card-evento card-evento-horizontal ">
+                <div class="info-evento">
+                    <p><strong>Titulo:</strong> Taller de Danza</p>
+                    <p><strong>Categoria:</strong> Recreativo</p>
+                    <p><strong>Fecha:</strong> 22-03-2026</p>
+                    <p><strong>Modalidad:</strong> Presencial</p>
                 </div>
-            </a>
 
-            <!-- opcion eventos futuros -->
-            <a href="eventos-futuros-org.html" class="opcion-inscripcion">
-                <div class="card opcion-inscripcion-card">
-                    <h3>Eventos Futuros</h3>
+                <div class="accion-evento">
+                    <!--
+                        ENLACE TEMPORAL
+
+                        Luego este enlace debe dirigir al detalle real
+                        de la inscripcion o del evento especifico.
+
+                        Ejemplo futuro:
+                        detalle-inscripcion.html?id=15
+                    -->
+                    <a href="detalle-evento-org.html" class="btn btn-primary">Detalles</a>
                 </div>
-            </a>
+            </article>
 
         </section>
 

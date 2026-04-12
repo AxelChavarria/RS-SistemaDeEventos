@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Evento Organizador - tecEventos</title>
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+</head>
+<body class="detalle-evento-page">
+
+    <header class="navbar">
+        <div class="navbar-contenido">
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+                <nav class="menu-nav">
+                    <a href="inicio-organizador.html">Inicio</a>
+                    <a href="eventos-organizador.html">Eventos</a>
+                    <a href="mis-inscritos.html">Mis Inscritos</a>
+                    <a href="mis-eventos.html">Mis Eventos</a>
+                    <a href="crear-evento.html">Crear Evento</a>
+                </nav>
+            </div>
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+        </div>
+    </header>
+
+    <main class="container seccion">
+        <div class="layout-detalle" style="display: flex; gap: 40px; justify-content: space-between;">
+            
+            <section class="info-evento-detalle" style="flex: 2;">
+                <h2 class="titulo-vista" style="color: #003366; margin-bottom: 25px;">Información del Evento</h2>
+                
+                <div class="detalle-grupo">
+                    <p><strong>Título del Evento:</strong> TítuloDeEjemplo</p>
+                    
+                    <div class="descripcion-box" style="margin: 15px 0;">
+                        <strong>Descripción:</strong>
+                        <textarea class="input-control" rows="6" style="width: 100%; border: 1px solid #000; margin-top: 5px; background: #fff;" readonly>Texto descriptivo del evento...</textarea>
+                    </div>
+
+                    <p><strong>Categoría:</strong> <span class="badge-filtro">Académico</span></p>
+                    <p><strong>Unidad Organizadora:</strong> EjemploDeUnidadOrganizadora</p>
+                    <p><strong>Fecha:</strong> XX/XX/XXXX </p>
+                    <p><strong>Hora:</strong> XX:XX a.m./ p.m.</p>
+                    <p><strong>Modalidad:</strong> Presencial</p>
+                    <p><strong>Cupo Máximo:</strong> XY</p>
+                    <p><strong>Lugar:</strong> Auditorio TEC</p>
+                </div>
+            </section>
+
+            <aside class="panel-acciones" style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+                
+                <div class="card-estado" style="border: 2px solid #003366; padding: 20px; border-radius: 8px; background: #f9f9f9;">
+                    <h3 style="color: #003366; margin-bottom: 15px; text-align: center;">Estado: PENDIENTE</h3>
+                    <p style="font-size: 0.9rem; text-align: center; color: #666; margin-bottom: 15px;">
+                        Este evento está esperando aprobación del administrador.
+                    </p>
+                    <button class="btn btn-primary">Guardar cambios</button>
+                    <button class="btn btn-primary">Cancelar</button>
+                </div>
+
+                <div class="card-estado aprobado" style="border: 2px solid #28a745; padding: 20px; border-radius: 8px; background: #e8f5e9;">
+                <h3 style="color: #28a745; margin-bottom: 15px; text-align: center;">Estado: APROBADO</h3>
+                <div class="grupo-botones-gestion" style="display: flex; flex-direction: column; gap: 10px;">
+    <a href="editar-evento-org.html" style="text-decoration: none;">
+        <button class="btn btn-primary" style="width: 100%;">Editar Evento</button>
+    </a>
+
+    <a href="ver-participantes.html" style="text-decoration: none;">
+        <button class="btn btn-primary" style="width: 100%;">Ver Participantes</button>
+    </a>
+
+    <a href="enviar-mensaje-asistentes.html" style="text-decoration: none;">
+        <button class="btn btn-primary" style="width: 100%;">Enviar Mensaje a Asistentes</button>
+    </a>
+    
+    <a href="cancelar-evento.html" style="text-decoration: none;">
+        <button class="btn btn-danger" style="width: 100%; background-color: #dc3545; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer;">Cancelar Evento</button>
+    </a>
+    </div>
+</div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+</body>
+</html>
