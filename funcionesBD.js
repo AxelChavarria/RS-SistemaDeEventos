@@ -279,6 +279,51 @@ export async function notificarRechazo(idEvento, motivo) {
     }
 }
 
+// Recibe diccionario de evento (similar a la función de crear eeventos)
+// Retorna diccionario con {codigo, mensaje}
+export async function modificarEvento(datos) {
+    try {
+        const res = await fetch("http://localhost:3005/api/eventos/modificar", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(datos)
+        });
+        return await res.json();
+    } catch (err) {
+        console.error("Error al conectar para modificar:", err);
+        return { Codigo: -1, Mensaje: "Error de conexión con el servidor" };
+    }
+}
+
+
+// Recibe id del evento a cancelar
+// Retorna diccionario con {codigo, mensaje}
+export async function cancelarEvento(id) {
+    try {
+        const res = await fetch(`${URL_BASE}/eventos/cancelar`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idEvento: id })
+        });
+        return await res.json();
+    } catch (err) {
+        console.error("Error al conectar para cancelar:", err);
+        return { Codigo: -1, Mensaje: "Error de conexión con el servidor" };
+    }
+}
+
+/*
+modificarEvento({
+    idEvento: 9, 
+    nombre: "Graduación", 
+    descripcion: "Graduación", 
+    categoria: "Graduación", 
+    fecha: "2026-06-01", 
+    modalidad: "VIRTUAL", 
+    enlace: "zoom.com", 
+    cupo: 50
+}).then(res => console.log("Resultado Modificar:", res));
+*/
 
 
 

@@ -322,6 +322,50 @@ app.post('/api/notificar-cancelacion', async (req, res) => {
     }
 });
 
+
+//api de modificar evento
+app.put('/api/eventos/modificar', async (req, res) => {
+    const { idEvento, nombre, descripcion, categoria, fecha, modalidad, enlace, cupo } = req.body;
+
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdEvento', sql.Int, idEvento)
+            .input('inNombre', sql.VarChar(60), nombre)
+            .input('inDescripcion', sql.VarChar(1000), descripcion)
+            .input('inCategoria', sql.VarChar(45), categoria)
+            .input('inFecha', sql.DateTime, fecha)
+            .input('inModalidad', sql.VarChar(20), modalidad)
+            .input('inEnlace', sql.VarChar(45), enlace)
+            .input('inCupo', sql.Int, cupo)
+            .execute('sp_ModificarEvento');
+
+        // El SP retorna { Codigo, Mensaje }
+        res.json(result.recordset[0]);
+    } catch (err) {
+        console.error("Error en API Modificar:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+// api de cancelar evento
+app.put('/api/eventos/cancelar', async (req, res) => {
+    const { idEvento } = req.body;
+
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdEvento', sql.Int, idEvento)
+            .execute('sp_CancelarEvento');
+
+        res.json(result.recordset[0]);
+    } catch (err) {
+        console.error("Error en API Cancelar:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
 // Arranque
 const PORT = 3005;
 app.listen(PORT, () => {

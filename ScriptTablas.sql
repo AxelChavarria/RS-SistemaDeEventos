@@ -48,17 +48,18 @@ ALTER TABLE Evento ADD Descripcion VARCHAR(1000);
 -- Table SolicitudesPorEvento
 -- -----------------------------------------------------
 CREATE TABLE SolicitudesPorEvento (
-  idAdministrador INT NOT NULL,
-  idEvento INT NOT NULL IDENTITY(1,1),
-  NombreSolicitud VARCHAR(45) NULL,
-  Resolucion VARCHAR(20) NULL,
-  FechaResolucion DATETIME NULL,
-  CONSTRAINT PK_Solicitudes PRIMARY KEY (idAdministrador, idEvento),
-  CONSTRAINT FK_Solicitudes_Admin FOREIGN KEY (idAdministrador) REFERENCES Usuario (idUsuario),
-  CONSTRAINT FK_Solicitudes_Evento FOREIGN KEY (idEvento) REFERENCES Evento (idEvento),
-  CONSTRAINT CHK_Resolucion CHECK (Resolucion IN ('APROBADO', 'RECHAZADO', 'NEGADODEFAULT'))
+    idSolicitud INT NOT NULL IDENTITY(1,1), --
+    idAdministrador INT NOT NULL,
+    idEventoReal INT NOT NULL,         
+    NombreSolicitud VARCHAR(45) NULL,
+    Resolucion VARCHAR(20) NULL DEFAULT 'PENDIENTE',
+    FechaResolucion DATETIME NULL,
+    CONSTRAINT PK_Solicitudes PRIMARY KEY (idSolicitud),
+    CONSTRAINT FK_Solicitudes_Admin FOREIGN KEY (idAdministrador) REFERENCES Usuario (idUsuario),
+    CONSTRAINT FK_Solicitudes_Evento FOREIGN KEY (idEventoReal) REFERENCES Evento (idEvento),
+    CONSTRAINT CHK_Resolucion CHECK (Resolucion IN ('APROBADO', 'RECHAZADO', 'NEGADODEFAULT', 'PENDIENTE'))
 );
-
+ALTER TABLE SolicitudesPorEvento ADD TipoSolicitud VARCHAR(50 ); -- Modificacion o Cancelacion
 -- -----------------------------------------------------
 -- Table AsistentesPorEvento
 -- -----------------------------------------------------

@@ -303,22 +303,159 @@ BEGIN
         FROM Evento WHERE @inIdOrganizador = idOrganizador
 END
 
-CREATE PROCEDURE sp_ModificarEventoPendiente
+CREATE PROCEDURE sp_ConsultarInscripcionesPasadas
+    @inIdUsuario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT 
+        E.idEvento,
+        E.NombreEvento,
+        E.Descripcion,
+        E.Categoria,
+        E.FechaEvento,
+        E.Modalidad,
+        E.EnlacePlenaria,
+        E.Cupo,
+        E.Estado,
+        E.idOrganizador,
+        U_Org.NombreUsuario AS NombreOrganizador
+    FROM AsistentesPorEvento A
+    INNER JOIN Evento E ON A.idEvento = E.idEvento
+    INNER JOIN Usuario U_Org ON E.idOrganizador = U_Org.idUsuario
+    WHERE A.idUsuario = @inIdUsuario 
+      AND A.Cancelacion = 0
+      AND E.FechaEvento < GETDATE()
+    ORDER BY E.FechaEvento DESC; --Recientes primero
+END;
+
+-- Parámetros (datos de evento)
+-- Ret (1; Pendiente modificado, 2; solicitud echa, 0; no se pudo)
+ALTER PROCEDURE sp_ModificarEvento
     @inIdEvento INT,
-    @inNombreEvento VARCHAR(60),
-    @inidOrganizador INT,
+    @inNombre VARCHAR(60),
+    @inDescripcion VARCHAR(1000),
     @inCategoria VARCHAR(45),
-    @inFechaEvento DATETIME, 
-    @inModalidad VARCHAR(20), 
-    @inEnlacePlenaria VARCHAR(45)
+    @inFecha DATETIME,
+    @inModalidad VARCHAR(20),
+    @inEnlace VARCHAR(45),
     @inCupo INT
 AS
 BEGIN
     SET NOCOUNT ON;
+    DECLARE @estadoActual VARCHAR(20);
+    DECLARE @idAdmin INT;
+    SET @idAdmin = 11;
 
-    BEGIN TRY
-    END TRY
+    SELECT @estadoActual = Estado FROM Evento WHERE idEvento = @inIdEvento;
 
-    BEGIN CATCH
-    END CATCH
-END
+
+    IF @estadoActual = 'PENDIENTE'
+    BEGIN
+        UPDATE Evento SET
+            NombreEvento = @inNombre,
+            Descripcion = @inDescripcion,
+            Categoria = @inCategoria,
+            FechaEvento = @inFecha,
+            Modalidad = @inModalidad,
+            EnlacePlenaria = @inEnlace,
+            Cupo = @inCupo
+        WHERE idEvento = @inIdEvento;
+
+        SELECT 1 AS Codigo, 'Evento modificado directamente por estar PENDIENTE' AS Mensaje;
+    END
+
+    ELSE IF @estadoActual = 'APROBADO'
+    BEGIN
+
+        DECLARE @resumenCambios VARCHAR(MAX);
+        SET @resumenCambios = CONCAT(
+            'Nuevo Nombre: ', @inNombre, 
+            ' | Fecha: ', CONVERT(VARCHAR, @inFecha, 120), 
+            ' | Modalidad: ', @inModalidad, 
+            ' | Cupo: ', @inCupo,
+            ' | Desc: ', LEFT(@inDescripcion, 50), '...'
+        );
+
+
+        INSERT INTO SolicitudesPorEvento (
+            idAdministrador, 
+            idEventoReal, 
+            NombreSolicitud, 
+            TipoSolicitud,
+            Resolucion
+        )
+        VALUES (
+            @idAdmin, 
+            @inIdEvento, 
+            @resumenCambios, 
+            'Modificacion', 
+            'PENDIENTE'
+        );
+
+        SELECT 2 AS Codigo, 'El evento ya estaba aprobado. Se envió solicitud de modificación.' AS Mensaje;
+    END
+    ELSE
+    BEGIN
+        SELECT 0 AS Codigo, 'No se puede modificar un evento cancelado.' AS Mensaje;
+    END
+END;
+
+
+-- Parámetro (id del evento)
+-- Ret (1 si se canceló pendiente, 2 si se hizo solicitud, 3, ya existe solicitud, 0 error)
+CREATE PROCEDURE sp_CancelarEvento
+    @inIdEvento INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @estadoActual VARCHAR(20);
+    DECLARE @idAdmin INT;
+    SET @idAdmin = 11;
+    DECLARE @nombreEvento VARCHAR(60);
+
+    SELECT @estadoActual = Estado, @nombreEvento = NombreEvento 
+    FROM Evento WHERE idEvento = @inIdEvento;
+    
+
+
+    IF @estadoActual = 'PENDIENTE'
+    BEGIN
+        UPDATE Evento SET Estado = 'CANCELADO' WHERE idEvento = @inIdEvento;
+        SELECT 1 AS Codigo, 'Evento pendiente cancelado exitosamente.' AS Mensaje;
+    END
+
+ 
+    ELSE IF @estadoActual = 'APROBADO'
+    BEGIN
+        IF EXISTS (SELECT 1 FROM SolicitudesPorEvento 
+                   WHERE idEventoReal = @inIdEvento 
+                   AND TipoSolicitud = 'Cancelacion' 
+                   AND Resolucion = 'PENDIENTE')
+        BEGIN
+            SELECT 3 AS Codigo, 'Ya existe una solicitud de cancelación en espera.' AS Mensaje;
+            RETURN;
+        END
+
+        INSERT INTO SolicitudesPorEvento (
+            idAdministrador, 
+            idEventoReal, 
+            NombreSolicitud, 
+            TipoSolicitud,
+            Resolucion
+        )
+        VALUES (
+            @idAdmin, 
+            @inIdEvento, 
+            CONCAT('Solicitud para cancelar: ', @nombreEvento), 
+            'Cancelacion', 
+            'PENDIENTE'
+        );
+
+        SELECT 2 AS Codigo, 'Se envió la solicitud de cancelación al administrador.' AS Mensaje;
+    END
+    ELSE
+    BEGIN
+        SELECT 0 AS Codigo, 'El evento no puede ser cancelado en su estado actual.' AS Mensaje;
+    END
+END;
