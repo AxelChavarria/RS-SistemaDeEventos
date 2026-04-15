@@ -330,7 +330,6 @@ BEGIN
 END;
 
 -- Parámetros (datos de evento)
--- Ret (1; Pendiente modificado, 2; solicitud echa, 0; no se pudo)
 ALTER PROCEDURE sp_ModificarEvento
     @inIdEvento INT,
     @inNombre VARCHAR(60),
@@ -362,42 +361,45 @@ BEGIN
             Cupo = @inCupo
         WHERE idEvento = @inIdEvento;
 
-        SELECT 1 AS Codigo, 'Evento modificado directamente por estar PENDIENTE' AS Mensaje;
+        SELECT 1 AS Codigo, 'Evento actualizado directamente' AS Mensaje;
     END
 
     ELSE IF @estadoActual = 'APROBADO'
     BEGIN
-
-        DECLARE @resumenCambios VARCHAR(MAX);
-        SET @resumenCambios = CONCAT(
-            'Nuevo Nombre: ', @inNombre, 
-            ' | Fecha: ', CONVERT(VARCHAR, @inFecha, 120), 
-            ' | Modalidad: ', @inModalidad, 
-            ' | Cupo: ', @inCupo,
-            ' | Desc: ', LEFT(@inDescripcion, 50), '...'
-        );
-
-
         INSERT INTO SolicitudesPorEvento (
             idAdministrador, 
             idEventoReal, 
             NombreSolicitud, 
-            TipoSolicitud,
-            Resolucion
+            TipoSolicitud, 
+            Resolucion,
+            NuevoNombre,
+            NuevaDescripcion,
+            NuevaCategoria,
+            NuevaFecha,
+            NuevaModalidad,
+            NuevoEnlace,
+            NuevoCupo
         )
         VALUES (
             @idAdmin, 
             @inIdEvento, 
-            @resumenCambios, 
+            CONCAT('Cambio propuesto para: ', @inNombre), 
             'Modificacion', 
-            'PENDIENTE'
+            'PENDIENTE',
+            @inNombre,
+            @inDescripcion,
+            @inCategoria,
+            @inFecha,
+            @inModalidad,
+            @inEnlace,
+            @inCupo
         );
 
-        SELECT 2 AS Codigo, 'El evento ya estaba aprobado. Se envió solicitud de modificación.' AS Mensaje;
+        SELECT 2 AS Codigo, 'Solicitud de modificación creada con éxito' AS Mensaje;
     END
     ELSE
     BEGIN
-        SELECT 0 AS Codigo, 'No se puede modificar un evento cancelado.' AS Mensaje;
+        SELECT 0 AS Codigo, 'No se puede modificar un evento' AS Mensaje;
     END
 END;
 
@@ -458,4 +460,137 @@ BEGIN
     BEGIN
         SELECT 0 AS Codigo, 'El evento no puede ser cancelado en su estado actual.' AS Mensaje;
     END
+END;
+
+
+-- Parámetro(nada)
+ALTER PROCEDURE sp_ConsultarSolicitudesPendientes
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @inIdAdmin INT
+    SET @idIdAdmin = 11;
+
+        S.*, 
+        U_Org.NombreUsuario AS NombreOrganizador,
+        E.NombreEvento AS NombreActualEvento -- 
+    FROM SolicitudesPorEvento S
+    INNER JOIN Evento E ON S.idEventoReal = E.idEvento
+    INNER JOIN Usuario U_Org ON E.idOrganizador = U_Org.idUsuario
+    WHERE S.idAdministrador = @inIdAdmin 
+      AND S.TipoSolicitud = 'Modificacion' 
+      AND S.Resolucion = 'PENDIENTE';
+
+ 
+    SELECT 
+        S.*, 
+        U_Org.NombreUsuario AS NombreOrganizador,
+        E.NombreEvento AS NombreActualEvento
+    FROM SolicitudesPorEvento S
+    INNER JOIN Evento E ON S.idEventoReal = E.idEvento
+    INNER JOIN Usuario U_Org ON E.idOrganizador = U_Org.idUsuario
+    WHERE S.idAdministrador = @inIdAdmin 
+      AND S.TipoSolicitud = 'Cancelacion' 
+      AND S.Resolucion = 'PENDIENTE';
+END;
+
+
+-- Parámetro (id de la solicitud)
+-- Retorno (1: exito, -1: error)
+CREATE PROCEDURE sp_AprobarModificacion
+    @inIdSolicitud INT,
+    @inIdAdmin INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET @inIdAdmin = 11
+    BEGIN TRY
+        BEGIN TRANSACTION;
+      
+        UPDATE E
+        SET E.NombreEvento = S.NuevoNombre,
+            E.Descripcion = S.NuevaDescripcion,
+            E.Categoria = S.NuevaCategoria,
+            E.FechaEvento = S.NuevaFecha,
+            E.Modalidad = S.NuevaModalidad,
+            E.EnlacePlenaria = S.NuevoEnlace,
+            E.Cupo = S.NuevoCupo
+        FROM Evento E
+        INNER JOIN SolicitudesPorEvento S ON E.idEvento = S.idEventoReal
+        WHERE S.idEvento = @inIdSolicitud AND S.idAdministrador = @inIdAdmin;
+
+        -- solicitud como aprobada
+        UPDATE SolicitudesPorEvento 
+        SET Resolucion = 'APROBADO', FechaResolucion = GETDATE()
+        WHERE idSolicitud = @inIdSolicitud;
+
+        COMMIT TRANSACTION;
+        SELECT 1 AS Codigo, 'Modificación aplicada con éxito' AS Mensaje;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+        SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;
+    END CATCH
+END;
+
+
+-- Parámetro (id de la solicitud)
+-- Retorno (1: exito)
+CREATE PROCEDURE sp_RechazarModificacion
+    @inIdSolicitud INT
+AS
+BEGIN
+    UPDATE SolicitudesPorEvento 
+    SET Resolucion = 'RECHAZADO', FechaResolucion = GETDATE()
+    WHERE idSolicitud = @inIdSolicitud;
+    
+    SELECT 1 AS Codigo, 'Solicitud de modificación rechazada' AS Mensaje;
+END;
+
+
+
+
+-- Parámetro (id de la solicitud)
+-- Retorno (1: exito, -1: error)
+CREATE PROCEDURE sp_AprobarCancelacion
+    @inIdSolicitud INT,
+    @inIdAdmin INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET @inIdAdmin = 11;
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        UPDATE E SET E.Estado = 'CANCELADO'
+        FROM Evento E
+        INNER JOIN SolicitudesPorEvento S ON E.idEvento = S.idEventoReal
+        WHERE S.idSolicitud = @inIdSolicitud AND S.idAdministrador = @inIdAdmin;
+
+        -- Marcar solicitud como aprobada
+        UPDATE SolicitudesPorEvento 
+        SET Resolucion = 'APROBADO', FechaResolucion = GETDATE()
+        WHERE idSolicitud = @inIdSolicitud;
+
+        COMMIT TRANSACTION;
+        SELECT 1 AS Codigo, 'Evento cancelado oficialmente' AS Mensaje;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+        SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;
+    END CATCH
+END;
+
+
+-- Parámetro (id de la solicitud)
+-- Retorno (1: exito)
+CREATE PROCEDURE sp_RechazarCancelacion
+    @inIdSolicitud INT
+AS
+BEGIN
+    UPDATE SolicitudesPorEvento 
+    SET Resolucion = 'RECHAZADO', FechaResolucion = GETDATE()
+    WHERE idSolicitud = @inIdSolicitud;
+
+    SELECT 1 AS Codigo, 'Solicitud de cancelación rechazada' AS Mensaje;
 END;

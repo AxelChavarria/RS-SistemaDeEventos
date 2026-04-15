@@ -366,6 +366,57 @@ app.put('/api/eventos/cancelar', async (req, res) => {
     }
 });
 
+
+// api consultar solicitudes
+app.get('/api/admin/solicitudes/:idAdmin', async (req, res) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdAdmin', sql.Int, req.params.idAdmin)
+            .execute('sp_ConsultarSolicitudesPendientes');
+        
+      
+        res.json({
+            modificaciones: result.recordsets[0],
+            cancelaciones: result.recordsets[1]
+        });
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
+
+// api de procesar solicitudes
+app.put('/api/admin/procesar-solicitud', async (req, res) => {
+    const { idSolicitud, accion, tipo } = req.body;
+    let spNombre = "";
+
+    // IMPORTANTE: Los strings deben coincidir con lo que mandas desde el frontend
+    if (tipo === 'modificacion') {
+        spNombre = (accion === 'aprobar') ? 'sp_AprobarModificacion' : 'sp_RechazarModificacion';
+    } else if (tipo === 'cancelacion') {
+        spNombre = (accion === 'aprobar') ? 'sp_AprobarCancelacion' : 'sp_RechazarCancelacion';
+    }
+
+    try {
+        let pool = await sql.connect(config);
+        
+        if (!spNombre) {
+            throw new Error(`Acción o tipo inválido: ${accion} - ${tipo}`);
+        }
+
+        let result = await pool.request()
+            .input('inIdSolicitud', sql.Int, idSolicitud)
+            .execute(spNombre);
+
+        res.json(result.recordset[0]);
+    } catch (err) {
+        console.error("ERROR REAL EN TERMINAL:", err.message);
+        // Esto evita el error de JSON.parse en el frontend:
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
 // Arranque
 const PORT = 3005;
 app.listen(PORT, () => {

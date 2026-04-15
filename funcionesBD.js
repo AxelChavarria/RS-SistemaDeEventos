@@ -300,7 +300,7 @@ export async function modificarEvento(datos) {
 // Retorna diccionario con {codigo, mensaje}
 export async function cancelarEvento(id) {
     try {
-        const res = await fetch(`${URL_BASE}/eventos/cancelar`, {
+        const res = await fetch("http://localhost:3005/api/eventos/cancelar", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ idEvento: id })
@@ -325,9 +325,31 @@ modificarEvento({
 }).then(res => console.log("Resultado Modificar:", res));
 */
 
+export async function obtenerSolicitudesAdmin() {
+    const res = await fetch(`http://localhost:3005/api/admin/solicitudes/11`);
+    return await res.json();
+}
+ /*
+const datos = await obtenerSolicitudesAdmin()
+console.log(datos.modificaciones)
+console.log(datos.eliminaciones)
+*/
 
 
-
+// Parámetros idSolicitud, acción ('aprobar' o 'rechazar'), tipo('modificacion' o 'cancelacion')
+// Retorna diccionario con codigo y mensaje
+export async function responderSolicitud(idSolicitud, accion, tipo) {
+    const res = await fetch(`http://localhost:3005/api/admin/procesar-solicitud`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idSolicitud, accion, tipo })
+    });
+    return await res.json();
+}
+/*
+const respuesta = await responderSolicitud(2, 'rechazar', 'modificacion')
+console.log(respuesta)
+*/
 
 
 

@@ -60,6 +60,13 @@ CREATE TABLE SolicitudesPorEvento (
     CONSTRAINT CHK_Resolucion CHECK (Resolucion IN ('APROBADO', 'RECHAZADO', 'NEGADODEFAULT', 'PENDIENTE'))
 );
 ALTER TABLE SolicitudesPorEvento ADD TipoSolicitud VARCHAR(50 ); -- Modificacion o Cancelacion
+ADD NuevoNombre VARCHAR(60),
+    NuevaDescripcion VARCHAR(1000),
+    NuevaCategoria VARCHAR(45),
+    NuevaFecha DATETIME,
+    NuevaModalidad VARCHAR(20),
+    NuevoEnlace VARCHAR(45),
+    NuevoCupo INT;
 -- -----------------------------------------------------
 -- Table AsistentesPorEvento
 -- -----------------------------------------------------
@@ -75,6 +82,7 @@ CREATE TABLE AsistentesPorEvento (
   CONSTRAINT FK_Asistentes_Usuario FOREIGN KEY (idUsuario) REFERENCES Usuario (idUsuario),
   CONSTRAINT FK_Asistentes_Evento FOREIGN KEY (idEvento) REFERENCES Evento (idEvento)
 );
+
 
 -- -----------------------------------------------------
 -- Table RegistroAuditoría
