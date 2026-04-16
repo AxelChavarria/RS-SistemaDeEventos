@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inicio estudiante - Sistema de Eventos TEC</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="inicio-estudiante-page">
+
+    <!--
+        HEADER / NAVBAR DEL ESTUDIANTE
+        Esta vara de fijo la reutilizo en el resto de pages de estudiante
+    -->
+    <header class="navbar">
+        <div class="navbar-contenido ">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-estudiante.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="anuncios.html">Ver Anuncios</a>
+                </nav>
+            </div>
+
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container seccion">
+
+        <!--
+            BLOQUE PRINCIPAL DE ANUNCIO
+
+            IMPORTANTE:
+            Este bloque NO debe quedarse con texto fijo cuando el sistema
+            ya este conectado al backend.
+
+            Aqui luego debe mostrarse el anuncio mas reciente generado
+            por el admi.
+            En una version conectada, este bloque podria recibir algo como:
+        -->
+        <section class="bloque-anuncio-principal card">
+            <h2 class="titulo-anuncio">Anuncios</h2>
+
+            <div id="contenedor-anuncio-principal">
+                
+            </div>
+        </section>
+
+        <!--
+            BLOQUE DE TARJETAS INFORMATIVAS
+        -->
+        <section class="bloque-2-columnas seccion">
+
+            <section class="card seccion-eventos">
+                <h3 class="subtitulo-seccion">Próximoss eventos</h3>
+
+                <div id="contenedor-eventos-proximos">
+
+                    <!-- card temporal de referencia visual -->
+                    
+
+                </div>
+            </section>
+
+            <!--
+                EVENTO PROXIMO DONDE ESTA INSCRITO
+
+                IMPORTANTE:
+                Este bloque debe mostrar solo el evento mas proximo al que
+                el estudiante autenticado esta inscrito.
+                Cuando se conecte con backend, podria pasar una de estas dos cosas:
+                1. existe una inscripcion futura y se muestra esta tarjeta
+                2. no existe ninguna inscripcion futura y se muestra un mensaje
+                como "No estas inscrito en ningun evento futuro" (tipo, creo que esto se puede hacer
+                como una validacion en JS, si el backend devuelve un objeto vacio o algo asi,
+                 se muestra el mensaje en vez de la card)
+            -->
+            <section class="card seccion-eventos">
+                <h3 class="subtitulo-seccion">Evento próximo donde estoy inscrito/a</h3>
+
+                <div id="contenedor-evento-inscrito">
+
+
+                </div>
+            </section>
+
+        </section>
+
+    </main>
+
+    <!-- js para desarrollo -->
+    <script type="module" src="../../main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

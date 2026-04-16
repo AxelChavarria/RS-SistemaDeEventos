@@ -1,15 +1,54 @@
 import { Asistente } from "./Asistente.js";
-import { crearEvento } from "./funcionesBD.js";
+import { crearEvento, obtenerInscritos, enviarMensajeAsistentes } from "./funcionesBD.js";
 
 export class Organizador extends Asistente{
 
     listaEventos;
 
-    enviarCorreo(){}
+    async enviarCorreo(){
+
+        let asunto = document.getElementById("asunto").value.trim();
+        let mensaje = document.getElementById("mensaje").value.trim();
+        
+        const seleccionarTodos = document.getElementById("seleccionarTodos");
+
+        // Seleccionar / deseleccionar todos
+        seleccionarTodos.addEventListener("change", () => {
+            const checkboxes = document.querySelectorAll('input[name="destinatarios"]');
+
+            checkboxes.forEach(cb => {
+                cb.checked = seleccionarTodos.checked;
+            });
+        });
+
+        //Sincronizar el checkbox principal
+        document.addEventListener("change", (e) => {
+            if (e.target.name === "destinatarios") {
+                const todos = document.querySelectorAll('input[name="destinatarios"]');
+                const seleccionados = document.querySelectorAll('input[name="destinatarios"]:checked');
+
+                seleccionarTodos.checked = todos.length === seleccionados.length;
+            }
+        });
+
+        // ✅ Obtener lista de seleccionados
+        document.getElementById("btnObtener").addEventListener("click", () => {
+            const seleccionados = Array.from(
+                document.querySelectorAll('input[name="destinatarios"]:checked')
+            ).map(cb => cb.value);
+
+        });
+
+        enviarMensajeAsistentes(seleccionados, asunto, mensaje);
+    }
 
     modificarEventoPendiente(){}
 
-    verParticipantes(evento){}
+    async verParticipantes(){
+        const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
+        let inscritos = await obtenerInscritos(eventoGuardado.idEvento);
+        return inscritos;
+    }
 
     confirmarAsistencia(idEvento){}
 
@@ -17,15 +56,12 @@ export class Organizador extends Asistente{
 
     async crearEvento(){
 
-        console.log(localStorage.getItem("usuario"));
         const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
 
-        if (usuarioGuardado) {
-            const idUsuario = usuarioGuardado.idUsuario;
-        }
-        let informacion ={
+       
+        let informacion = {
 
-            idOrganizador: idUsuario, // usuario Axel
+            idOrganizador: usuarioGuardado.idUsuario, // usuario Axel
             nombre: document.getElementById("nombre").value.trim(),
             categoria: document.getElementById("categoria").value.trim(),
             fecha: document.getElementById("fecha").value.trim(),

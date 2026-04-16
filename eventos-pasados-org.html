@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eventos pasados organizador - Sistema de Eventos TEC</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas desarrollo -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+        <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="eventos-pasados-page">
+
+<header class="navbar">
+    <div class="navbar-contenido">
+        <div class="navbar-izquierda">
+            <h1 class="logo-sistema">tecEventos</h1>
+
+            <nav class="menu-nav">
+                <a href="inicio-organizador.html">Inicio</a>
+                <a href="eventos-organizador.html">Eventos</a>
+                <a href="mis-inscripciones.html">Mis Inscritos</a>
+                <a href="mis-eventos.html">Mis Eventos</a>
+                <a href="crear-evento.html">Crear Evento</a>
+                <a href="anuncios-organizador.html">Ver Anuncios</a>
+            </nav>
+        </div>
+
+        <div class="navbar-derecha">
+            <a href="mi-cuenta.html"><img src="../../public/assets/iconos/icono-usuario.png" class="icono-perfil"></a>
+        </div>
+    </div>
+</header>
+
+<main class="container seccion">
+
+    <section class="seccion">
+        <h2 class="titulo-vista">Eventos Pasados</h2>
+    </section>
+
+    <!--
+        CONTENEDOR DE EVENTOS PASADOS
+
+        IMPORTANTE:
+        Este bloque debe llenarse con eventos a los que el usuario estuvo inscrito
+        y cuya fecha ya paso.
+    -->
+    <section id="contenedor-eventos-pasados">
+
+        <!-- evento temporal -->
+        <article class="card-evento card-evento-horizontal">
+            <div class="info-evento">
+                <p><strong>Título:</strong> Taller de Arduino</p>
+                <p><strong>Categoría:</strong> Academico</p>
+                <p><strong>Fecha:</strong> 22-02-2026</p>
+                <p><strong>Modalidad:</strong> Presencial</p>
+            </div>
+        </article>
+
+        <article class="card-evento card-evento-horizontal">
+            <div class="info-evento">
+                <p><strong>Título:</strong> Hablemos de la amistad</p>
+                <p><strong>Categoría:</strong> Recreativo</p>
+                <p><strong>Fecha:</strong> 20-02-2026</p>
+                <p><strong>Modalidad:</strong> Virtual</p>
+            </div>
+        </article>
+
+        <article class="card-evento card-evento-horizontal">
+            <div class="info-evento">
+                <p><strong>Título:</strong> Torneo de Volleyball</p>
+                <p><strong>Categoría:</strong> Recreativo</p>
+                <p><strong>Fecha:</strong> 19-02-2026</p>
+                <p><strong>Modalidad:</strong> Presencial</p>
+            </div>
+        </article>
+
+    </section>
+
+</main>
+
+</body>
+</html>
