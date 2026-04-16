@@ -352,6 +352,144 @@ console.log(respuesta)
 */
 
 
+// Recibe : id delusuario
+// Retorna: lista de diccionario de los eventos
+export async function obtenerInscripcionesPasadas(idUsuario) {
+    try {
+        const res = await fetch(`http://localhost:3005/api/usuario/eventos/pasados/${idUsuario}`);
+        
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.Mensaje || "Error al obtener el historial");
+        }
+        
+        return await res.json();
+    } catch (err) {
+        console.error("Error en obtenerHistorialEventos:", err);
+        return [];
+    }
+}
+
+/*
+const res = await obtenerInscripcionesPasadas(9)
+console.log(res)
+*/
+
+
+// Recibe : id delusuario
+// Retorna: lista de diccionario de los eventos
+export async function obtenerInscripcionesFuturas(idUsuario) {
+    try {
+        const res = await fetch(`http://localhost:3005/api/usuario/eventos/futuros/${idUsuario}`);
+        
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.Mensaje || "Error al obtener la agenda");
+        }
+        
+        return await res.json();
+    } catch (err) {
+        console.error("Error en obtenerAgendaFutura:", err);
+        return [];
+    }
+}
+/*
+const res = await obtenerInscripcionesFuturas(7)
+console.log(res)*/
+
+
+
+
+// recibe: mensaje
+// retorna: codigo y mensaje de éxito (diccionario)
+export async function crearAnuncio(mensaje) {
+    try {
+        const res = await fetch("http://localhost:3005/api/anuncios/crear", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mensaje })
+        });
+        return await res.json();
+    } catch (err) {
+        console.error("Error al crear anuncio:", err);
+        return { Codigo: -1, Mensaje: "Error de conexión" };
+    }
+}
+
+/*
+const res2 = await crearAnuncio("Este es un anuncio sobre el funcionamiento del sistema de anuncios")
+console.log(res2)
+*/
+
+
+
+
+// Recibe nada
+// Retorna diccionario con los 3 eventos mas recientes con {Mensaje: ...., FechaEnvio:... , idUsuario: El id del admin (11 constante)}
+export async function obtenerAnunciosRecientes() {
+    try {
+        const res = await fetch("http://localhost:3005/api/anuncios/recientes");
+        if (!res.ok) throw new Error("Error al obtener anuncios");
+        return await res.json();
+    } catch (err) {
+        console.error("Error en obtenerAnunciosRecientes:", err);
+        return [];
+    }
+}
+
+/*
+const res3 = await obtenerAnunciosRecientes()
+console.log(res3)*/
+
+
+// Recibe estado ('PENDIENTE', 'APROBADO', 'CANCELADO')
+// Retorna una lista de diccionarios con esos eventos
+export async function obtenerEventosPorEstado(estado) {
+    try {
+        const res = await fetch(`http://localhost:3005/api/eventos/lista?estado=${estado}`);
+        
+        if (!res.ok) throw new Error("Error al obtener la lista de eventos");
+
+        return await res.json();
+    } catch (err) {
+        console.error("Error en obtenerEventosPorEstado:", err);
+        return [];
+    }
+}
+/*
+const res = await obtenerEventosPorEstado('APROBADO')
+console.log(res)
+*/
+
+// recibe id de usuario y evento
+// retorna codigo y error (diccionario)
+export async function desinscribirDeEvento(idEvento, idUsuario) {
+    try {
+        const res = await fetch("http://localhost:3005/api/eventos/desinscribir", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idEvento, idUsuario })
+        });
+
+        if (!res.ok) throw new Error("Error en la comunicación con el servidor");
+
+        return await res.json();
+    } catch (err) {
+        console.error("Error en desinscribirDeEvento:", err);
+        return { Codigo: -1, Mensaje: err.message };
+    }
+}
+
+/*
+const res = await desinscribirDeEvento(9, 7)
+console.log(res)
+*/
+
+
+
+
+
+
 
 
 

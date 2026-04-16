@@ -594,3 +594,162 @@ BEGIN
 
     SELECT 1 AS Codigo, 'Solicitud de cancelación rechazada' AS Mensaje;
 END;
+
+
+-- Parámetro (id de la solicitud)
+-- Retorno (1: exito)
+CREATE PROCEDURE sp_VerMisInscripcionesPasadas
+    @inIdUsuario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        E.idEvento,
+        E.NombreEvento,
+        E.Descripcion,
+        E.FechaEvento,
+        E.Modalidad,
+        E.Categoria,
+        U.NombreUsuario AS NombreOrganizador, 
+        A.FechaInscripcion,
+        A.Asistio,
+        A.idAsitenciaEvento
+    FROM AsistentesPorEvento A
+    INNER JOIN Evento E ON A.idEvento = E.idEvento
+    INNER JOIN Usuario U ON E.idOrganizador = U.idUsuario 
+    WHERE A.idUsuario = @inIdUsuario 
+      AND E.FechaEvento < GETDATE()
+      AND (A.Cancelacion = 0 OR A.Cancelacion IS NULL)
+    ORDER BY E.FechaEvento DESC;
+END;
+
+
+
+-- Parámetro (id de la solicitud)
+-- Retorno (1: exito)
+CREATE PROCEDURE sp_VerMisInscripcionesFuturas
+    @inIdUsuario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        E.idEvento,
+        E.NombreEvento,
+        E.Descripcion,
+        E.FechaEvento,
+        E.Modalidad,
+        E.EnlacePlenaria,
+        U.NombreUsuario AS NombreOrganizador, 
+        A.FechaInscripcion,
+        A.idAsitenciaEvento
+    FROM AsistentesPorEvento A
+    INNER JOIN Evento E ON A.idEvento = E.idEvento
+    INNER JOIN Usuario U ON E.idOrganizador = U.idUsuario -
+    WHERE A.idUsuario = @inIdUsuario 
+      AND E.FechaEvento >= GETDATE()
+      AND (A.Cancelacion = 0 OR A.Cancelacion IS NULL)
+    ORDER BY E.FechaEvento ASC;
+END;
+
+--recibe nada
+-- retorna exito
+CREATE PROCEDURE sp_CrearAnuncio
+    @inMensaje VARCHAR(1500)
+AS
+BEGIN
+    DECLARE @idAdmin INT = 11;
+
+    INSERT INTO Notificacion(Mensaje,FechaEnvio, idUsuario) VALUES(@inMensaje, GETDATE(), @idAdmin)
+    SELECT 0 as Codigo, 'Anuncio creado'
+
+END
+
+
+-- Recibe (nada)
+-- Retorna (los 3 notificaciones mas recientes)
+CREATE PROCEDURE sp_VerAnuncios
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT TOP 3 Mensaje, FechaEnvio, idUsuario 
+    FROM Notificacion 
+    ORDER BY FechaEnvio DESC;
+END
+
+
+
+
+
+-- Recibe (estado)
+-- Retorna (lista de TODOS los eventos en ese estado)
+CREATE PROCEDURE sp_VerTodosLosEventos
+    @inEstado VARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        SELECT 
+            E.idEvento,
+            E.NombreEvento,
+            E.Descripcion,
+            E.FechaEvento,
+            E.Modalidad,
+            E.Categoria,
+            E.Cupo,
+            E.EnlacePlenaria,
+            U.NombreUsuario AS NombreOrganizador
+        FROM Evento E 
+        INNER JOIN Usuario U ON E.idOrganizador = U.idUsuario 
+        WHERE E.Estado = @inEstado 
+        ORDER BY E.FechaEvento ASC;
+    END TRY
+    BEGIN CATCH
+        SELECT ERROR_MESSAGE() AS MensajeError;
+    END CATCH
+END;
+
+
+-- Recibe id de usuario y evento
+-- Retorna código y mensaje
+CREATE PROCEDURE sp_DesinscribirEvento
+    @inIdEvento INT,
+    @inIdUsuario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- 1. Verificar si la inscripción existe y no está ya cancelada
+        IF NOT EXISTS (SELECT 1 FROM AsistentesPorEvento 
+                       WHERE idEvento = @inIdEvento AND idUsuario = @inIdUsuario AND (Cancelacion = 0 OR Cancelacion IS NULL))
+        BEGIN
+            ROLLBACK TRANSACTION;
+            SELECT 0 AS Codigo, 'No tienes una inscripción activa para este evento' AS Mensaje;
+            RETURN;
+        END
+
+        -- 2. Marcar como cancelado y registrar la fecha
+        UPDATE AsistentesPorEvento 
+        SET Cancelacion = 1, 
+            FechaCancelacion = GETDATE()
+        WHERE idEvento = @inIdEvento AND idUsuario = @inIdUsuario;
+
+        --Devolver el cupo al evento (+1)
+        UPDATE Evento 
+        SET Cupo = Cupo + 1 
+        WHERE idEvento = @inIdEvento;
+
+        COMMIT TRANSACTION;
+        SELECT 1 AS Codigo, 'Inscripción cancelada con éxito. El cupo ha sido liberado.' AS Mensaje;
+
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+        SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;
+    END CATCH
+END;

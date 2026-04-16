@@ -417,6 +417,101 @@ app.put('/api/admin/procesar-solicitud', async (req, res) => {
     }
 });
 
+
+// Obtener eventos pasados del usuario
+app.get('/api/usuario/eventos/pasados/:idUsuario', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inIdUsuario', sql.Int, req.params.idUsuario)
+            .execute('sp_VerMisInscripcionesPasadas');
+        
+        res.json(result.recordset);
+    } catch (err) {
+        console.error("Error al recuperar eventos pasados:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+// Obtener inscripciones futuras del usuario
+app.get('/api/usuario/eventos/futuros/:idUsuario', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inIdUsuario', sql.Int, req.params.idUsuario)
+            .execute('sp_VerMisInscripcionesFuturas');
+        
+        res.json(result.recordset);
+    } catch (err) {
+        console.error("Error al recuperar inscripciones futuras:", err.message);
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+// sp Crear un anuncio 
+app.post('/api/anuncios/crear', async (req, res) => {
+    const { mensaje } = req.body;
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inMensaje', sql.VarChar(1500), mensaje)
+            .execute('sp_CrearAnuncio');
+        
+        res.json(result.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+// Obtener los últimos 3 anuncios
+app.get('/api/anuncios/recientes', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .execute('sp_VerAnuncios');
+        
+        res.json(result.recordset);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+//sp obtener todos los evento
+app.get('/api/eventos/lista', async (req, res) => {
+    const { estado } = req.query; // Obtiene el estado de la URL
+    
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inEstado', sql.VarChar(20), estado)
+            .execute('sp_VerTodosLosEventos');
+        
+        res.json(result.recordset);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+//sp desisncribir a evento
+app.put('/api/eventos/desinscribir', async (req, res) => {
+    const { idEvento, idUsuario } = req.body;
+
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inIdEvento', sql.Int, idEvento)
+            .input('inIdUsuario', sql.Int, idUsuario)
+            .execute('sp_DesinscribirEvento');
+
+        res.json(result.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+
 // Arranque
 const PORT = 3005;
 app.listen(PORT, () => {
