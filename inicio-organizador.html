@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inicio organizador - Sistema de Eventos TEC</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="inicio-organizador-page">
+
+    <!--
+        HEADER / NAVBAR DEL ORGANIZADOR
+        Esta vara de fijo la reutilizo en el resto de pages de estudiante
+    -->
+    <header class="navbar">
+        <div class="navbar-contenido ">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-organizador.html">Inicio</a>
+                    <a href="eventos-organizador.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="mis-eventos.html">Mis Eventos</a>
+                    <a href="crear-evento.html">Crear Evento</a>
+                    <a href="anuncios-organizador.html">Ver Anuncios</a>
+
+                </nav>
+            </div>
+
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container seccion">
+
+        <!--
+            BLOQUE PRINCIPAL DE ANUNCIO
+
+            IMPORTANTE:
+            Este bloque NO debe quedarse con texto fijo cuando el sistema
+            ya este conectado al backend.
+
+            Aqui luego debe mostrarse el anuncio mas reciente generado
+            por el admi.
+            En una version conectada, este bloque podria recibir algo como:
+        -->
+        <section class="bloque-anuncio-principal card">
+            <h2 class="titulo-anuncio">Anuncios</h2>
+
+            <!-- CONTENEDOR: contenedor-anuncio-principal -->
+            <div id="contenedor-anuncio-principal">
+                
+            </div>
+        </section>
+
+        <!--
+            BLOQUE DE TARJETAS INFORMATIVAS
+        -->
+        <section class="bloque-2-columnas seccion">
+
+            <!--
+                PROXIMOS EVENTOS
+
+                IMPORTANTE:
+                Este contenedor debe llenarse despues con una lista real
+                de eventos futuros disponibles para el estudiante.
+
+                La informacion temporal que esta abajo NO debe quedarse
+                fija en la version final.
+            -->
+            <section class="card seccion-eventos">
+                <h3 class="subtitulo-seccion">Mis eventos más recientes</h3>
+
+                <!-- CONTENEDOR: contenedor-eventos-proximos -->
+                <div id="contenedor-eventos-recientes1">
+
+                    <!-- card temporal de referencia visual -->
+
+                </div>
+            </section>
+
+            <section class="card seccion-eventos">
+                <h3 class="subtitulo-seccion">Mis eventos más recientes</h3>
+               
+
+                <!-- CONTENEDOR: contenedor-evento-inscrito -->
+                <div id="contenedor-evento-recientes2">
+
+
+                </div>
+            </section>
+
+        </section>
+
+    </main>
+
+    <!-- js para desarrollo -->
+    <script type="module" src="../../main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

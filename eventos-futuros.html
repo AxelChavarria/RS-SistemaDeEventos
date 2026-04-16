@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eventos futuros - Sistema de Eventos TEC</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="eventos-futuros-page">
+
+    <header class="navbar">
+        <div class="navbar-contenido">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-estudiante.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="anuncios.html">Ver Anuncios</a>
+                </nav>
+            </div>
+
+            <div class="navbar-derecha">
+                <a href="mi-cuenta.html"><img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil"></a>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container seccion">
+
+        <section class="seccion">
+            <h2 class="titulo-vista">Eventos Futuros</h2>
+        </section>
+
+        <!--
+            BLOQUE DE ENCABEZADO DE LA SECCION
+
+            Este bloque sirve como referencia visual para indicar que aqui
+            se muestran los eventos futuros en los que el estudiante esta inscrito.
+
+            Luego podria mantenerse asi o cambiar segun el diseño final.
+        -->
+        <section class="encabezado-inscripciones">
+            <h3>Eventos en los que esta inscrito/a</h3>
+        </section>
+
+        <!--
+            CONTENEDOR DE EVENTOS FUTUROS
+
+            IMPORTANTE:
+            Aqui deben mostrarse los eventos futuros en los que el usuario
+            autenticado ya esta inscrito.
+        -->
+        <section id="contenedor-eventos-futuros">
+
+        </section>
+
+    </main>
+
+    <!-- js para desarrollo -->
+    <script type="module" src="../../main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

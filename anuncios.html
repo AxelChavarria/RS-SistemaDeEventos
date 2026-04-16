@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- permite que la pagina sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ver anuncios - Sistema de Eventos TEC</title>
+
+    <!-- fuente opcional para detalles visuales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+
+    <!-- rutas para desarrollo con live server -->
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/paginas.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+
+    <!-- rutas para backend (usar despues) -->
+    <!--
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/componentes.css">
+    <link rel="stylesheet" href="/css/paginas.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    -->
+</head>
+
+<body class="anuncios-page">
+
+    <!--
+        NAVBAR DEL ESTUDIANTE
+
+        Por ahora se deja fija como parte del cascaron visual.
+        Luego podria reutilizarse como componente comun del rol estudiante.
+    -->
+    <header class="navbar">
+        <div class="navbar-contenido">
+
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+
+                <nav class="menu-nav">
+                    <a href="inicio-estudiante.html">Inicio</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="anuncios.html">Ver Anuncios</a>
+                </nav>
+            </div>
+
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container seccion">
+
+        <section class="seccion">
+            <h2 class="titulo-vista">Ver anuncios</h2>
+        </section>
+
+        <!--
+            LISTA DE ANUNCIOS
+
+            IMPORTANTE:
+            Este bloque debe llenarse despues con la lista real de anuncios
+            obtenidos desde backend.
+
+        -->
+        <section id="contenedor-lista-anuncios">
+             <!-- anuncio temporal -->
+            
+
+        </section>
+
+    </main>
+
+    <!-- js para desarrollo -->
+    <script type="module" src="../../main.js"></script>
+
+    <!-- js para backend -->
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>

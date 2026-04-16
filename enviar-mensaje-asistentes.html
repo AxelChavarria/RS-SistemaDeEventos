@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Correo - tecEventos</title>
+    
+    <link rel="stylesheet" href="../../public/css/base.css">
+    <link rel="stylesheet" href="../../public/css/layout.css">
+    <link rel="stylesheet" href="../../public/css/componentes.css">
+    <link rel="stylesheet" href="../../public/css/responsive.css">
+</head>
+<body class="enviar-correo-page">
+
+    <header class="navbar">
+        <div class="navbar-contenido">
+            <div class="navbar-izquierda">
+                <h1 class="logo-sistema">tecEventos</h1>
+                <nav class="menu-nav">
+                    <a href="inicio-organizador.html">Inicio</a>
+                    <a href="eventos-organizador.html">Eventos</a>
+                    <a href="mis-inscripciones.html">Mis Inscritos</a>
+                    <a href="mis-eventos.html">Mis Eventos</a>
+                    <a href="crear-evento.html">Crear Evento</a>
+                    <a href="anuncios-organizador.html">Ver Anuncios</a>
+                </nav>
+            </div>
+            <div class="navbar-derecha">
+                <img src="../../public/assets/iconos/icono-usuario.png" alt="Perfil" class="icono-perfil">
+            </div>
+        </div>
+    </header>
+
+    <main class="container seccion">
+        
+        <header class="seccion-encabezado">
+            <h2 class="titulo-vista" style="color: #003366; text-transform: uppercase;">Enviar Correo a Asistentes</h2>
+        </header>
+
+        <section class="formulario-correo" style="margin-top: 20px;">
+
+            <!-- FORM: form-enviar-mensaje -->
+            <form id="form-enviar-mensaje">
+                <input type="hidden" name="evento_id" value="ID_DEL_EVENTO">
+
+                <div class="info-envio" style="margin-bottom: 25px;">
+
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="asunto"><strong>Asunto:</strong></label>
+                        <input type="text" id="asunto" name="asunto" class="input-control" placeholder="Escriba el asunto del correo">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <p><strong>Para:</strong></p>
+                        <!-- CONTENEDOR: lista-destinatarios -->
+                        <!-- JS carga aquí los checkboxes con los inscritos del evento -->
+                        <div id="lista-destinatarios"></div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th><input type="checkbox" id="seleccionarTodos" checked></th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista">
+                               <!-- aqui se muestran los destinatarios -->
+                            </tbody>
+                        </table> 
+                    </div>
+
+                    <p><strong>Mensaje:</strong></p>
+                </div>
+
+                <div class="contenedor-mensaje" style="margin-bottom: 30px;">
+                    <textarea
+                        id="mensaje"
+                        name="mensaje"
+                        class="input-control"
+                        rows="15"
+                        style="width: 100%; border: 1px solid #000; padding: 15px; resize: none;"
+                        placeholder="Escriba aquí el contenido del correo..."></textarea>
+                </div>
+
+                <div class="detalle-evento-acciones">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="button" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+
+    <script type="module" src="../../main.js"></script>
+    <!-- <script src="/js/main.js"></script> -->
+
+</body>
+</html>
