@@ -511,6 +511,88 @@ app.put('/api/eventos/desinscribir', async (req, res) => {
 });
 
 
+// sp obtener lista de los asistentes de un evento
+app.get('/api/eventos/asistentes/:idEvento', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inIdEvento', sql.Int, req.params.idEvento)
+            .execute('sp_MostrarAsistentesEvento');
+        
+        res.json(result.recordset);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+//sp obtener los usuarios del sistema
+app.get('/api/admin/usuarios-detallados', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .execute('sp_MostrarUsuarios');
+        
+        res.json(result.recordset);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+// sp de rechazar o cancelar eventos
+app.put('/api/admin/gestionar-evento', async (req, res) => {
+    const { accion, idEvento } = req.body; // 'Aprobar' o 'Rechazar'
+
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inAccion', sql.VarChar(25), accion)
+            .input('inIdEvento', sql.Int, idEvento)
+            .execute('sp_AprobarRechazarEvento');
+
+        res.json(result.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+// sp de gestionar rol
+app.put('/api/admin/gestionar-rol', async (req, res) => {
+    const { correo, accion } = req.body; // Se envía correo y acción ('Activar'/'Desactivar')
+
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inCorreo', sql.VarChar(100), correo)
+            .input('inAccion', sql.VarChar(20), accion)
+            .execute('sp_GestionarOrganizadores');
+
+        res.json(result.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+
+
+//sp marcar asistencia
+app.put('/api/eventos/marcar-asistencia', async (req, res) => {
+    const { carnet, idEvento, accion } = req.body;
+
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inCarnet', sql.VarChar(20), carnet)
+            .input('inIdEvento', sql.Int, idEvento)
+            .input('inAccion', sql.VarChar(20), accion)
+            .execute('sp_MarcarAsistencia');
+
+        res.json(result.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
 
 // Arranque
 const PORT = 3005;

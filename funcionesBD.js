@@ -215,6 +215,11 @@ export async function inscribirse(inscripcion) {
     }
 }
 
+/*
+const res = await inscribirse({idEvento:9, idUsuario:4})
+console.log(res)
+*/
+
 
 // Recibe: lista de correos seleccionados por el organizador, asunto y mensaje
 // No consulta SQL, solo le manda los correos a nodemailer para que los envíe
@@ -487,7 +492,118 @@ console.log(res)
 
 
 
+// recibe : id de un evento
+// retorna diccionario de los inscritos con nombre, carnet, correo, si asistió y fecha de inscripción
+export async function obtenerAsistentesEvento(idEvento) {
+    try {
+        const res = await fetch(`http://localhost:3005/api/eventos/asistentes/${idEvento}`);
+        
+        if (!res.ok) throw new Error("Error al obtener la lista de asistentes");
 
+        return await res.json();
+    } catch (err) {
+        console.error("Error en obtenerAsistentesEvento:", err);
+        return [];
+    }
+}
+
+
+const res1 = await obtenerAsistentesEvento(9)
+console.log(res1)
+
+
+
+
+
+
+
+// recibe nada
+// retorna todos los usuarios del sistema (lista de diccionarios), con nombre, correo, rol y cantidad de eventos realizados
+export async function obtenerDetalleUsuarios() {
+    try {
+        const res = await fetch("http://localhost:3005/api/admin/usuarios-detallados");
+        
+        if (!res.ok) throw new Error("Error al obtener el listado de usuarios");
+
+        return await res.json();
+    } catch (err) {
+        console.error("Error en obtenerDetalleUsuarios:", err);
+        return [];
+    }
+}
+
+/*
+const res = await obtenerDetalleUsuarios()
+console.log(res)
+*/
+
+
+
+
+
+// recive id del evento y la acción ('Aprobar' o 'Rechazar')
+// retorna diccionario con código y mensaje
+export async function gestionarEvento(accion, idEvento) {
+    const res = await fetch("http://localhost:3005/api/admin/gestionar-evento", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accion, idEvento })
+    });
+    return await res.json();
+}
+
+/*
+const res = await gestionarEvento('Aprobar', 1)
+console.log(res)
+
+const res1 = await gestionarEvento('Rechazar', 4)
+console.log(res1)
+*/
+
+
+// recibe  correo del usuario y rol ('Activar' o 'Desactivar')
+// retorna codigo y mensaje
+export async function gestionarRolOrganizador(correo, accion) {
+    try {
+        const res = await fetch("http://localhost:3005/api/admin/gestionar-rol", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ correo, accion })
+        });
+
+        if (!res.ok) throw new Error("No se pudo actualizar el rol");
+
+        return await res.json();
+    } catch (err) {
+        console.error("Error en gestionarRolOrganizador:", err);
+        return { Codigo: -1, Mensaje: err.message };
+    }
+}
+/*
+const res = await gestionarRolOrganizador("test1775575788878@mail.com", "Activar")
+console.log(res)
+*/
+
+
+// recibe carnet, id del evento y la acción ('Presente' o 'Ausente'
+// retorna codigo y mensaje
+export async function marcarAsistencia(carnet, idEvento, accion) {
+    try {
+        const res = await fetch("http://localhost:3005/api/eventos/marcar-asistencia", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ carnet, idEvento, accion })
+        });
+
+        return await res.json();
+    } catch (err) {
+        console.error("Error al marcar asistencia:", err);
+        return { Codigo: -1, Mensaje: err.message };
+    }
+}
+
+const res = await marcarAsistencia("2024066829", 9, "Presente")
+console.log(res)
 
 
 

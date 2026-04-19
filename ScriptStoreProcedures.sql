@@ -753,3 +753,127 @@ BEGIN
         SELECT -1 AS Codigo, ERROR_MESSAGE() AS Mensaje;
     END CATCH
 END;
+
+
+-- Recibe id de evento 
+-- retorna codigo y mensaje
+CREATE PROCEDURE sp_AprobarRechazarEvento
+    @inAccion Varchar(25),
+    @inIdEvento INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    IF @inAccion = 'Aprobar';
+    BEGIN
+        UPDATE Evento
+        SET Estado = 'APROBADO'
+        WHERE idEvento = @inIdEvento;
+        SELECT 0 as Codigo, "Evento aprobado" as Mensaje
+    END
+
+    IF @inAccion = 'Rechazar';
+    BEGIN
+        UPDATE Evento
+        SET Estado = 'CANCELADO'
+        WHERE idEvento = @inIdEvento;
+        SELECT 1 as Codigo, "Evento cancelado" as Mensaje
+    END
+END
+
+
+-- Recibe id de evento 
+-- retorna usuarios y asistencia
+CREATE PROCEDURE sp_MostrarAsistentesEvento
+    @inIdEvento INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT U.NombreUsuario, U.CorreoElectronico, U.Carnet, A.Asistio, A.FechaInscripcion FROM Usuario U 
+    INNER JOIN AsistentesPorEvento A ON U.idUsuario = A.idUsuario 
+    WHERE @inIdEvento = A.idEvento
+    AND (A.Cancelacion = 0 OR A.Cancelacion IS NULL);
+END
+
+
+
+-- recibe nada
+-- retorna a todos los usuarios
+CREATE PROCEDURE sp_MostrarUsuarios
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        U.NombreUsuario, 
+        U.CorreoElectronico, 
+        U.Rol
+        COUNT(E.idEvento) AS EventosRealizados
+    FROM Usuario U
+    LEFT JOIN Evento E ON U.idUsuario = E.idOrganizador AND E.Estado = 'APROBADO'
+    GROUP BY U.NombreUsuario, U.CorreoElectronico, U.Rol
+    ORDER BY EventosRealizados DESC;
+END;
+
+
+-- recibe el correo y la acción
+-- retorna el código y mensaje
+CREATE PROCEDURE sp_GestionarOrganizadores
+    @inCorreo
+    @inAccion
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @inAccion ='Activar'
+    BEGIN
+        UPDATE Usuario
+        SET Rol = 'ORGANIZADOR'
+        WHERE CorreElectronico = @inCorreo
+        SELECT 0 AS Codigo, 'Usuario ascendido a ORGANIZADOR' AS Mensaje;
+    END
+
+    IF @inAccion ='Desactivar'
+    BEGIN
+        UPDATE Usuario
+        SET Rol = 'ASISTENTE'
+        WHERE CorreoElectronico = @inCorreo 
+        SELECT 1 AS Codigo, 'Usuario degradado a Asistente' AS Mensaje;
+    END
+END
+
+
+--recibe el id del evento, carnet del usuario y accion
+-- retorna código y mensaje
+CREATE PROCEDURE sp_MarcarAsistencia
+    @inCarnet VARCHAR(45),
+    @inIdEvento INT,
+    @inAccion VARCHAR(20) 
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @idUsuario INT;
+
+    -- 1. Obtener el idUsuario a partir del carnet
+    SELECT @idUsuario = idUsuario FROM Usuario WHERE Carnet = @inCarnet;
+
+
+    IF @inAccion = 'Presente'
+    BEGIN
+        UPDATE AsistentesPorEvento
+        SET Asistio = 1
+        WHERE idEvento = @inIdEvento AND idUsuario = @idUsuario;
+        
+        SELECT 1 AS Codigo, 'Asistencia marcada como Presente' AS Mensaje;
+    END
+
+
+    ELSE IF @inAccion = 'Ausente'
+    BEGIN
+        UPDATE AsistentesPorEvento
+        SET Asistio = 0
+        WHERE idEvento = @inIdEvento AND idUsuario = @idUsuario;
+        
+        SELECT 1 AS Codigo, 'Asistencia marcada como Ausente' AS Mensaje;
+    END
+END;
