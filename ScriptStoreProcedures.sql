@@ -904,3 +904,20 @@ BEGIN
 
     SELECT U.CorreoElectronico FROM Usuario U INNER JOIN Evento E ON U.idUsuario = E.idOrganizador WHERE E.idEvento = @inIdEvento
 END
+
+
+
+
+CREATE PROCEDURE sp_ObtenerCorreosAsistentes
+    @inIdEvento INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        U.CorreoElectronico
+    FROM Usuario U
+    INNER JOIN AsistentesPorEvento A ON U.idUsuario = A.idUsuario
+    WHERE A.idEvento = @inIdEvento 
+      AND (A.Cancelacion = 0 OR A.Cancelacion IS NULL);
+END;

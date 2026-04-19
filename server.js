@@ -323,6 +323,23 @@ app.post('/api/notificar-cancelacion', async (req, res) => {
 });
 
 
+
+// sp obtener correos asistentes
+app.get('/api/eventos/correos/:idEvento', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inIdEvento', sql.Int, req.params.idEvento)
+            .execute('sp_ObtenerCorreosAsistentes');
+        
+        // Transformamos el resultado para devolver un array simple de strings ["a@a.com", "b@b.com"]
+        const listaCorreos = result.recordset.map(r => r.CorreoElectronico);
+        res.json(listaCorreos);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
 //api de modificar evento
 app.put('/api/eventos/modificar', async (req, res) => {
     const { idEvento, nombre, descripcion, categoria, fecha, modalidad, enlace, cupo } = req.body;

@@ -225,6 +225,12 @@ console.log(res)
 */
 
 
+
+
+
+
+
+
 // Recibe: lista de correos seleccionados por el organizador, asunto y mensaje
 // No consulta SQL, solo le manda los correos a nodemailer para que los envíe
 export async function enviarMensajeAsistentes(correos, asunto, mensaje) {
@@ -628,6 +634,12 @@ export async function obtenerCorreosAsistentes(idEvento) {
         return [];
     }
 }
+
+/*
+const res3 = await obtenerCorreosAsistentes(9)
+console.log(res3)
+*/
+
 
 
 
