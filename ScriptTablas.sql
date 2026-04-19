@@ -31,7 +31,7 @@ CREATE TABLE Evento (
   PostTime VARCHAR(45) NULL,
   Estado VARCHAR(20) NULL,
   Modalidad VARCHAR(20) NULL,
-  JustificacionRechazo VARCHAR(45) NULL,
+  JustificacionRechazo VARCHAR(1000) NULL,
   EnlacePlenaria VARCHAR(45) NULL,
   CONSTRAINT PK_Evento PRIMARY KEY (idEvento),
   CONSTRAINT FK_Evento_Usuario FOREIGN KEY (idOrganizador) REFERENCES Usuario (idUsuario),

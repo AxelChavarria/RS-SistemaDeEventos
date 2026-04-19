@@ -634,6 +634,71 @@ app.get('/api/eventos/correos/:idEvento', async (req, res) => {
     }
 });
 
+
+//sp moderación
+app.post('/api/eventos/cancelar', async (req, res) => {
+    const { idEvento } = req.body;
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdEvento', sql.Int, idEvento)
+            .execute('sp_ModeracionCancelar');
+        res.json(result.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+app.post('/api/eventos/actualizar', async (req, res) => {
+    try {
+        let pool = await sql.connect(config);
+        let resData = await pool.request()
+            .input('inIdEvento', sql.Int, req.body.idEvento)
+            .input('inNombre', sql.VarChar, req.body.nombre)
+            .input('inDescripcion', sql.VarChar, req.body.descripcion)
+            .input('inCategoria', sql.VarChar, req.body.categoria)
+            .input('inFecha', sql.DateTime, req.body.fecha)
+            .input('inModalidad', sql.VarChar, req.body.modalidad)
+            .input('inEnlace', sql.VarChar, req.body.enlace)
+            .input('inCupo', sql.Int, req.body.cupo)
+            .execute('sp_ModeracionModificar');
+        res.json(resData.recordset[0]);
+    } catch (err) { res.status(500).json({ Codigo: -1, Mensaje: err.message }); }
+});
+
+// sp reportes
+app.post('/api/reportes/eventos', async (req, res) => {
+    try {
+        const { fechaInicio, fechaFin } = req.body;
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inFechaInicio', sql.DateTime, fechaInicio)
+            .input('inFechaFin', sql.DateTime, fechaFin)
+            .execute('sp_GenerarReporteEventos');
+
+        // result.recordsets[0] son los eventos, [1] son las estadísticas generales
+        res.json({
+            eventos: result.recordsets[0],
+            estadisticas: result.recordsets[1][0]
+        });
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+app.post('/api/eventos/justificar', async (req, res) => {
+    try {
+        let pool = await sql.connect(config);
+        let resData = await pool.request()
+            .input('inIdEvento', sql.Int, req.body.idEvento)
+            .input('inJustificacion', sql.VarChar, req.body.justificacion)
+            .execute('sp_ColocarJustificacion');
+        res.json(resData.recordset[0]);
+    } catch (err) { res.status(500).json({ Codigo: -1, Mensaje: err.message }); }
+});
+
 // Arranque
 const PORT = 3005;
 app.listen(PORT, () => {

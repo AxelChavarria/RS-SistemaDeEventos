@@ -642,12 +642,65 @@ console.log(res3)
 */
 
 
+// recibe id de evento
+// retorna codigo y mensaje
+export async function cancelarEventoModeracion(idEvento) {
+    try {
+        const res = await fetch("http://127.0.0.1:3005/api/eventos/cancelar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idEvento })
+        });
+        return await res.json();
+    } catch (err) {
+        return { Codigo: -1, Mensaje: "Error de conexión" };
+    }
+}
 
 
+// recibe diccionario con datos del evento
+// retorna código y mensaje
+export async function actualizarEvento(data) {
+    const res = await fetch("http://127.0.0.1:3005/api/eventos/actualizar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+    return await res.json();
+}
 
 
+//  recibe id de evento y la justificación
+// retorna nada
+export async function justificarEvento(idEvento, justificacion) {
+    const res = await fetch("http://127.0.0.1:3005/api/eventos/justificar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idEvento, justificacion })
+    });
+    return await res.json();
+}
 
 
+// recibe fecha inicial y final
+// retorna diccionario con{evento:[lista de eventos en diccioanrios {}{}{}], estadisticas:{"TotalEventosRealizados":...,"PromedioAsistentesGeneral":...}}
+export async function generarReporte(fechaInicio, fechaFin) {
+    try {
+        const respuesta = await fetch("http://127.0.0.1:3005/api/reportes/eventos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fechaInicio, fechaFin })
+        });
+
+        const data = await respuesta.json();
+        return data; 
+    } catch (err) {
+        console.error("Error al obtener el reporte:", err);
+        return { 
+            eventos: [], 
+            estadisticas: null, 
+            error: "No se pudo conectar con el servidor" 
+        };
+    }
+}
 
 
 
