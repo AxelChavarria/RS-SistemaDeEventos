@@ -650,6 +650,13 @@ if (contenedorEventoAprobado) {
 
 }
 
+//**Mis Eventos**->*Detalles*->Evento aprobado->Ver Participantes
+
+
+
+
+
+
 //**Mis Eventos**->*Detalles*->Evento aprobado->Enviar mensaje a asistentes
 const formEnviarCorreo = document.getElementById("form-enviar-mensaje");
 if (formEnviarCorreo) {
@@ -686,3 +693,17 @@ if (formCrearEvento) {
         organizador.crearEvento();
     });
 }
+
+
+
+
+//**Enviar Mensaje**
+const formEnviarMensaje = document.getElementById("form-enviar-mensaje");
+if (formEnviarMensaje) {
+    formEnviarMnesaje.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const listaCorreos = await obtenerCorreosAsistentes(idEvento) //Variable
+        await enviarMensajeAsistentes(listaCorreos, asunto, mensaje);
+    });
+}
+
