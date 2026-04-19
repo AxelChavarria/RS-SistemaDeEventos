@@ -133,8 +133,10 @@ export async function obtenerEventosProximos() {
     }
 }
 
+/*
 const res2 = await obtenerEventosProximos()
 console.log(res2)
+*/
 
 
 
