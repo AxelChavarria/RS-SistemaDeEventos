@@ -19,7 +19,7 @@ const config = {
     user: 'bdd_sql_2026',
     password: 'Tec20IC26',
     server: 'py-01-bdd-1s2026.database.windows.net',
-    database: 'PY02BDDIS2026',
+    database: 'PY03BDDIS2026',
     options: { encrypt: true, trustServerCertificate: true }
 };
 

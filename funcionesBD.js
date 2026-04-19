@@ -509,10 +509,10 @@ export async function obtenerAsistentesEvento(idEvento) {
     }
 }
 
-
+/*
 const res1 = await obtenerAsistentesEvento(9)
 console.log(res1)
-
+*/
 
 
 
