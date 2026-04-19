@@ -7,6 +7,11 @@ import nodemailer from 'nodemailer'; //Para enviar correos
 
 const app = express();
 
+app.use((req, res, next) => {
+    console.log(`[PETICIÓN RECIBIDA] ${req.method} ${req.url}`);
+    next();
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

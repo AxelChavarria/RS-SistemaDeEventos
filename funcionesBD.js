@@ -527,6 +527,7 @@ console.log(res1)
 
 
 
+
 // recibe nada
 // retorna todos los usuarios del sistema (lista de diccionarios), con nombre, correo, rol y cantidad de eventos realizados
 export async function obtenerDetalleUsuarios() {

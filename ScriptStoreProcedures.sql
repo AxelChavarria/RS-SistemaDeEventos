@@ -921,3 +921,5 @@ BEGIN
     WHERE A.idEvento = @inIdEvento 
       AND (A.Cancelacion = 0 OR A.Cancelacion IS NULL);
 END;
+
+CREATE PROCEDURE sp_ReporteDeEventos
