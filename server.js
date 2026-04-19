@@ -271,7 +271,7 @@ app.post('/api/notificar-rechazo', async (req, res) => {
         let pool = await sql.connect(config);
         let result = await pool.request()
             .input('inIdEvento', sql.Int, evento_id)
-            .execute('sp_ObtenerCorreoOrganizador'); // SP PENDIENTE
+            .execute('sp_ObtenerCorreoOrganizador'); 
 
         const correoOrganizador = result.recordset[0].CorreoElectronico; 
 
@@ -589,6 +589,24 @@ app.put('/api/eventos/marcar-asistencia', async (req, res) => {
             .execute('sp_MarcarAsistencia');
 
         res.json(result.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
+
+
+//sp obtener los correos de los asistentes de un evento
+app.get('/api/eventos/correos/:idEvento', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('inIdEvento', sql.Int, req.params.idEvento)
+            .execute('sp_ObtenerCorreosAsistentes');
+        
+        // Transformamos el resultado para devolver un array simple de strings ["a@a.com", "b@b.com"]
+        const listaCorreos = result.recordset.map(r => r.CorreoElectronico);
+        res.json(listaCorreos);
     } catch (err) {
         res.status(500).json({ Codigo: -1, Mensaje: err.message });
     }

@@ -2,7 +2,7 @@ import { Asistente } from './Asistente.js';
 import { Usuario } from './Usuario.js';
 import { Organizador } from './Organizador.js';
 import { Inscripcion } from './Inscripcion.js';
-import {  obtenerEventosProximos, verMisEventos, filtrarEventos } from './funcionesBD.js';
+import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas } from './funcionesBD.js';
     
 const asistente = new Asistente();
 const usuario = new Usuario();

@@ -133,6 +133,8 @@ export async function obtenerEventosProximos() {
     }
 }
 
+const res2 = await obtenerEventosProximos()
+console.log(res2)
 
 
 
@@ -602,8 +604,28 @@ export async function marcarAsistencia(carnet, idEvento, accion) {
     }
 }
 
+/*
 const res = await marcarAsistencia("2024066829", 9, "Presente")
 console.log(res)
+*/
+
+
+
+
+// recibe id de evento
+// retorna lista de los correos de los asistentes
+export async function obtenerCorreosAsistentes(idEvento) {
+    try {
+        const res = await fetch(`http://localhost:3005/api/eventos/correos/${idEvento}`);
+        
+        if (!res.ok) throw new Error("No se pudieron obtener los correos");
+
+        return await res.json(); // Retorna: ["correo1@ejemplo.com", "correo2@ejemplo.com", ...]
+    } catch (err) {
+        console.error("Error en obtenerCorreosAsistentes:", err);
+        return [];
+    }
+}
 
 
 
