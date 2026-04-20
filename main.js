@@ -2,11 +2,9 @@ import { Asistente } from './Asistente.js';
 import { Usuario } from './Usuario.js';
 import { Organizador } from './Organizador.js';
 //import { Inscripcion } from './Inscripcion.js';
-<<<<<<< HEAD
-import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, obtenerAsistentesEvento, obtenerAnunciosRecientes } from './funcionesBD.js';
-=======
-import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas } from './funcionesBD.js';
->>>>>>> 011e68fc2dfdf0ae36226cc334fa4f6cbaa1f6a9
+
+import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, obtenerAsistentesEvento, obtenerAnunciosRecientes, obtenerInscripcionesPasadas, obtenerInscripcionesFuturas, desinscribirDeEvento } from './funcionesBD.js';
+
     
 const asistente = new Asistente();
 const usuario = new Usuario();
@@ -66,9 +64,9 @@ function guardarEvento(evento){
 const contenedorAnuncio = document.getElementById("contenedor-anuncio-principal");
 if (contenedorAnuncio) {
 
-    //aqui tiene que ir la funcion para encontrar el ultimo anuncio
+    let anuncios = await obtenerAnunciosRecientes();
     contenedorAnuncio.innerHTML = `
-        <p></p>
+        <p>${anuncios[0].Mensaje}</p>
     `;
 
 }
@@ -258,12 +256,39 @@ if (formFiltros) {
 const seccionEventosPasados = document.getElementById("contenedor-eventos-pasados");
 if (seccionEventosPasados) {
     
-    //IMPORTANTE: aquí va la función para ver los eventos pasados 
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+    let inscripciones = await obtenerInscripcionesPasadas(usuarioGuardado.idUsuario);
     
-    
-    //eventos.forEach(evento => {
-        
+    if(!inscripciones.length === 0){
+        inscripciones.forEach(evento => {
+            let fechaOriginal = evento.FechaEvento;
 
+            let [fecha, tiempo] = fechaOriginal.split("T");
+            let [year, month, day] = fecha.split("-");
+            let hora = tiempo.substring(0,5);
+
+            let fechaHora = `${day}/${month}/${year} ${hora}`;
+            
+
+            const article = document.createElement("article");
+
+            article.classList.add("card-evento", "card-evento-horizontal");
+
+            const contenedorInfo = document.createElement("div");
+            contenedorInfo.classList.add("info-evento");
+            contenedorInfo.innerHTML = `
+                <p><strong>Título:</strong> ${evento.NombreEvento}</p>
+                <p><strong>Categoría:</strong> ${evento.Categoria}</p>
+                <p><strong>Fecha:</strong> ${fechaHora}</p>
+                <p><strong>Modalidad:</strong> ${evento.Modalidad}</p>
+            `;
+            
+
+            article.appendChild(contenedorInfo);
+
+            seccionEventosPasados.appendChild(article);
+        });
+    } else {
         const article = document.createElement("article");
 
         article.classList.add("card-evento", "card-evento-horizontal");
@@ -271,29 +296,61 @@ if (seccionEventosPasados) {
         const contenedorInfo = document.createElement("div");
         contenedorInfo.classList.add("info-evento");
         contenedorInfo.innerHTML = `
-            <p><strong>Título:</strong> Ref</p>
-            <p><strong>Categoría:</strong> Ref</p>
-            <p><strong>Fecha:</strong> ref</p>
-            <p><strong>Modalidad:</strong> ref</p>
-        `;
-        
-
+            No hay eventos pasados a los que te hayas inscrito.
+        `
         article.appendChild(contenedorInfo);
 
         seccionEventosPasados.appendChild(article);
-    //});
+    }
 }
 
 //**Mis Inscritos**->*Eventos Futuros*
 const seccionEventosFuturos = document.getElementById("contenedor-eventos-futuros");
 if (seccionEventosFuturos) {
     
-    //IMPORTANTE: aquí va la función para ver los eventos futuros
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+    let inscripciones = await obtenerInscripcionesFuturas(usuarioGuardado.idUsuario);
     
-    
-    //eventos.forEach(evento => {
-        
+    if(!inscripciones.length === 0){
+        inscripciones .forEach(evento => {
+            
+            let fechaOriginal = evento.FechaEvento;
 
+            let [fecha, tiempo] = fechaOriginal.split("T");
+            let [year, month, day] = fecha.split("-");
+            let hora = tiempo.substring(0,5);
+
+            let fechaHora = `${day}/${month}/${year} ${hora}`;
+
+            const article = document.createElement("article");
+
+            article.classList.add("card-evento", "card-evento-horizontal");
+
+            const contenedorInfo = document.createElement("div");
+            contenedorInfo.classList.add("info-evento");
+            contenedorInfo.innerHTML = `
+                <p><strong>Título:</strong> ${evento.NombreEvento}</p>
+                <p><strong>Categoría:</strong> ${evento.Categoria}</p>
+                <p><strong>Fecha:</strong> ${fechaHora}</p>
+                <p><strong>Modalidad:</strong> ${evento.Modalidad}</p>
+            `;
+
+            article.appendChild(contenedorInfo);
+
+            const contenedorBoton = document.createElement("div");
+            contenedorBoton.classList.add("accion-evento");
+
+
+            let enlace = document.createElement("a");
+            enlace.classList.add("btn", "btn-primary");
+            enlace.textContent = "Detalles";
+            enlace.href = `detalle-inscripcion.html?id=${evento.idEvento}`;
+
+            contenedorBoton.appendChild(enlace);
+            article.appendChild(contenedorBoton);
+            seccionEventosFuturos.appendChild(article);
+        });
+    } else {
         const article = document.createElement("article");
 
         article.classList.add("card-evento", "card-evento-horizontal");
@@ -301,27 +358,54 @@ if (seccionEventosFuturos) {
         const contenedorInfo = document.createElement("div");
         contenedorInfo.classList.add("info-evento");
         contenedorInfo.innerHTML = `
-            <p><strong>Título:</strong> Ref</p>
-            <p><strong>Categoría:</strong> Ref</p>
-            <p><strong>Fecha:</strong> ref</p>
-            <p><strong>Modalidad:</strong> ref</p>
-        `;
-
+            No hay eventos futuros a los que te hayas inscrito.
+        `
         article.appendChild(contenedorInfo);
 
-        const contenedorBoton = document.createElement("div");
-        contenedorBoton.classList.add("accion-evento");
-
-
-        let enlace = document.createElement("a");
-        enlace.classList.add("btn", "btn-primary");
-        enlace.textContent = "Detalles";
-        enlace.href = `detalle-evento.html`;// `detalle-evento.html?id=${evento.idEvento}`
-
-        contenedorBoton.appendChild(enlace);
-        article.appendChild(contenedorBoton);
         seccionEventosFuturos.appendChild(article);
-    //});
+    }
+}
+
+//Mis Inscritos -> Eventos futuros -> Desinscribirse (Cass)
+const contenedorDetalle = document.getElementById("contenedor-info-evento");
+if (contenedorDetalle) {
+    const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
+    
+
+    contenedorDetalle.innerHTML = `
+        
+        <p><strong>Título:</strong> ${eventoGuardado.Titulo}</p>
+        <p><strong>Categoria:</strong> ${eventoGuardado.Categoria}</p>
+        <p><strong>Fecha:</strong> ${eventoGuardado.Fecha}</p>
+        <p><strong>Hora:</strong> ${eventoGuardado.Hora}</p>
+        <p><strong>Lugar:</strong> ${eventoGuardado.Lugar}</p>
+        <p><strong>Modalidad:</strong> ${eventoGuardado.Modalidad}</p>
+        <p><strong>Cupos disponibles:</strong> ${eventoGuardado.Cupos}</p>
+        <p><strong>Organizador:</strong> ${eventoGuardado.Nombre}</p>
+
+        
+            <div id="contenedor-descripcion-evento" class="descripcion-box">
+                <p>
+                    ${eventoGuardado.Descripcion }
+                </p>
+            </div>
+    `;
+
+    const contenedorDetalleEvento = document.getElementById("contenedor-descripcion-evento");
+    contenedorDetalleEvento.innerHTML = `
+        
+        <p>${eventoGuardado.Descripcion}</p>
+    `;
+
+    const formDesinscripcion = document.getElementById("form-desinscripcion");
+    if (formDesinscripcion) {
+        formDesinscripcion.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+
+            desinscribirDeEvento(eventoGuardado.idEvento, usuarioGuardado.idUsuario);
+        });
+    }
 }
 
 //-----Estudiante----
@@ -827,9 +911,9 @@ if (formCrearEvento) {
 }
 
 
-<<<<<<< HEAD
+
 //**Enviar Mensaje**
-=======
+
 
 
 /**Enviar Mensaje**
@@ -892,4 +976,4 @@ if (contenedorAnuncios) {
 }
 =======
 */
->>>>>>> 011e68fc2dfdf0ae36226cc334fa4f6cbaa1f6a9
+
