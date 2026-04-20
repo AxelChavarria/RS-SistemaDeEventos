@@ -2,7 +2,11 @@ import { Asistente } from './Asistente.js';
 import { Usuario } from './Usuario.js';
 import { Organizador } from './Organizador.js';
 //import { Inscripcion } from './Inscripcion.js';
+<<<<<<< HEAD
 import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, obtenerAsistentesEvento, obtenerAnunciosRecientes } from './funcionesBD.js';
+=======
+import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas } from './funcionesBD.js';
+>>>>>>> 011e68fc2dfdf0ae36226cc334fa4f6cbaa1f6a9
     
 const asistente = new Asistente();
 const usuario = new Usuario();
@@ -823,7 +827,13 @@ if (formCrearEvento) {
 }
 
 
+<<<<<<< HEAD
 //**Enviar Mensaje**
+=======
+
+
+/**Enviar Mensaje**
+>>>>>>> 011e68fc2dfdf0ae36226cc334fa4f6cbaa1f6a9
 const formEnviarMensaje = document.getElementById("form-enviar-mensaje");
 if (formEnviarMensaje) {
     formEnviarMnesaje.addEventListener("submit", (e) => {
@@ -832,6 +842,7 @@ if (formEnviarMensaje) {
         //await enviarMensajeAsistentes(listaCorreos, asunto, mensaje);
     });
 }
+<<<<<<< HEAD
 
 //**Editar Cuenta**
 
@@ -879,3 +890,6 @@ if (contenedorAnuncios) {
         contenedorAnuncios.innerHTML = `<p class="texto-anuncio-secundario">No hay anuncios recientes en este momento.</p>`;
     }
 }
+=======
+*/
+>>>>>>> 011e68fc2dfdf0ae36226cc334fa4f6cbaa1f6a9

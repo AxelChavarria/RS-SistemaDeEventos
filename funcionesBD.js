@@ -20,13 +20,13 @@ export async function registraUsuario(datos) {
 
 /*
 const usuarioNuevo = {
-    nombre: "Axel",
-    apellido: "Chavarria",
-    correo: "axel22@estudiantec.cr",
+    nombre: "Fabian",
+    apellido: "Gutierrez",
+    correo: "a.chavarria.4@estudiantec.cr",
     contrasena: "tec2026",
-    carnet: "20261122323"
+    carnet: "2026252331"
 };
-registraUsuario(usuarioNuevo)
+const res4 = await registraUsuario(usuarioNuevo)
 */
 
 
@@ -83,27 +83,20 @@ export async function crearEvento(datosEvento) {
 
 /*
 const evento1 = {
-    idOrganizador: 7, // usuario Axel
-    nombre: "Charla de Base de Datos",
+    idOrganizador: 12, // usuario Axel
+    nombre: "Revisión de proyecto",
     categoria: "Académico",
-    fecha: "2026-06-15 14:00:00",
+    fecha: "2026-10-10 14:00:00",
     modalidad: "VIRTUAL",
     enlace: "NO",
     cupo: 10000
 };
 
 
+const res1 = await crearEvento(evento1);
+console.log("Respuesta 1:", res1.Mensaje);
+/*
 
-//ejemplo
-(async () => {
-   
-    const res1 = await crearEvento(evento1);
-    console.log("Respuesta 1:", res1.Mensaje);
-
-    const res2 = await crearEvento(evento1);
-    console.log("Respuesta 2:", res2.Mensaje);
-})();
-*/
 
 
 //Recibe: Nado
@@ -155,12 +148,9 @@ export async function verMisEventos(idOrganizador) {
 }
 
 /*
-(async () => {
-   const resultado = await obtenerEventosProximos()
-   console.log(resultado)
-})();
+const res2 = await verMisEventos(7)
+console.log(res2)
 */
-
 
 
 
@@ -219,10 +209,10 @@ export async function inscribirse(inscripcion) {
     }
 }
 
-/*
-const res = await inscribirse({idEvento:9, idUsuario:4})
+
+const res = await inscribirse({idEvento:10, idUsuario:12})
 console.log(res)
-*/
+
 
 
 
@@ -328,17 +318,23 @@ export async function cancelarEvento(id) {
 }
 
 /*
-modificarEvento({
-    idEvento: 9, 
+const wu = await cancelarEvento(9)
+console.log(wu)
+*/
+
+/*
+const modificarvento = {idEvento: 9, 
     nombre: "Graduación", 
     descripcion: "Graduación", 
     categoria: "Graduación", 
     fecha: "2026-06-01", 
     modalidad: "VIRTUAL", 
     enlace: "zoom.com", 
-    cupo: 50
-}).then(res => console.log("Resultado Modificar:", res));
+    cupo: 50};
+const te = await modificarEvento(modificarvento)
+console.log(te)
 */
+
 
 export async function obtenerSolicitudesAdmin() {
     const res = await fetch(`http://localhost:3005/api/admin/solicitudes/11`);
@@ -432,7 +428,7 @@ export async function crearAnuncio(mensaje) {
 }
 
 /*
-const res2 = await crearAnuncio("Este es un anuncio sobre el funcionamiento del sistema de anuncios")
+const res2 = await crearAnuncio("Positive stress")
 console.log(res2)
 */
 
@@ -642,12 +638,75 @@ console.log(res3)
 */
 
 
+// recibe id de evento
+// retorna codigo y mensaje
+export async function cancelarEventoModeracion(idEvento) {
+    try {
+        const res = await fetch("http://127.0.0.1:3005/api/eventos/cancelar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idEvento })
+        });
+        return await res.json();
+    } catch (err) {
+        return { Codigo: -1, Mensaje: "Error de conexión" };
+    }
+}
 
 
+// recibe diccionario con datos del evento
+// retorna código y mensaje
+export async function actualizarEvento(data) {
+    const res = await fetch("http://127.0.0.1:3005/api/eventos/actualizar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+    return await res.json();
+}
 
 
+//  recibe id de evento y la justificación
+// retorna nada
+export async function justificarEvento(idEvento, justificacion) {
+    const res = await fetch("http://127.0.0.1:3005/api/eventos/justificar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idEvento, justificacion })
+    });
+    return await res.json();
+}
 
 
+// recibe fecha inicial y final
+// retorna diccionario con{evento:[lista de eventos en diccioanrios {}{}{}], estadisticas:{"TotalEventosRealizados":...,"PromedioAsistentesGeneral":...}}
+export async function generarReporte(fechaInicio, fechaFin) {
+    try {
+        const respuesta = await fetch("http://127.0.0.1:3005/api/reportes/eventos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fechaInicio, fechaFin })
+        });
 
+        const data = await respuesta.json();
+        return data; 
+    } catch (err) {
+        console.error("Error al obtener el reporte:", err);
+        return { 
+            eventos: [], 
+            estadisticas: null, 
+            error: "No se pudo conectar con el servidor" 
+        };
+    }
+}
+
+// recibe id de usuario, biografia y enlace
+// retorna dicionario con código y mensaje
+export async function actualizarPerfil(idUsuario, enlace, bio) {
+    const res = await fetch("http://127.0.0.1:3005/api/usuario/actualizar-perfil", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idUsuario, enlace, bio })
+    });
+    return await res.json();
+}
 
 

@@ -18,6 +18,8 @@ CREATE TABLE Usuario (
   CONSTRAINT UQ_Usuario_Carnet UNIQUE (Carnet),
   CONSTRAINT CHK_Rol CHECK (Rol IN ('ADMINISTRADOR', 'ASISTENTE', 'ORGANIZADOR'))
 );
+ALTER TABLE Usuario ADD Enlace VARCHAR(1000)
+ALTER TABLE Usuario ADD Bio VARCHAR(1000)
 
 -- -----------------------------------------------------
 -- Table Evento
@@ -31,7 +33,7 @@ CREATE TABLE Evento (
   PostTime VARCHAR(45) NULL,
   Estado VARCHAR(20) NULL,
   Modalidad VARCHAR(20) NULL,
-  JustificacionRechazo VARCHAR(45) NULL,
+  JustificacionRechazo VARCHAR(1000) NULL,
   EnlacePlenaria VARCHAR(45) NULL,
   CONSTRAINT PK_Evento PRIMARY KEY (idEvento),
   CONSTRAINT FK_Evento_Usuario FOREIGN KEY (idOrganizador) REFERENCES Usuario (idUsuario),
@@ -59,7 +61,7 @@ CREATE TABLE SolicitudesPorEvento (
     CONSTRAINT FK_Solicitudes_Evento FOREIGN KEY (idEventoReal) REFERENCES Evento (idEvento),
     CONSTRAINT CHK_Resolucion CHECK (Resolucion IN ('APROBADO', 'RECHAZADO', 'NEGADODEFAULT', 'PENDIENTE'))
 );
-ALTER TABLE SolicitudesPorEvento ADD TipoSolicitud VARCHAR(50 ); -- Modificacion o Cancelacion
+ALTER TABLE SolicitudesPorEvento ADD TipoSolicitud VARCHAR(50); -- Modificacion o Cancelacion
 ADD NuevoNombre VARCHAR(60),
     NuevaDescripcion VARCHAR(1000),
     NuevaCategoria VARCHAR(45),

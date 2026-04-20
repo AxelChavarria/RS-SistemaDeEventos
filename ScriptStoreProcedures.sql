@@ -923,3 +923,112 @@ BEGIN
 END;
 
 CREATE PROCEDURE sp_ReporteDeEventos
+
+
+
+
+
+CREATE PROCEDURE sp_ModeracionCancelar
+    @inIdEvento INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Evento
+    SET Estado = 'CANCELADO'
+    WHERE idEvento = @inIdEvento
+    SELECT 0 as Código, 'Evento cancelado' as Mensaje
+END
+
+ALTER PROCEDURE sp_ModeracionEditar
+    @inIdEvento INT,
+    @inNombre VARCHAR(60),
+    @inDescripcion VARCHAR(1000),
+    @inCategoria VARCHAR(45),
+    @inFecha DATETIME,
+    @inModalidad VARCHAR(20),
+    @inEnlace VARCHAR(45),
+    @inCupo INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+        UPDATE Evento SET
+            NombreEvento = @inNombre,
+            Descripcion = @inDescripcion,
+            Categoria = @inCategoria,
+            FechaEvento = @inFecha,
+            Modalidad = @inModalidad,
+            EnlacePlenaria = @inEnlace,
+            Cupo = @inCupo
+        WHERE idEvento = @inIdEvento;
+
+        SELECT 1 AS Codigo, 'Evento actualizado' AS Mensaje;
+  
+END;
+
+CREATE PROCEDURE sp_ColocarJustificacion
+    @inIdEvento INT;
+    @inJustificacion VARCHAR(1000)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Evento
+    SET JustificacionRechazo = @inJustificacion
+    WHERE idEvento = @inIdEvento
+END
+
+
+
+CREATE PROCEDURE sp_GenerarReporteEventos
+    @inFechaInicio DATETIME,
+    @inFechaFin DATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT 
+        E.idEvento,
+        E.NombreEvento,
+        E.Categoria,
+        E.FechaEvento,
+        E.Cupo,
+        ISNULL(COUNT(A.idUsuario), 0) AS TotalAsistentes,
+        CASE 
+            WHEN E.Cupo > 0 THEN (CAST(ISNULL(COUNT(A.idUsuario), 0) AS FLOAT) / E.Cupo) * 100 
+            ELSE 0 
+        END AS PorcentajeOcupacion
+    FROM Evento E
+    LEFT JOIN Asistencia A ON E.idEvento = A.idEvento
+    WHERE E.FechaEvento BETWEEN @inFechaInicio AND @inFechaFin
+      AND E.Estado = 'APROBADO'
+    GROUP BY E.idEvento, E.NombreEvento, E.Categoria, E.FechaEvento, E.Cupo;
+
+    -- Estadísticas Generales 
+    SELECT 
+        COUNT(idEvento) AS TotalEventosRealizados,
+        AVG(CAST(AsistentesPorEvento.Cuenta AS FLOAT)) AS PromedioAsistentesGeneral
+    FROM (
+        SELECT COUNT(A.idUsuario) AS Cuenta
+        FROM Evento E
+        LEFT JOIN Asistencia A ON E.idEvento = A.idEvento
+        WHERE E.FechaEvento BETWEEN @inFechaInicio AND @inFechaFin
+        GROUP BY E.idEvento
+    ) AS AsistentesPorEvento;
+END;
+
+
+
+
+CREATE PROCEDURE sp_ActualizarPerfilUsuario
+    @inIdUsuario INT,
+    @inEnlace VARCHAR(1000),
+    @inBio VARCHAR(1000)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Usuario 
+    SET Enlace = @inEnlace, 
+        Bio = @inBio
+    WHERE idUsuario = @inIdUsuario;
+    
+    SELECT 0 AS Codigo, 'Perfil actualizado correctamente' AS Mensaje;
+END;
