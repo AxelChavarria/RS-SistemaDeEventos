@@ -13,16 +13,22 @@ export class Asistente extends Usuario{
 
         if (contrasena == confirmacion) {
 
-            let informacion ={
+            let correo = document.getElementById("correo").value.trim() 
+            if (correo.endsWith("@estudiantec.cr") || correo.endsWith("@itcr.ac..cr")) {
+                
+                let informacion ={
                 nombre: document.getElementById("nombre").value.trim(),
                 apellido: document.getElementById("apellidos").value.trim(),
                 carnet: document.getElementById("carne").value.trim(),
                 contrasena: document.getElementById("contrasena").value.trim(),
                 correo: document.getElementById("correo").value.trim()
-            }
+                }
 
+                registraUsuario(informacion);
+            } else {
+                alert("Solo se permiten correos con dominio @estudiantec.cr");
+            }
             
-            registraUsuario(informacion);
         } else {
 
             alert("Las contraseñas no coinciden");
