@@ -3,7 +3,7 @@ import { Usuario } from './Usuario.js';
 import { Organizador } from './Organizador.js';
 //import { Inscripcion } from './Inscripcion.js';
 
-import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, obtenerAsistentesEvento, obtenerAnunciosRecientes, obtenerInscripcionesFuturas, desinscribirDeEvento } from './funcionesBD.js';
+import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, obtenerAsistentesEvento, obtenerAnunciosRecientes, obtenerInscripcionesFuturas, desinscribirDeEvento, marcarAsistencia } from './funcionesBD.js';
 
     
 const asistente = new Asistente();
@@ -33,8 +33,6 @@ if (formLogin) {
 //función para guardar localmente la información del evento
 function guardarEvento(evento){
 
-    console.log("Estoy en guardar evento");
-    console.log(evento);
     let fechaOriginal = evento.FechaEvento;
 
     let [fecha, tiempo] = fechaOriginal.split("T");
@@ -56,6 +54,14 @@ function guardarEvento(evento){
         Descripcion: evento.Descripcion,
         Estado: evento.Estado
     }));
+}
+
+const btnCerrarSesion = document.getElementById("btn-cerrar-sesion");
+if (btnCerrarSesion) {
+    btnCerrarSesion.addEventListener("click", () => {
+        localStorage.clear();
+        window.location.replace("../../views/login.html");
+    });
 }
 
 //-----Compartidas----
@@ -643,6 +649,9 @@ if (sectionMisEventos) {
             });
             enlace.href = `evento-aprobado.html?id=${evento.idEvento}`;
         } else if (evento.Estado === 'PENDIENTE') {
+            enlace.addEventListener("click", () => {
+                guardarEvento(evento);
+            });
             enlace.href = `evento-pendiente.html?id=${evento.idEvento}`;
         }
 
@@ -661,7 +670,6 @@ if (contenedorEventoPendiente) {
     const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
     contenedorEventoPendiente.innerHTML = `
         <p><strong>Titulo del Evento:</strong> ${eventoGuardado.Titulo}</p>
-        <p><strong>Descripcion:</strong> ${eventoGuardado.Descripcion}</p>
         <p><strong>Categoria:</strong> ${eventoGuardado.Categoria}</p>
         <p><strong>Fecha:</strong> ${eventoGuardado.Fecha}</p>
         <p><strong>Hora:</strong> ${eventoGuardado.Hora}</p>
@@ -715,11 +723,10 @@ const contenedorEventoAprobado = document.getElementById("contenedor-info-evento
 
 if (contenedorEventoAprobado) {
     const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
-    
+    console.log("Evento aprobado cargado:", eventoGuardado); // DEBUG
     // Rellenar info del evento
     contenedorEventoAprobado.innerHTML = `
         <p><strong>Titulo del Evento:</strong> ${eventoGuardado.Titulo}</p>
-        <p><strong>Descripcion:</strong> ${eventoGuardado.Descripcion}</p>
         <p><strong>Categoria:</strong> ${eventoGuardado.Categoria}</p>
         <p><strong>Fecha:</strong> ${eventoGuardado.Fecha}</p>
         <p><strong>Hora:</strong> ${eventoGuardado.Hora}</p>
@@ -734,120 +741,53 @@ if (contenedorEventoAprobado) {
     if (contenedorDescripcion) {
         contenedorDescripcion.innerHTML = `<p>${eventoGuardado.Descripcion}</p>`;
     }
-
-    // Lógica de Participantes
-    const verParticipantes = document.getElementById("tabla-participantes");
-    const formAsistencia = document.getElementById("form-asistencia");
-
-    if (verParticipantes && eventoGuardado.idEvento) {
-        const asistentes = await obtenerAsistentesEvento(eventoGuardado.idEvento);
-        console.log("Asistentes recibidos:", asistentes);
-
-        verParticipantes.innerHTML = ""; // Limpiar tabla
-
-        if (asistentes && asistentes.length > 0) {
-            asistentes.forEach(persona => {
-                const fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td>${persona.Nombre}</td>
-                    <td>${persona.Carnet}</td>
-                    <td>${persona.Correo}</td>
-                    <td>${persona.FechaInscripcion}</td>
-                    <td style="text-align: center;">
-                        <input type="checkbox" 
-                               data-carnet="${persona.Carnet}" 
-                               ${persona.Asistio ? 'checked' : ''}>
-                    </td>
-                `;
-                verParticipantes.appendChild(fila);
-            });
-        }
-    }
-
-    // Guardar cambios
-    if (formAsistencia) {
-        formAsistencia.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const checkboxes = verParticipantes.querySelectorAll("input[type='checkbox']");
-            const listaAsistencia = Array.from(checkboxes).map(cb => ({
-                carnet: cb.dataset.carnet,
-                asistio: cb.checked
-            }));
-            console.log("Enviando a BD:", listaAsistencia);
-            alert("Asistencia actualizada.");
-        });
-    }
-
-    // Filtro de búsqueda corregido
-    const inputBusqueda = document.getElementById("busqueda-participante");
-    if (inputBusqueda && verParticipantes) {
-        inputBusqueda.addEventListener("keyup", () => {
-            const texto = inputBusqueda.value.toLowerCase();
-            const filas = verParticipantes.getElementsByTagName("tr");
-
-            Array.from(filas).forEach(fila => {
-                const contenidoFila = fila.textContent.toLowerCase();
-                fila.style.display = contenidoFila.includes(texto) ? "" : "none";
-            });
-        });
-    }
 }
 
-/*//**Mis Eventos**->*Detalles*->Evento aprobado->Ver Participantes
-const verParticipantes = document.getElementById("tabla-participantes");
-const formAsistencia = document.getElementById("form-asistencia");
-const asistentes = await obtenerAsistentesEvento(eventoGuardado.idEvento);
-
-if (verParticipantes) {
-    // 1. Obtener el ID del evento
-    //const idEvento = document.querySelector('input[name="evento_id"]').value;
-
-    // 2. Función para cargar la lista desde el Backend
-    const cargarParticipantes = async () => {
-        console.log(asistentes)
-        verParticipantes.innerHTML = ""; // Limpiamos las filas estáticas del HTML
-
-        asistentes.forEach(persona => {
-            const fila = document.createElement("tr");
-            
-            // Creamos la fila con los datos reales de la BD
-            fila.innerHTML = `
-                <td>${persona.Nombre}</td>
-                <td>${persona.Carnet}</td>
-                <td>${persona.Correo}</td>
-                <td>${persona.FechaInscripcion}</td>
-                <td style="text-align: center;">
-                    <input type="checkbox" 
-                           data-carnet="${persona.Carnet}" 
-                           ${persona.Asistio ? 'checked' : ''}>
-                </td>
-            `;
-            verParticipantes.appendChild(fila);
-        });
-    };
-
-    // 3. Ejecutar la carga al abrir la página
-    cargarParticipantes();
-
-    // 4. Guardar cambios de asistencia
-    formAsistencia.addEventListener("submit", async (e) => {
-        e.preventDefault();
+//**Mis Eventos**->*Detalles*->Evento aprobado->Ver Participantes
+const bodyTabla = document.getElementById("tabla-participantes");
+if (bodyTabla) {
+    let eventoGuardado = JSON.parse(localStorage.getItem("evento"));
+    
+    const asistentes = await obtenerAsistentesEvento(eventoGuardado.idEvento);
+    
+    asistentes.forEach(persona => {
+        const fila = document.createElement("tr");
         
-        const checkboxes = verParticipantes.querySelectorAll("input[type='checkbox']");
-        const listaAsistencia = [];
-
-        checkboxes.forEach(cb => {
-            listaAsistencia.push({
-                carnet: cb.dataset.carnet,
-                asistio: cb.checked
-            });
-        });
-
-        // Aquí llamarías a la función de tu equipo para actualizar (ej. guardarAsistenciaBD)
-        console.log("Enviando asistencia a la BD:", listaAsistencia);
-        alert("Asistencia actualizada correctamente en el sistema tecEventos.");
+        fila.innerHTML = `
+            <td>${persona.NombreUsuario}</td>
+            <td>${persona.Carnet}</td>
+            <td>${persona.CorreoElectronico}</td>
+            <td>${persona.FechaInscripcion}</td>
+            <td style="text-align: center;">
+                <input type="checkbox" 
+                    value="${persona.Carnet}" 
+                    class="checkbox-asistencia"    }>
+            </td>
+        `;
+        bodyTabla.appendChild(fila);
     });
+    
+
 }
+
+//**Mis Eventos**->*Detalles*->Evento aprobado->Ver Participantes->Marcar asistencia
+const formAsistencia = document.getElementById("form-asistencia");
+if (bodyTabla) {
+
+    const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
+
+    document.querySelectorAll(".checkItem").forEach(cb => {
+        cb.addEventListener("change", function() {
+            if (this.checked) {
+                marcarAsistencia(this.value, eventoGuardado.idEvento, "Presente"); // Función para marcar asistencia en la BD
+            } else {
+                marcarAsistencia(this.value, eventoGuardado.idEvento, "Ausente");
+            }
+        });
+    });
+    
+}
+
 //Esto es para que el organizador encuentre a un estudiante por nombre o carnet (revisar):
 const inputBusqueda = document.getElementById("busqueda-participante");
 
@@ -865,7 +805,7 @@ if (inputBusqueda) {
             }
         });
     });
-} */
+} 
 
 
 
