@@ -3,7 +3,7 @@ import { Usuario } from './Usuario.js';
 import { Organizador } from './Organizador.js';
 //import { Inscripcion } from './Inscripcion.js';
 
-import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, obtenerAsistentesEvento, obtenerAnunciosRecientes, obtenerInscripcionesFuturas, desinscribirDeEvento, marcarAsistencia } from './funcionesBD.js';
+import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, cancelarEvento, obtenerAsistentesEvento, obtenerAnunciosRecientes, obtenerInscripcionesFuturas, desinscribirDeEvento, marcarAsistencia } from './funcionesBD.js';
 
     
 const asistente = new Asistente();
@@ -786,6 +786,18 @@ if (bodyTabla) {
         });
     });
     
+}
+
+//**Mis Eventos**->*Detalles*->Evento aprobado->Cancelar evento
+const formCancelarEvento = document.getElementById("form-cancelar-evento");
+if (formCancelarEvento) {
+    formCancelarEvento.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
+
+        cancelarEvento(eventoGuardado.idEvento);
+    });
+
 }
 
 //Esto es para que el organizador encuentre a un estudiante por nombre o carnet (revisar):
