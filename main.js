@@ -311,7 +311,9 @@ if (seccionEventosFuturos) {
     const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
     let inscripciones = await obtenerInscripcionesFuturas(usuarioGuardado.idUsuario);
     
-    if(!inscripciones.length === 0){
+    console.log("Inscripciones futuras:", inscripciones); // DEBUG
+
+    if(inscripciones.length !== 0){
         inscripciones .forEach(evento => {
             
             let fechaOriginal = evento.FechaEvento;
@@ -366,7 +368,7 @@ if (seccionEventosFuturos) {
     }
 }
 
-//Mis Inscritos -> Eventos futuros -> Desinscribirse (Cass)
+//Mis Inscritos -> Eventos futuros -> Detalle/Desinscribirse (Cass)
 const contenedorDetalle = document.getElementById("contenedor-info-evento");
 if (contenedorDetalle) {
     const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
@@ -383,12 +385,6 @@ if (contenedorDetalle) {
         <p><strong>Cupos disponibles:</strong> ${eventoGuardado.Cupos}</p>
         <p><strong>Organizador:</strong> ${eventoGuardado.Nombre}</p>
 
-        
-            <div id="contenedor-descripcion-evento" class="descripcion-box">
-                <p>
-                    ${eventoGuardado.Descripcion }
-                </p>
-            </div>
     `;
 
     const contenedorDetalleEvento = document.getElementById("contenedor-descripcion-evento");
@@ -399,11 +395,12 @@ if (contenedorDetalle) {
 
     const formDesinscripcion = document.getElementById("form-desinscripcion");
     if (formDesinscripcion) {
-        formDesinscripcion.addEventListener("submit", (e) => {
+        formDesinscripcion.addEventListener("submit", async (e) => {
             e.preventDefault();
             const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
 
-            desinscribirDeEvento(eventoGuardado.idEvento, usuarioGuardado.idUsuario);
+            let resultado = await desinscribirDeEvento(eventoGuardado.idEvento, usuarioGuardado.idUsuario);
+            alert(resultado.Mensaje); 
         });
     }
 }
