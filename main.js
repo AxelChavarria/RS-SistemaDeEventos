@@ -259,7 +259,7 @@ if (seccionEventosPasados) {
     const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
     let inscripciones = await obtenerInscripcionesPasadas(usuarioGuardado.idUsuario);
     
-    if(!inscripciones.length === 0){
+    if(inscripciones.length !== 0){
         inscripciones.forEach(evento => {
             let fechaOriginal = evento.FechaEvento;
 
