@@ -51,7 +51,7 @@ export async function loginUsuario(credenciales) {
     }
 }
 
-
+/*
 const prueba = {
     correo: "axel@estudiantec.cr",
     contrasena: "tec2026"
@@ -59,7 +59,7 @@ const prueba = {
 
 const res19 = await loginUsuario(prueba)
 console.log(res19)
-
+*/
 
 
 
@@ -722,4 +722,17 @@ export async function buscarUsuarios(filtro) {
         console.error("Error en la búsqueda:", err);
         return []; 
     }
+}
+
+
+// buscar asistentes
+// recibe idEvento y un filtro
+// retorna lista de diccionarios
+export async function obtenerAsistentes(idEvento, filtro ) {
+    const res = await fetch("http://127.0.0.1:3005/api/eventos/asistentes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idEvento, filtro })
+    });
+    return await res.json();
 }

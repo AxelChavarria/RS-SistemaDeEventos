@@ -733,6 +733,22 @@ app.post('/api/usuarios/buscar', async (req, res) => {
     }
 });
 
+
+app.post('/api/eventos/asistentes', async (req, res) => {
+    try {
+        const { idEvento, filtro } = req.body;
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdEvento', sql.Int, idEvento)
+            .input('inFiltro', sql.VarChar, filtro || '')
+            .execute('sp_MostrarAsistentesEventoFiltro');
+            
+        res.json(result.recordset);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
 // Arranque
 const PORT = 3005;
 app.listen(PORT, () => {

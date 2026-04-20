@@ -1056,3 +1056,29 @@ BEGIN
     GROUP BY U.NombreUsuario, U.CorreoElectronico, U.Rol
     ORDER BY EventosRealizados DESC;
 END;
+
+
+CREATE PROCEDURE sp_MostrarAsistentesEventoFiltro
+    @inIdEvento INT,
+    @inFiltro VARCHAR(100) = '' 
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        U.NombreUsuario, 
+        U.CorreoElectronico, 
+        U.Carnet, 
+        A.Asistio, 
+        A.FechaInscripcion 
+    FROM Usuario U 
+    INNER JOIN AsistentesPorEvento A ON U.idUsuario = A.idUsuario 
+    WHERE A.idEvento = @inIdEvento
+      AND (A.Cancelacion = 0 OR A.Cancelacion IS NULL)
+      AND (
+          @inFiltro = '' 
+          OR U.NombreUsuario LIKE '%' + @inFiltro + '%'
+          OR U.CorreoElectronico LIKE '%' + @inFiltro + '%'
+          OR U.Carnet LIKE '%' + @inFiltro + '%'
+      );
+END;
