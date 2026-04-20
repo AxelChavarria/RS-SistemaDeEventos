@@ -31,8 +31,6 @@ export class Asistente extends Usuario{
         
     }
 
-    verMisInscripciones(){}
-
     async inscribirseAEvento(){
 
         const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
@@ -43,12 +41,8 @@ export class Asistente extends Usuario{
             idUsuario: usuarioGuardado.idUsuario
         }
         
-        inscribirse(informacion);
-
+        let resultado = await inscribirse(informacion);
+        alert(resultado.Mensaje); // DEBUG
     }
-
-    cancelarInscripcion(idInscripcion){}
-
-
     
 }
