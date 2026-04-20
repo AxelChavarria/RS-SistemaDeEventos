@@ -1,12 +1,8 @@
 import { Asistente } from './Asistente.js';
 import { Usuario } from './Usuario.js';
 import { Organizador } from './Organizador.js';
-//import { Inscripcion } from './Inscripcion.js';
-<<<<<<< HEAD
-import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, obtenerAsistentesEvento, obtenerAnunciosRecientes } from './funcionesBD.js';
-=======
-import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas } from './funcionesBD.js';
->>>>>>> 011e68fc2dfdf0ae36226cc334fa4f6cbaa1f6a9
+import { Inscripcion } from './Inscripcion.js';
+import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerAnunciosRecientes, obtenerInscripcionesPasadas, obtenerInscripcionesFuturas } from './funcionesBD.js';
     
 const asistente = new Asistente();
 const usuario = new Usuario();
@@ -61,14 +57,15 @@ function guardarEvento(evento){
 }
 
 //-----Compartidas----
+
 //**Página principal**
 //**Página principal**->*Anuncio*
 const contenedorAnuncio = document.getElementById("contenedor-anuncio-principal");
 if (contenedorAnuncio) {
 
-    //aqui tiene que ir la funcion para encontrar el ultimo anuncio
+    let anuncios = await obtenerAnunciosRecientes();
     contenedorAnuncio.innerHTML = `
-        <p></p>
+        <p>${anuncios[0].Mensaje}</p>
     `;
 
 }
@@ -253,17 +250,46 @@ if (formFiltros) {
     
 }
 
+
+
 //**Mis Inscritos**
 //**Mis Inscritos**->*Eventos Pasados*
 const seccionEventosPasados = document.getElementById("contenedor-eventos-pasados");
 if (seccionEventosPasados) {
     
-    //IMPORTANTE: aquí va la función para ver los eventos pasados 
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+    let inscripciones = await obtenerInscripcionesPasadas(usuarioGuardado.idUsuario);
     
-    
-    //eventos.forEach(evento => {
-        
+    if(!inscripciones.length === 0){
+        inscripciones.forEach(evento => {
+            let fechaOriginal = evento.FechaEvento;
 
+            let [fecha, tiempo] = fechaOriginal.split("T");
+            let [year, month, day] = fecha.split("-");
+            let hora = tiempo.substring(0,5);
+
+            let fechaHora = `${day}/${month}/${year} ${hora}`;
+            
+
+            const article = document.createElement("article");
+
+            article.classList.add("card-evento", "card-evento-horizontal");
+
+            const contenedorInfo = document.createElement("div");
+            contenedorInfo.classList.add("info-evento");
+            contenedorInfo.innerHTML = `
+                <p><strong>Título:</strong> ${evento.NombreEvento}</p>
+                <p><strong>Categoría:</strong> ${evento.Categoria}</p>
+                <p><strong>Fecha:</strong> ${fechaHora}</p>
+                <p><strong>Modalidad:</strong> ${evento.Modalidad}</p>
+            `;
+            
+
+            article.appendChild(contenedorInfo);
+
+            seccionEventosPasados.appendChild(article);
+        });
+    } else {
         const article = document.createElement("article");
 
         article.classList.add("card-evento", "card-evento-horizontal");
@@ -271,29 +297,61 @@ if (seccionEventosPasados) {
         const contenedorInfo = document.createElement("div");
         contenedorInfo.classList.add("info-evento");
         contenedorInfo.innerHTML = `
-            <p><strong>Título:</strong> Ref</p>
-            <p><strong>Categoría:</strong> Ref</p>
-            <p><strong>Fecha:</strong> ref</p>
-            <p><strong>Modalidad:</strong> ref</p>
-        `;
-        
-
+            No hay eventos pasados a los que te hayas inscrito.
+        `
         article.appendChild(contenedorInfo);
 
         seccionEventosPasados.appendChild(article);
-    //});
+    }
 }
 
 //**Mis Inscritos**->*Eventos Futuros*
 const seccionEventosFuturos = document.getElementById("contenedor-eventos-futuros");
 if (seccionEventosFuturos) {
     
-    //IMPORTANTE: aquí va la función para ver los eventos futuros
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+    let inscripciones = await obtenerInscripcionesFuturas(usuarioGuardado.idUsuario);
     
-    
-    //eventos.forEach(evento => {
-        
+    if(!inscripciones.length === 0){
+        inscripciones .forEach(evento => {
+            
+            let fechaOriginal = evento.FechaEvento;
 
+            let [fecha, tiempo] = fechaOriginal.split("T");
+            let [year, month, day] = fecha.split("-");
+            let hora = tiempo.substring(0,5);
+
+            let fechaHora = `${day}/${month}/${year} ${hora}`;
+
+            const article = document.createElement("article");
+
+            article.classList.add("card-evento", "card-evento-horizontal");
+
+            const contenedorInfo = document.createElement("div");
+            contenedorInfo.classList.add("info-evento");
+            contenedorInfo.innerHTML = `
+                <p><strong>Título:</strong> ${evento.NombreEvento}</p>
+                <p><strong>Categoría:</strong> ${evento.Categoria}</p>
+                <p><strong>Fecha:</strong> ${fechaHora}</p>
+                <p><strong>Modalidad:</strong> ${evento.Modalidad}</p>
+            `;
+
+            article.appendChild(contenedorInfo);
+
+            const contenedorBoton = document.createElement("div");
+            contenedorBoton.classList.add("accion-evento");
+
+
+            let enlace = document.createElement("a");
+            enlace.classList.add("btn", "btn-primary");
+            enlace.textContent = "Detalles";
+            enlace.href = `detalle-inscripcion.html?id=${evento.idEvento}`;
+
+            contenedorBoton.appendChild(enlace);
+            article.appendChild(contenedorBoton);
+            seccionEventosFuturos.appendChild(article);
+        });
+    } else {
         const article = document.createElement("article");
 
         article.classList.add("card-evento", "card-evento-horizontal");
@@ -301,27 +359,54 @@ if (seccionEventosFuturos) {
         const contenedorInfo = document.createElement("div");
         contenedorInfo.classList.add("info-evento");
         contenedorInfo.innerHTML = `
-            <p><strong>Título:</strong> Ref</p>
-            <p><strong>Categoría:</strong> Ref</p>
-            <p><strong>Fecha:</strong> ref</p>
-            <p><strong>Modalidad:</strong> ref</p>
-        `;
-
+            No hay eventos futuros a los que te hayas inscrito.
+        `
         article.appendChild(contenedorInfo);
 
-        const contenedorBoton = document.createElement("div");
-        contenedorBoton.classList.add("accion-evento");
-
-
-        let enlace = document.createElement("a");
-        enlace.classList.add("btn", "btn-primary");
-        enlace.textContent = "Detalles";
-        enlace.href = `detalle-evento.html`;// `detalle-evento.html?id=${evento.idEvento}`
-
-        contenedorBoton.appendChild(enlace);
-        article.appendChild(contenedorBoton);
         seccionEventosFuturos.appendChild(article);
-    //});
+    }
+}
+
+//Mis Inscritos -> Eventos futuros -> Desinscribirse (Cass)
+const contenedorDetalle = document.getElementById("contenedor-info-evento");
+if (contenedorDetalle) {
+    const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
+    
+
+    contenedorDetalle.innerHTML = `
+        
+        <p><strong>Título:</strong> ${eventoGuardado.Titulo}</p>
+        <p><strong>Categoria:</strong> ${eventoGuardado.Categoria}</p>
+        <p><strong>Fecha:</strong> ${eventoGuardado.Fecha}</p>
+        <p><strong>Hora:</strong> ${eventoGuardado.Hora}</p>
+        <p><strong>Lugar:</strong> ${eventoGuardado.Lugar}</p>
+        <p><strong>Modalidad:</strong> ${eventoGuardado.Modalidad}</p>
+        <p><strong>Cupos disponibles:</strong> ${eventoGuardado.Cupos}</p>
+        <p><strong>Organizador:</strong> ${eventoGuardado.Nombre}</p>
+
+        
+            <div id="contenedor-descripcion-evento" class="descripcion-box">
+                <p>
+                    ${eventoGuardado.Descripcion }
+                </p>
+            </div>
+    `;
+
+    const contenedorDetalleEvento = document.getElementById("contenedor-descripcion-evento");
+    contenedorDetalleEvento.innerHTML = `
+        
+        <p>${eventoGuardado.Descripcion}</p>
+    `;
+
+    const formDesinscripcion = document.getElementById("form-desinscripcion");
+    if (formDesinscripcion) {
+        formDesinscripcion.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+
+            desinscribirDeEvento(eventoGuardado.idEvento, usuarioGuardado.idUsuario);
+        });
+    }
 }
 
 //-----Estudiante----
@@ -631,11 +716,9 @@ if (formEditarEvento) {
 
 //**Mis Eventos**->*Detalles*->Evento aprobado
 const contenedorEventoAprobado = document.getElementById("contenedor-info-evento-org");
-
 if (contenedorEventoAprobado) {
+
     const eventoGuardado = JSON.parse(localStorage.getItem("evento"));
-    
-    // Rellenar info del evento
     contenedorEventoAprobado.innerHTML = `
         <p><strong>Titulo del Evento:</strong> ${eventoGuardado.Titulo}</p>
         <p><strong>Descripcion:</strong> ${eventoGuardado.Descripcion}</p>
@@ -650,144 +733,11 @@ if (contenedorEventoAprobado) {
     `;
 
     const contenedorDescripcion = document.getElementById("contenedor-descripcion-evento");
-    if (contenedorDescripcion) {
-        contenedorDescripcion.innerHTML = `<p>${eventoGuardado.Descripcion}</p>`;
-    }
+    contenedorDescripcion.innerHTML = `
+        <p>${eventoGuardado.Descripcion}</p>
+    `;
 
-    // Lógica de Participantes
-    const verParticipantes = document.getElementById("tabla-participantes");
-    const formAsistencia = document.getElementById("form-asistencia");
-
-    if (verParticipantes && eventoGuardado.idEvento) {
-        const asistentes = await obtenerAsistentesEvento(eventoGuardado.idEvento);
-        console.log("Asistentes recibidos:", asistentes);
-
-        verParticipantes.innerHTML = ""; // Limpiar tabla
-
-        if (asistentes && asistentes.length > 0) {
-            asistentes.forEach(persona => {
-                const fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td>${persona.Nombre}</td>
-                    <td>${persona.Carnet}</td>
-                    <td>${persona.Correo}</td>
-                    <td>${persona.FechaInscripcion}</td>
-                    <td style="text-align: center;">
-                        <input type="checkbox" 
-                               data-carnet="${persona.Carnet}" 
-                               ${persona.Asistio ? 'checked' : ''}>
-                    </td>
-                `;
-                verParticipantes.appendChild(fila);
-            });
-        }
-    }
-
-    // Guardar cambios
-    if (formAsistencia) {
-        formAsistencia.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const checkboxes = verParticipantes.querySelectorAll("input[type='checkbox']");
-            const listaAsistencia = Array.from(checkboxes).map(cb => ({
-                carnet: cb.dataset.carnet,
-                asistio: cb.checked
-            }));
-            console.log("Enviando a BD:", listaAsistencia);
-            alert("Asistencia actualizada.");
-        });
-    }
-
-    // Filtro de búsqueda corregido
-    const inputBusqueda = document.getElementById("busqueda-participante");
-    if (inputBusqueda && verParticipantes) {
-        inputBusqueda.addEventListener("keyup", () => {
-            const texto = inputBusqueda.value.toLowerCase();
-            const filas = verParticipantes.getElementsByTagName("tr");
-
-            Array.from(filas).forEach(fila => {
-                const contenidoFila = fila.textContent.toLowerCase();
-                fila.style.display = contenidoFila.includes(texto) ? "" : "none";
-            });
-        });
-    }
 }
-
-/*//**Mis Eventos**->*Detalles*->Evento aprobado->Ver Participantes
-const verParticipantes = document.getElementById("tabla-participantes");
-const formAsistencia = document.getElementById("form-asistencia");
-const asistentes = await obtenerAsistentesEvento(eventoGuardado.idEvento);
-
-if (verParticipantes) {
-    // 1. Obtener el ID del evento
-    //const idEvento = document.querySelector('input[name="evento_id"]').value;
-
-    // 2. Función para cargar la lista desde el Backend
-    const cargarParticipantes = async () => {
-        console.log(asistentes)
-        verParticipantes.innerHTML = ""; // Limpiamos las filas estáticas del HTML
-
-        asistentes.forEach(persona => {
-            const fila = document.createElement("tr");
-            
-            // Creamos la fila con los datos reales de la BD
-            fila.innerHTML = `
-                <td>${persona.Nombre}</td>
-                <td>${persona.Carnet}</td>
-                <td>${persona.Correo}</td>
-                <td>${persona.FechaInscripcion}</td>
-                <td style="text-align: center;">
-                    <input type="checkbox" 
-                           data-carnet="${persona.Carnet}" 
-                           ${persona.Asistio ? 'checked' : ''}>
-                </td>
-            `;
-            verParticipantes.appendChild(fila);
-        });
-    };
-
-    // 3. Ejecutar la carga al abrir la página
-    cargarParticipantes();
-
-    // 4. Guardar cambios de asistencia
-    formAsistencia.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        
-        const checkboxes = verParticipantes.querySelectorAll("input[type='checkbox']");
-        const listaAsistencia = [];
-
-        checkboxes.forEach(cb => {
-            listaAsistencia.push({
-                carnet: cb.dataset.carnet,
-                asistio: cb.checked
-            });
-        });
-
-        // Aquí llamarías a la función de tu equipo para actualizar (ej. guardarAsistenciaBD)
-        console.log("Enviando asistencia a la BD:", listaAsistencia);
-        alert("Asistencia actualizada correctamente en el sistema tecEventos.");
-    });
-}
-//Esto es para que el organizador encuentre a un estudiante por nombre o carnet (revisar):
-const inputBusqueda = document.getElementById("busqueda-participante");
-
-if (inputBusqueda) {
-    inputBusqueda.addEventListener("keyup", () => {
-        const texto = inputBusqueda.value.toLowerCase();
-        const filas = tablaParticipantes.getElementsByTagName("tr");
-
-        Array.from(filas).forEach(fila => {
-            const contenidoFila = fila.textContent.toLowerCase();
-            if (contenidoFila.indexOf(texto) > -1) {
-                fila.style.display = ""; // Muestra la fila
-            } else {
-                fila.style.display = "none"; // Oculta la fila
-            }
-        });
-    });
-} */
-
-
-
 
 //**Mis Eventos**->*Detalles*->Evento aprobado->Enviar mensaje a asistentes
 const formEnviarCorreo = document.getElementById("form-enviar-mensaje");
@@ -825,71 +775,3 @@ if (formCrearEvento) {
         organizador.crearEvento();
     });
 }
-
-
-<<<<<<< HEAD
-//**Enviar Mensaje**
-=======
-
-
-/**Enviar Mensaje**
->>>>>>> 011e68fc2dfdf0ae36226cc334fa4f6cbaa1f6a9
-const formEnviarMensaje = document.getElementById("form-enviar-mensaje");
-if (formEnviarMensaje) {
-    formEnviarMnesaje.addEventListener("submit", (e) => {
-        e.preventDefault();
-        //const listaCorreos = await obtenerCorreosAsistentes(idEvento) //Variable
-        //await enviarMensajeAsistentes(listaCorreos, asunto, mensaje);
-    });
-}
-<<<<<<< HEAD
-
-//**Editar Cuenta**
-
-//Pendiente
-
-
-
-
-
-
-//**Anuncios Organizador**
-const contenedorAnuncios = document.getElementById("contenedor-lista-anuncios");
-
-if (contenedorAnuncios) {
-   
-    const anuncios = await obtenerAnunciosRecientes();
-    console.log(anuncios)
-    //Limpia los anuncios "temporales" 
-    contenedorAnuncios.innerHTML = "";
-
-    //Verifica que existan anuncios
-    if (anuncios && anuncios.length > 0) {
-        anuncios.forEach(anuncio => {
-            //Crea el elemento <article> para cada anuncio
-            const article = document.createElement("article");
-            article.className = "card card-anuncio";
-
-            //Inyecta los datos reales (Mensaje y Fecha)
-            // Usa una fecha formateada si es necesario
-            article.innerHTML = `
-                <h3 class="titulo-anuncio">Anuncio Administrativo</h3>
-                <p class="texto-anuncio-secundario">
-                    ${anuncio.Mensaje}
-                </p>
-                <small style="color: #666; display: block; margin-top: 10px;">
-                    Publicado el: ${new Date(anuncio.FechaEnvio).toLocaleDateString()}
-                </small>
-            `;
-
-            //Lo agrega al contenedor principal
-            contenedorAnuncios.appendChild(article);
-        });
-    } else {
-        // En caso de que no haya anuncios en la BD
-        contenedorAnuncios.innerHTML = `<p class="texto-anuncio-secundario">No hay anuncios recientes en este momento.</p>`;
-    }
-}
-=======
-*/
->>>>>>> 011e68fc2dfdf0ae36226cc334fa4f6cbaa1f6a9
