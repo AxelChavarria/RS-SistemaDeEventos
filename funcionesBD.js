@@ -51,16 +51,14 @@ export async function loginUsuario(credenciales) {
     }
 }
 
-/*
+
 const prueba = {
     correo: "axel@estudiantec.cr",
     contrasena: "tec2026"
 };
 
-loginUsuario(prueba).then(resultado => {
-    console.log(resultado);
-});
-*/
+const res19 = await loginUsuario(prueba)
+console.log(res19)
 
 
 
@@ -84,18 +82,19 @@ export async function crearEvento(datosEvento) {
 /*
 const evento1 = {
     idOrganizador: 12, // usuario Axel
-    nombre: "Revisión de proyecto",
+    nombre: "Examen de Victor Garro",
     categoria: "Académico",
-    fecha: "2026-10-10 14:00:00",
+    fecha: "2026-01-01 14:00:00",
     modalidad: "VIRTUAL",
     enlace: "NO",
     cupo: 10000
 };
+*/
 
-
+/*
 const res1 = await crearEvento(evento1);
 console.log("Respuesta 1:", res1.Mensaje);
-/*
+*/
 
 
 
@@ -209,10 +208,10 @@ export async function inscribirse(inscripcion) {
     }
 }
 
-
-const res = await inscribirse({idEvento:10, idUsuario:12})
+/*
+const res = await inscribirse({idEvento:17, idUsuario:8})
 console.log(res)
-
+*/
 
 
 
@@ -709,4 +708,18 @@ export async function actualizarPerfil(idUsuario, enlace, bio) {
     return await res.json();
 }
 
-
+// recibe filtro (nombre o correo)
+// retorna lista de diccionarios
+export async function buscarUsuarios(filtro) {
+    try {
+        const res = await fetch("http://127.0.0.1:3005/api/usuarios/buscar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ filtro })
+        });
+        return await res.json();
+    } catch (err) {
+        console.error("Error en la búsqueda:", err);
+        return []; 
+    }
+}

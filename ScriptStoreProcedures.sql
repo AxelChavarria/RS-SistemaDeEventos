@@ -1032,3 +1032,27 @@ BEGIN
     
     SELECT 0 AS Codigo, 'Perfil actualizado correctamente' AS Mensaje;
 END;
+
+
+CREATE PROCEDURE sp_MostrarUsuariosFiltro
+    @inFiltro VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        U.NombreUsuario, 
+        U.CorreoElectronico, 
+        U.Rol,
+        COUNT(E.idEvento) AS EventosRealizados
+    FROM Usuario U
+    LEFT JOIN Evento E ON U.idUsuario = E.idOrganizador AND E.Estado = 'APROBADO'
+    WHERE U.Rol <> 'ADMINISTRADOR'
+      AND (
+          U.NombreUsuario LIKE '%' + @inFiltro + '%' 
+          OR 
+          U.CorreoElectronico LIKE '%' + @inFiltro + '%'
+      )
+    GROUP BY U.NombreUsuario, U.CorreoElectronico, U.Rol
+    ORDER BY EventosRealizados DESC;
+END;

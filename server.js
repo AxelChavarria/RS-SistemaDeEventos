@@ -717,6 +717,22 @@ app.post('/api/usuario/actualizar-perfil', async (req, res) => {
     }
 });
 
+// sp de filtrar usuarios
+app.post('/api/usuarios/buscar', async (req, res) => {
+    try {
+        const { filtro } = req.body;
+        let pool = await sql.connect(config);
+        
+        let result = await pool.request()
+            .input('inFiltro', sql.VarChar, filtro || '')
+            .execute('sp_MostrarUsuarios');
+            
+        res.json(result.recordset);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
 // Arranque
 const PORT = 3005;
 app.listen(PORT, () => {
