@@ -1014,3 +1014,21 @@ BEGIN
         GROUP BY E.idEvento
     ) AS AsistentesPorEvento;
 END;
+
+
+
+
+CREATE PROCEDURE sp_ActualizarPerfilUsuario
+    @inIdUsuario INT,
+    @inEnlace VARCHAR(1000),
+    @inBio VARCHAR(1000)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Usuario 
+    SET Enlace = @inEnlace, 
+        Bio = @inBio
+    WHERE idUsuario = @inIdUsuario;
+    
+    SELECT 0 AS Codigo, 'Perfil actualizado correctamente' AS Mensaje;
+END;

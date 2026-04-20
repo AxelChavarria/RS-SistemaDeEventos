@@ -699,6 +699,24 @@ app.post('/api/eventos/justificar', async (req, res) => {
     } catch (err) { res.status(500).json({ Codigo: -1, Mensaje: err.message }); }
 });
 
+
+// sp modificar perfil
+app.post('/api/usuario/actualizar-perfil', async (req, res) => {
+    try {
+        const { idUsuario, enlace, bio } = req.body;
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('inIdUsuario', sql.Int, idUsuario)
+            .input('inEnlace', sql.VarChar, enlace)
+            .input('inBio', sql.VarChar, bio)
+            .execute('sp_ActualizarPerfilUsuario');
+            
+        res.json(result.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ Codigo: -1, Mensaje: err.message });
+    }
+});
+
 // Arranque
 const PORT = 3005;
 app.listen(PORT, () => {
