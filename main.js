@@ -3,7 +3,7 @@ import { Usuario } from './Usuario.js';
 import { Organizador } from './Organizador.js';
 //import { Inscripcion } from './Inscripcion.js';
 
-import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, obtenerAsistentesEvento, obtenerAnunciosRecientes, obtenerInscripcionesPasadas, obtenerInscripcionesFuturas, desinscribirDeEvento } from './funcionesBD.js';
+import {  obtenerEventosProximos, verMisEventos, filtrarEventos, obtenerInscripcionesPasadas, obtenerAsistentesEvento, obtenerAnunciosRecientes, obtenerInscripcionesFuturas, desinscribirDeEvento } from './funcionesBD.js';
 
     
 const asistente = new Asistente();
